@@ -11,9 +11,9 @@ async function register(user:UserModel): Promise<string> {
     if(err) throw new ValidationErrorModel(err)
     
     //Check if username exists:
-    if(isDataExists("username", user.username)) throw new UnauthorizedErrorModel("username already exists")
+    if(await isDataExists("username", user.username)) throw new UnauthorizedErrorModel("username already exists")
     //Check if email exists:
-    if(isDataExists("email", user.email)) throw new UnauthorizedErrorModel("email already exists")
+    if(await isDataExists("email", user.email)) throw new UnauthorizedErrorModel("email already exists")
 
     //Secure coding - hash password
     user.password = cyber.hash(user.password)
@@ -32,7 +32,7 @@ async function isDataExists(dataName:string, data: string): Promise<Boolean> {
     const sql = `SELECT COUNT(*) AS Count FROM users WHERE ${dataName} = ?`
     const resoult = await dal.execute(sql, [data])
     const count = resoult[0].Count
-    return count > 0    
+    return count > 0  
 }
 
 export default {
