@@ -2,13 +2,17 @@ import { OkPacket } from "mysql";
 import UserModel from "../4-models/user-model";
 import dal from "../2-utils/dal";
 import cyber from "../2-utils/cyber";
-import { UnauthorizedErrorModel } from "../4-models/errors-model";
+import { UnauthorizedErrorModel, ValidationErrorModel } from "../4-models/errors-model";
 
 async function register(user:UserModel): Promise<string> {
     //validation
+    const err = user.validate()
+    if(err) throw new ValidationErrorModel(err)
     
-    //Check if username exists
-    if(isUsernameExists(user.username)) throw new UnauthorizedErrorModel("username already exists")
+    //Check if username exists:
+    if(isDataExists("username", user.username)) throw new UnauthorizedErrorModel("username already exists")
+    //Check if email exists:
+    if(isDataExists("email", user.email)) throw new UnauthorizedErrorModel("email already exists")
 
     //Secure coding - hash password
     user.password = cyber.hash(user.password)
@@ -21,10 +25,10 @@ async function register(user:UserModel): Promise<string> {
     return token    
 }
 
-async function isUsernameExists(username:string): Promise<Boolean> {
-    const sql = `SELECT COUNT(*) AS usernameCount FROM users WHERE username = ?`
-    const resoult = await dal.execute(sql, [username])
-    const count = resoult[0].usernameCount
+async function isDataExists(dataName:string, data: string): Promise<Boolean> {
+    const sql = `SELECT COUNT(*) AS Count FROM users WHERE ${dataName} = ?`
+    const resoult = await dal.execute(sql, [data])
+    const count = resoult[0].Count
     return count > 0    
 }
 
