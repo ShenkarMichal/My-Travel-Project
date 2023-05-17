@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { RouteNotFoundErrorModel, UnauthorizedErrorModel } from "../4-models/errors-model";
+import { UnauthorizedErrorModel } from "../4-models/errors-model";
 import cyber from "../2-utils/cyber";
 
  async function isLoggedIn(request: Request, response: Response, next: NextFunction){

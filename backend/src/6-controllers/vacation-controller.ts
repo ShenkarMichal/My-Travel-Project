@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express'
 import vacationLogic from '../5-logics/vacation-logic'
 import VacationModel from '../4-models/vacation-model'
+import isLoggedIn from '../3-middlewares/is-logged-in'
 
 const router = express.Router()
 
@@ -41,7 +42,7 @@ router.post("/vacations", async (request: Request, response: Response, next: Nex
 })
 
 //Update vacation
-router.put("/vacations/:vacationID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
+router.put("/vacations/:vacationID([0-9]+)",isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
     try {
         request.body.image = request.files?.image
         request.body.vacationID = +request.params.vacationID
@@ -55,7 +56,7 @@ router.put("/vacations/:vacationID([0-9]+)", async (request: Request, response: 
 })
 
 //Delete vacation
-router.delete("/vacations/:vacationID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
+router.delete("/vacations/:vacationID([0-9]+)",isLoggedIn ,async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const vacationID = +request.params.vacationID
         await vacationLogic.deleteVacation(vacationID)
