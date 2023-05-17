@@ -1,3 +1,4 @@
+import { UploadedFile } from 'express-fileupload'
 import Joi from 'joi'
 
 class VacationModel {
@@ -8,7 +9,7 @@ class VacationModel {
     public endDate: string
     public price: number
     public imageName: string
-    public image
+    public image: UploadedFile
 
     public constructor(vacation: VacationModel){
         this.vacationID = vacation.vacationID
