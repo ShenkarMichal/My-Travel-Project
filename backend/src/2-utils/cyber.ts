@@ -1,6 +1,7 @@
 import Jwt from 'jsonwebtoken'
 import UserModel from '../4-models/user-model';
 import crypto from 'crypto'
+import { Request } from 'express';
 
 const secretKey = "aroundTheWorld"
 
@@ -16,6 +17,33 @@ function getNewToken(user: UserModel): string {
     return token
 }
 
+function verifyToken(request: Request): Promise<boolean> {
+    return new Promise((resolve, reject)=>{
+        try {
+            const header = request.headers.authorization
+            if(!header){
+                resolve(false)
+                return
+            }  
+            const token = header.substring(7)
+            if(!token){
+                resolve(false)
+                return
+            }
+            Jwt.verify(token, secretKey, err =>{
+                if(err){
+                    resolve(false)
+                    return
+                }
+                resolve(true)
+            })
+        }
+        catch (err: any) {
+            reject(err)            
+        }
+    })
+}
+
 const salt = "myTravelSalt"
 function hash(plainText: string): string {
     if(!plainText) return null
@@ -27,5 +55,6 @@ function hash(plainText: string): string {
 
 export default {
     getNewToken,
-    hash
+    hash,
+    verifyToken
 }
