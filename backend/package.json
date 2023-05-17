@@ -18,10 +18,12 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "mysql": "^2.18.1",
-    "striptags": "^3.2.0"
+    "striptags": "^3.2.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/express-fileupload": "^1.4.1",
-    "@types/node": "^20.1.5"
+    "@types/node": "^20.1.5",
+    "@types/uuid": "^9.0.1"
   }
 }

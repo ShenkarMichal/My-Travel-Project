@@ -7,6 +7,7 @@ class VacationModel {
     public description: string
     public startDate: string
     public endDate: string
+    public daysDiff: number
     public price: number
     public imageName: string
     public image: UploadedFile
@@ -17,6 +18,7 @@ class VacationModel {
         this.description = vacation.description
         this.startDate = vacation.startDate
         this.endDate = vacation.endDate
+        this.daysDiff = vacation.daysDiff
         this.price = vacation.price
         this.imageName = vacation.imageName
         this.image = vacation.image
@@ -28,6 +30,7 @@ class VacationModel {
         description: Joi.string().required().min(5).max(300),
         startDate: Joi.date().min(Joi.ref('now')).required(),
         endDate: Joi.date().min(Joi.ref('startDate')).required(),
+        daysDiff: Joi.number().optional().integer().positive(),
         price: Joi.number().required().min(0).max(10000).positive(),
         imageName: Joi.string().required().valid('image/jpg', 'image/png'), //The file must be with jpg/png extention.
         image: Joi.object({
