@@ -28,4 +28,20 @@ router.post("/vacations", async (request: Request, response: Response, next: Nex
     }
 })
 
+//Update vacation
+router.put("/vacations/:vacationID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        request.body.image = request.files?.image
+        request.body.vacationID = +request.params.vacationID
+        const vacation = new VacationModel(request.body)
+        const newVacation = await vacationLogic.updateVacation(vacation)
+        response.status(200).json(newVacation)    
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
+
+
 export default router

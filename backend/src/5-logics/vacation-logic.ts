@@ -27,11 +27,9 @@ async function addNewVacation(vacation:VacationModel): Promise<VacationModel> {
                                                 vacation.endDate, vacation.daysDiff, vacation.price, vacation.imageName])
     vacation.vacationID = info.insertId
 
-    //Calculate the dateDiff
-    const daysDiff = await dal.execute(`SELECT DATEDIFF(endDate, startDate) AS daysDiff FROM vacations WHERE vacationID = ${vacation.vacationID}`)
-    vacation.daysDiff = daysDiff[0].daysDiff
-
-    return vacation    
+    //Get the new vacation:
+    const newVacation = await getOneVacation(vacation.vacationID)
+    return newVacation
 }
 
 async function updateVacation(vacation:VacationModel): Promise<VacationModel> {
@@ -53,11 +51,24 @@ async function updateVacation(vacation:VacationModel): Promise<VacationModel> {
                                                     vacation.daysDiff, vacation.price, vacation.imageName, vacation.vacationID])
     if(info.affectedRows === 0) throw new ResourceNotFoundErrorModel(vacation.vacationID)
 
-    //Return the new vacation
-    const resoult = await dal.execute(`SELECT * FROM vacations WHERE vacationID = ${vacation.vacationID}`)
-    return resoult[0]
+    //Get the new vacation:
+    const newVacation = await getOneVacation(vacation.vacationID)
+    return newVacation
 }
 
+async function getOneVacation(vacationID:number): Promise<VacationModel> {
+    const sql = `SELECT vacationID, destination, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
+                DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate,DATEDIFF(endDate, startDate) AS daysDiff, price, imageName 
+                FROM vacations WHERE vacationID = ?`
+    const resoult = await dal.execute(sql, [vacationID])
+    const vacation = resoult[0]
+    //If the id is not exists:
+    if(!vacation) throw new ResourceNotFoundErrorModel(vacationID)
+    
+    return vacation    
+}
+
+//Utilities function of saving and deleting images:
 async function generateImageName(vacation: VacationModel):Promise<void> {
     //Generate new imageName:
     const extention = vacation.image.name.substring(vacation.image.name.lastIndexOf("."))
@@ -74,9 +85,8 @@ async function deleteImageFile(imageName:string): Promise<void> {
     if (fs.existsSync("./src/1-assets/images/vacations/" + imageName)) {
 
         // Delete it:
-        fs.unlinkSync("./src/1-assets/images/" + imageName);
-    } 
-    
+        fs.unlinkSync("./src/1-assets/images/vacations/" + imageName);
+    }     
 }
 
 export default {
