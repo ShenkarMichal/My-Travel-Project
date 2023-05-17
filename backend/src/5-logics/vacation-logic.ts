@@ -108,6 +108,7 @@ async function deleteImageFile(imageName:string): Promise<void> {
 
 export default {
     getAllVacation,
+    getOneVacation,
     addNewVacation, 
     updateVacation,
     deleteVacation

@@ -15,6 +15,18 @@ router.get("/vacations", async (request: Request, response: Response, next: Next
     }
 })
 
+//Get one specific vacation
+router.get("/vacations/:vacationID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const vacationID = +request.params.vacationID
+        const vacation = await vacationLogic.getOneVacation(vacationID)
+        response.json(vacation)    
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
 //Add new vacation
 router.post("/vacations", async (request: Request, response: Response, next: NextFunction)=>{
     try {
