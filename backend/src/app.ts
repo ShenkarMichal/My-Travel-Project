@@ -6,8 +6,11 @@ import sanitize from './3-middlewares/sanitize'
 import authController from './6-controllers/auth-controller'
 import vacationsController from './6-controllers/vacation-controller'
 import expressFileUpLoad from 'express-fileupload'
+import cors from 'cors'
 
 const server = express()
+
+server.use(cors({origin: appConfig.frontendURL}))
 
 server.use(express.json())
 server.use(sanitize)
