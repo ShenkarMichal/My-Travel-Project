@@ -21,3 +21,9 @@ export class ValidationErrorModel extends ErrorsModel {
         super(400, msg)
     }
 }
+
+export class ResourceNotFoundErrorModel extends ErrorsModel {
+    public constructor(id: number){
+        super(404, `The id: ${id} is not exists`)
+    }
+}
