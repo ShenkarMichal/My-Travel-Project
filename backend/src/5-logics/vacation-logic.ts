@@ -5,6 +5,7 @@ import { ResourceNotFoundErrorModel, ValidationErrorModel } from "../4-models/er
 import { v4 as uuid } from "uuid";
 import fs from "fs";
 
+//Get all vacations:
 async function getAllVacation(): Promise<VacationModel[]> {
     const sql = `SELECT vacationID, destination, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
                         DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate,DATEDIFF(endDate, startDate) AS daysDiff, price, imageName FROM vacations`
@@ -12,8 +13,8 @@ async function getAllVacation(): Promise<VacationModel[]> {
     return vacations    
 }
 
+//Add new vacation:
 async function addNewVacation(vacation:VacationModel): Promise<VacationModel> {
-    console.log(vacation.startDate)
     //Validatoin:
     const err = vacation.validate()
     if(err) throw new ValidationErrorModel(err)
@@ -32,6 +33,7 @@ async function addNewVacation(vacation:VacationModel): Promise<VacationModel> {
     return newVacation
 }
 
+//Update vacation:
 async function updateVacation(vacation:VacationModel): Promise<VacationModel> {
     //Validation:
     const err = vacation.validate()
@@ -56,6 +58,7 @@ async function updateVacation(vacation:VacationModel): Promise<VacationModel> {
     return newVacation
 }
 
+//Get one specific vacation:
 async function getOneVacation(vacationID:number): Promise<VacationModel> {
     const sql = `SELECT vacationID, destination, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
                 DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate,DATEDIFF(endDate, startDate) AS daysDiff, price, imageName 
@@ -64,8 +67,22 @@ async function getOneVacation(vacationID:number): Promise<VacationModel> {
     const vacation = resoult[0]
     //If the id is not exists:
     if(!vacation) throw new ResourceNotFoundErrorModel(vacationID)
-    
+
     return vacation    
+}
+
+//Delete vacation:
+async function deleteVacation(vacationID:number): Promise<void> {
+    //Delete image from folder:
+    const resoult = await dal.execute(`SELECT imageName FROM vacations WHERE vacationID = ?`, [vacationID])
+    const imageName = resoult[0]?.imageName
+    await deleteImageFile(imageName)
+
+    //Delete vacation from database:
+    const sql = `DELETE FROM vacations WHERE vacationID = ?`
+    const info: OkPacket = await dal.execute(sql, [vacationID])
+    //If id is not exists:
+    if(info.affectedRows === 0) throw new ResourceNotFoundErrorModel(vacationID)     
 }
 
 //Utilities function of saving and deleting images:
@@ -92,5 +109,6 @@ async function deleteImageFile(imageName:string): Promise<void> {
 export default {
     getAllVacation,
     addNewVacation, 
-    updateVacation
+    updateVacation,
+    deleteVacation
 }

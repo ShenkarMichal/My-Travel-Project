@@ -42,6 +42,18 @@ router.put("/vacations/:vacationID([0-9]+)", async (request: Request, response: 
     }
 })
 
+//Delete vacation
+router.delete("/vacations/:vacationID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const vacationID = +request.params.vacationID
+        await vacationLogic.deleteVacation(vacationID)
+        response.sendStatus(204)
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
 
 
 export default router
