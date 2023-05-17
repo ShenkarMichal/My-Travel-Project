@@ -12,6 +12,7 @@ async function getAllVacation(): Promise<VacationModel[]> {
 }
 
 async function addNewVacation(vacation:VacationModel): Promise<VacationModel> {
+    console.log(vacation.startDate)
     //Validatoin:
     const err = vacation.validate()
     if(err) throw new ValidationErrorModel(err)
@@ -21,7 +22,7 @@ async function addNewVacation(vacation:VacationModel): Promise<VacationModel> {
     vacation.imageName = uuid() + extention
 
     //Save the image into folder
-    await vacation.image.mv(`./src/1-assets/images/vacations/` + vacation.imageName)
+    await vacation.image.mv("./src/1-assets/images/vacations/" + vacation.imageName)
 
     //Delete image from vacation-model:
     delete vacation.image
@@ -31,6 +32,11 @@ async function addNewVacation(vacation:VacationModel): Promise<VacationModel> {
     const info:OkPacket = await dal.execute(sql, [vacation.destination, vacation.description, vacation.startDate,
                                                 vacation.endDate, vacation.daysDiff, vacation.price, vacation.imageName])
     vacation.vacationID = info.insertId
+
+    //Calculate the dateDiff
+    const daysDiff = await dal.execute(`SELECT DATEDIFF(endDate, startDate) AS daysDiff FROM vacations WHERE vacationID = ${vacation.vacationID}`)
+    vacation.daysDiff = daysDiff[0].daysDiff
+    
     return vacation    
 }
 

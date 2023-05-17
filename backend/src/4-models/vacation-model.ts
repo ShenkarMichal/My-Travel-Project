@@ -28,14 +28,14 @@ class VacationModel {
         vacationID: Joi.number().optional().integer().positive() ,
         destination: Joi.string().required().min(5).max(35),
         description: Joi.string().required().min(5).max(300),
-        startDate: Joi.date().min(Joi.ref('now')).required(),
-        endDate: Joi.date().min(Joi.ref('startDate')).required(),
+        startDate: Joi.date().iso().min('now').required(),
+        endDate: Joi.date().iso().min(Joi.ref('startDate')).required(),
         daysDiff: Joi.number().optional().integer().positive(),
         price: Joi.number().required().min(0).max(10000).positive(),
-        imageName: Joi.string().required().valid('image/jpg', 'image/png'), //The file must be with jpg/png extention.
+        imageName: Joi.string().optional().valid('image/jpg', 'image/png'), //The file must be with jpg/png extention.
         image: Joi.object({
             size: Joi.number().max(10 * 1024 * 1024).required(), //The file size nust be less than 5mb
-          }).required(),
+          }).required().options({stripUnknown: true}),
     })
 
     public validate(): string {
