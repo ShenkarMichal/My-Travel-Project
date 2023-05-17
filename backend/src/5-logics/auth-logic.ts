@@ -35,6 +35,10 @@ async function isDataExists(dataName:string, data: string): Promise<Boolean> {
     return count > 0  
 }
 
+async function login(params:type) {
+    
+}
+
 export default {
     register
 }
