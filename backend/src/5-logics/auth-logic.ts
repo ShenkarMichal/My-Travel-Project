@@ -4,6 +4,7 @@ import dal from "../2-utils/dal";
 import cyber from "../2-utils/cyber";
 import { UnauthorizedErrorModel, ValidationErrorModel } from "../4-models/errors-model";
 import RoleModel from "../4-models/role-model";
+import CredentialModel from "../4-models/credential-model";
 
 async function register(user:UserModel): Promise<string> {
     //validation
@@ -35,12 +36,28 @@ async function isDataExists(dataName:string, data: string): Promise<Boolean> {
     return count > 0  
 }
 
-async function login(params:type) {
+async function login(credential:CredentialModel): Promise<string> {
+    //Validation:
+    const err = credential.validate()
+    if(err) throw new ValidationErrorModel(err)
+
+    //Secure coding - hash password:
+    credential.password = cyber.hash(credential.password)
+
+    //Checking if username and password are correct:
+    const sql = `SELECT * FROM users WHERE username = ? AND password = ?`
+    const resoult = await dal.execute(sql, [credential.username, credential.password])
+    const user = resoult[0]
+    if(!user) throw new UnauthorizedErrorModel(`The username or password incorrect`)
     
+    //Generating token
+    const token = cyber.getNewToken(user)
+    return token    
 }
 
 export default {
-    register
+    register, 
+    login
 }
 
 
