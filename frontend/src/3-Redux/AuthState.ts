@@ -18,7 +18,7 @@ export enum AuthActionType {
 //3 - Action:
 export interface AuthAction {
     type: AuthActionType,
-    payload: string
+    payload?: string
 }
 
 //4 - Reducer:
