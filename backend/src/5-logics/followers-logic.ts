@@ -40,15 +40,17 @@ async function getAllVacationIDByUserID(userID:number): Promise<number[]> {
     return vacationsID    
 }
 
-async function getNumberOfFollowersByVacationID(vacationID:number): Promise<number> {
+async function getNumberOfFollowersByVacationID(vacationID:number): Promise<[]> {
     //If vacation is not exists:
     const vacationCount = await checkIfDataExists(vacationID, "vacationID", "vacations")
     if(!vacationCount) throw new ResourceNotFoundErrorModel(vacationID)
 
     //Get the number of followers of this vacation:
-    const sql = `SELECT COUNT(*) AS followersNumber FROM followers WHERE vacationID = ?`
-    const resoult = await dal.execute(sql, [vacationID])
-    const followersNumber = resoult[0].followersNumber
+    const sql = `SELECT COUNT(*) AS followersNumber, V.destination
+                 FROM followers AS F JOIN vacations AS V
+                 ON F.vacationID = V.vacationID
+                 WHERE F.vacationID = ?`
+    const followersNumber = await dal.execute(sql, [vacationID])
     return followersNumber    
 }
 
