@@ -43,6 +43,18 @@ router.get("/vacation-of-follow/:userID([0-9]+)",async (requset:Request, respons
     }
 })
 
+//Get the number of followers by vacaionID:
+router.get("/follow-of-vacation/:vacationID([0-9]+)",async (requset:Request, response: Response, next: NextFunction) => {
+    try {
+        const vacationID = +requset.params.vacationID
+        const numberOfFollowers = await followersLogic.getNumberOfFollowersByVacationID(vacationID)
+        response.status(200).json(numberOfFollowers)            
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
 
 
 export default router
