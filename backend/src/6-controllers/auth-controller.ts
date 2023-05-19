@@ -35,5 +35,18 @@ router.post("/login", async (request: Request, response: Response, next: NextFun
     }
 })
 
+//Password Recovery
+router.post("/recovery/:email", async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const email = request.params.email
+        console.log(email)
+        await authLogic.passwordRecovery(email)
+    
+        response.status(200).send("The email was successfully sent, please check your email-box")
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
 
 export default router

@@ -5,6 +5,8 @@ import cyber from "../2-utils/cyber";
 import { UnauthorizedErrorModel, ValidationErrorModel } from "../4-models/errors-model";
 import RoleModel from "../4-models/role-model";
 import CredentialModel from "../4-models/credential-model";
+import dataUtils from "../2-utils/data-utils";
+import Joi from "joi";
 
 async function register(user:UserModel): Promise<string> {
     //validation
@@ -12,9 +14,9 @@ async function register(user:UserModel): Promise<string> {
     if(err) throw new ValidationErrorModel(err)
     
     //Check if username exists:
-    if(await isDataExists("username", user.username)) throw new UnauthorizedErrorModel("username already exists")
+    if(await dataUtils.isDataExists(user.username, "username", "users")) throw new UnauthorizedErrorModel("username already exists")
     //Check if email exists:
-    if(await isDataExists("email", user.email)) throw new UnauthorizedErrorModel("email already exists")
+    if(await dataUtils.isDataExists(user.email, "email", "users")) throw new UnauthorizedErrorModel("email already exists")
 
     //Secure coding - hash password
     user.password = cyber.hash(user.password)
@@ -27,13 +29,6 @@ async function register(user:UserModel): Promise<string> {
     //Generate token
     const token = cyber.getNewToken(user)
     return token    
-}
-
-async function isDataExists(dataName:string, data: string): Promise<Boolean> {
-    const sql = `SELECT COUNT(*) AS Count FROM users WHERE ${dataName} = ?`
-    const resoult = await dal.execute(sql, [data])
-    const count = resoult[0].Count
-    return count > 0  
 }
 
 async function login(credential:CredentialModel): Promise<string> {
@@ -55,9 +50,30 @@ async function login(credential:CredentialModel): Promise<string> {
     return token    
 }
 
+async function passwordRecovery(email:string): Promise<void> {
+    //Validation:
+    const emailSchema = Joi.string().email().required()
+    function validateEmail():string {
+        const resoult = emailSchema.validate(email)
+        return resoult.error?.message
+    }
+    const err = validateEmail()
+    if(err) throw new ValidationErrorModel(err)
+
+    //If email is not exists:
+    if(!await dataUtils.isDataExists(email, "email", "users")) throw new UnauthorizedErrorModel("The email is not exists")
+
+    //Send email with recovery-password link
+    const subject = "Password-Recovery From My-Travel, Please not Replay!"
+    const message = "Hi, Do you forgot your password? Click here to recovery: "
+
+    await dataUtils.sendEmailToUser(email, subject, message)    
+}
+
 export default {
     register, 
-    login
+    login,
+    passwordRecovery
 }
 
 

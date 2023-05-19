@@ -6,6 +6,9 @@ class AppConfig {
 
     public port = 3001
     public frontendURL = "http://localhost:3000"
+
+    public systemEmail = "0583294585m@gmail.com"
+    public systmeEmailPass = "obchzcvqsbjbnfqn"
 }
 
 const appConfig = new AppConfig()

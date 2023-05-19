@@ -1,13 +1,14 @@
 import dal from "../2-utils/dal"
+import dataUtils from "../2-utils/data-utils"
 import { ResourceNotFoundErrorModel } from "../4-models/errors-model"
 
 async function setNewFollow(userID:number, vacationID: number): Promise<void> {
     //If vacation is not exists:
-    const vacationCount = await checkIfDataExists(vacationID, "vacationID", "vacations")
+    const vacationCount = await dataUtils.isDataExists(vacationID, "vacationID", "vacations")
     if(!vacationCount) throw new ResourceNotFoundErrorModel(vacationID)
 
     //If user is not exists:
-    const userCount = await checkIfDataExists(userID, "userID", "users")
+    const userCount = await dataUtils.isDataExists(userID, "userID", "users")
     if(!userCount) throw new ResourceNotFoundErrorModel(userID)
 
     //Add follower:
@@ -17,11 +18,11 @@ async function setNewFollow(userID:number, vacationID: number): Promise<void> {
 
 async function deleteFollower(userID:number, vacationID: number): Promise<void> {
     //If vacation is not exists:
-    const vacationCount = await checkIfDataExists(vacationID, "vacationID", "vacations")
+    const vacationCount = await dataUtils.isDataExists(vacationID, "vacationID", "vacations")
     if(!vacationCount) throw new ResourceNotFoundErrorModel(vacationID)
     
     //If user is not exists:
-    const userCount = await checkIfDataExists(userID, "userID", "users")
+    const userCount = await dataUtils.isDataExists(userID, "userID", "users")
     if(!userCount) throw new ResourceNotFoundErrorModel(userID)
     
     //Delete follower:
@@ -31,7 +32,7 @@ async function deleteFollower(userID:number, vacationID: number): Promise<void> 
 
 async function getAllVacationIDByUserID(userID:number): Promise<number[]> {
     //If user is not exists:
-    const userCount = await checkIfDataExists(userID, "userID", "users")
+    const userCount = await dataUtils.isDataExists(userID, "userID", "users")
     if(!userCount) throw new ResourceNotFoundErrorModel(userID)
 
     //Get the vacation that followed by the user
@@ -42,7 +43,7 @@ async function getAllVacationIDByUserID(userID:number): Promise<number[]> {
 
 async function getNumberOfFollowersByVacationID(vacationID:number): Promise<[]> {
     //If vacation is not exists:
-    const vacationCount = await checkIfDataExists(vacationID, "vacationID", "vacations")
+    const vacationCount = await dataUtils.isDataExists(vacationID, "vacationID", "vacations")
     if(!vacationCount) throw new ResourceNotFoundErrorModel(vacationID)
 
     //Get the number of followers of this vacation:
@@ -54,13 +55,6 @@ async function getNumberOfFollowersByVacationID(vacationID:number): Promise<[]> 
     return followersNumber    
 }
 
-//Utility function:
-async function checkIfDataExists(dataID:number, dataName: string, tableName: string): Promise<boolean>{
-    const sql = `SELECT COUNT(*) AS count FROM ${tableName} WHERE ${dataName} = ${dataID}`
-    const resoult = await dal.execute(sql)
-    const count = resoult[0].count
-    return count > 0    
-}
 
 export default {
     setNewFollow,
