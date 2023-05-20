@@ -52,6 +52,7 @@ function Login(): JSX.Element {
                 <CssTextField id="standard-basic" label="username" variant="standard" {...register("username")}/> <br />
 
                 <CssTextField id="standard-basic" label="password" variant="standard" type="password" {...register("password")} /> <br />
+                <NavLink to="/auth/recovery">Forgot Password?</NavLink><br />
                 <Button color="inherit" variant="outlined" startIcon={<DirectionsRunIcon />} type="submit">
                     Let's Go!
                 </Button> <br />

@@ -5,6 +5,7 @@ import Login from "../../AuthArea/Login/Login";
 import VacationsList from "../../VacationsArea/VacationsList/VacationsList";
 import VacationDetails from "../../VacationsArea/VacationDetails/VacationDetails";
 import PageNotFound from "../PageNotFound/PageNotFound";
+import PasswordRecovery from "../../AuthArea/PasswordRecovery/PasswordRecovery";
 
 function Routing(): JSX.Element {
     return (
@@ -13,6 +14,7 @@ function Routing(): JSX.Element {
                 {/* Auth Routes: */}
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/login" element={<Login />} />
+                <Route path="/auth/recovery" element={<PasswordRecovery />} />
 
                 {/* Vacations Routes: */}
                 <Route path="/vacations" element={<VacationsList />} />

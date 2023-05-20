@@ -1,6 +1,7 @@
 class Config {
     public registerURL = "http://localhost:3001/api/auth/register/"
     public loginURL = "http://localhost:3001/api/auth/login/"
+    public passwordRecoveryURL = "http://localhost:3001/api/auth/recovery/"
 
     public vacationURL = "http://localhost:3001/api/vacations/"
 

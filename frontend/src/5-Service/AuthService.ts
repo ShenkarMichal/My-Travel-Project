@@ -28,6 +28,12 @@ class AuthService {
         //Delete the token from state:
         authStore.dispatch({type: AuthActionType.Logout})
     }
+
+    public async PasswordRecovery(email: string): Promise<string> {
+        const response = await axios.post(appConfig.passwordRecoveryURL + email)
+        const msg = response.data
+        return msg
+    }
 }
 
 const authService = new AuthService()
