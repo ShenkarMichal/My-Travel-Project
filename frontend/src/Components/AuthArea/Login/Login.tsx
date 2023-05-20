@@ -5,6 +5,8 @@ import CredentialModel from "../../../4-Models/CredentialModel";
 import authService from "../../../5-Service/AuthService";
 import {  styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
+import { Button } from "@mui/material";
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -50,8 +52,9 @@ function Login(): JSX.Element {
                 <CssTextField id="standard-basic" label="username" variant="standard" {...register("username")}/> <br />
 
                 <CssTextField id="standard-basic" label="password" variant="standard" type="password" {...register("password")} /> <br />
-
-                <button>Let's Go!</button> <br /> <br />
+                <Button color="inherit" variant="outlined" startIcon={<DirectionsRunIcon />} type="submit">
+                    Let's Go!
+                </Button> <br />
                 <span>Is your backpack still unpacked? </span>
                 <NavLink to="/auth/register">Click here!</NavLink>
 
