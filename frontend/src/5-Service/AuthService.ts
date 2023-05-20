@@ -30,7 +30,7 @@ class AuthService {
     }
 
     public async PasswordRecovery(email: string): Promise<string> {
-        const response = await axios.post(appConfig.passwordRecoveryURL + email)
+        const response = await axios.post<string>(appConfig.passwordRecoveryURL + email)
         const msg = response.data
         return msg
     }

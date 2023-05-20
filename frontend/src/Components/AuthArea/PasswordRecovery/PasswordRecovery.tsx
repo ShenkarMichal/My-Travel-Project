@@ -33,6 +33,7 @@ const CssTextField = styled(TextField)({
     async function sendEmail(event: React.FormEvent<HTMLFormElement>) {
         try {
             event.preventDefault();
+
             const msg = await authService.PasswordRecovery(email)
             alert(msg)            
         } 

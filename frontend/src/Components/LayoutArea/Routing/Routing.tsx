@@ -6,6 +6,7 @@ import VacationsList from "../../VacationsArea/VacationsList/VacationsList";
 import VacationDetails from "../../VacationsArea/VacationDetails/VacationDetails";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import PasswordRecovery from "../../AuthArea/PasswordRecovery/PasswordRecovery";
+import UpdatePassword from "../../AuthArea/UpdatePassword/UpdatePassword";
 
 function Routing(): JSX.Element {
     return (
@@ -15,6 +16,7 @@ function Routing(): JSX.Element {
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/recovery" element={<PasswordRecovery />} />
+                <Route path="/auth/recovery/update-password" element={<UpdatePassword />} />
 
                 {/* Vacations Routes: */}
                 <Route path="/vacations" element={<VacationsList />} />

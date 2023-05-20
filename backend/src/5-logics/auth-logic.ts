@@ -7,6 +7,7 @@ import RoleModel from "../4-models/role-model";
 import CredentialModel from "../4-models/credential-model";
 import dataUtils from "../2-utils/data-utils";
 import Joi from "joi";
+import fsPromise from 'fs/promises'
 
 async function register(user:UserModel): Promise<string> {
     //validation
@@ -65,9 +66,10 @@ async function passwordRecovery(email:string): Promise<void> {
 
     //Send email with recovery-password link
     const subject = "Password-Recovery From My-Travel, Please not Replay!"
-    const message = "Hi, Do you forgot your password? <button>Click here to recovery</button> "
+    const content = await fsPromise.readFile("./src/2-utils/PasswordRecoveryMail.html", "utf-8")
+    
 
-    await dataUtils.sendEmailToUser(email, subject, message)    
+    await dataUtils.sendEmailToUser(email, subject, content)    
 }
 
 async function updateUserPassword(email:string, password: string): Promise<void> {
