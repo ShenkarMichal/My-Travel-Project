@@ -39,10 +39,23 @@ router.post("/login", async (request: Request, response: Response, next: NextFun
 router.post("/recovery/:email", async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const email = request.params.email
-        console.log(email)
         await authLogic.passwordRecovery(email)
     
         response.status(200).send("The email was successfully sent, please check your email-box")
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
+//Update user password:
+router.post("/recovery/:email/:password", async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const email = request.params.email
+        const password = request.params.password
+        await authLogic.updateUserPassword(email, password)
+    
+        response.sendStatus(200)
     }
     catch (err: any) {
         next(err)        

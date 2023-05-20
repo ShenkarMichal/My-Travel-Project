@@ -65,15 +65,34 @@ async function passwordRecovery(email:string): Promise<void> {
 
     //Send email with recovery-password link
     const subject = "Password-Recovery From My-Travel, Please not Replay!"
-    const message = "Hi, Do you forgot your password? Click here to recovery: "
+    const message = "Hi, Do you forgot your password? <button>Click here to recovery</button> "
 
     await dataUtils.sendEmailToUser(email, subject, message)    
+}
+
+async function updateUserPassword(email:string, password: string): Promise<void> {
+    //Validation:
+    const passwordSchema =Joi.string().required().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/)
+    function validateEmail():string {
+        const resoult = passwordSchema.validate(password)
+        return resoult.error?.message
+    } 
+    const err = validateEmail()
+    if(err) throw new ValidationErrorModel(err)
+
+    //Secure codeing: hash
+    password = cyber.hash(password)
+    
+    //Update the password by email:
+    const sql = `UPDATE users SET password = ? WHERE email = ?`
+    await dal.execute(sql, [password, email])      
 }
 
 export default {
     register, 
     login,
-    passwordRecovery
+    passwordRecovery,
+    updateUserPassword
 }
 
 

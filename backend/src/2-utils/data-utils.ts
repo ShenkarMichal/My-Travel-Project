@@ -27,7 +27,7 @@ async function sendEmailToUser(userEmail:string, subject: string, message: strin
             from: appConfig.systemEmail,
             to: userEmail,
             subject: subject,
-            text: message,
+            html: message,
         };
   
         // Send the email:
