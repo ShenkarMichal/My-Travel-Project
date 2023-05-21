@@ -4,10 +4,14 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import Layout from './Components/LayoutArea/Layout/Layout';
+import interceptorService from './5-Service/InterceptoreService';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+interceptorService.createInterceptor()
+
 root.render(
   <BrowserRouter>
       <Layout />

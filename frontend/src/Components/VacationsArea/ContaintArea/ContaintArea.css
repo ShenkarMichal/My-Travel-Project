@@ -1,4 +1,4 @@
-.VacationsList > .background {
+.ContaintArea > .background {
 	height: 100vh;
     overflow: hidden;
     background-image: url("../../../1-Assets/Images/BackGrounds/HomeBackground.jpg");
@@ -8,7 +8,7 @@
 
 }
 
-.VacationsList > .content {
+.ContaintArea > .content {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -28,7 +28,7 @@
 }
 
 
-.VacationsList h1 {
+.ContaintArea h1 {
     text-align: left;
     color: rgb(244, 231, 216);
     font-size: 4vw;
@@ -37,7 +37,7 @@
     
 }
 
-.VacationsList h1 > span {
+.ContaintArea h1 > span {
     width: fit-content;
     font-size: 5.5vw;
 }
