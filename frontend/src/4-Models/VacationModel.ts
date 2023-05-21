@@ -8,7 +8,7 @@ class VacationModel {
     public daysDiff: number
     public price: number
     public imageName: string
-    public image: UploadedFile
+    public image: FileList
 }
 
 export default VacationModel

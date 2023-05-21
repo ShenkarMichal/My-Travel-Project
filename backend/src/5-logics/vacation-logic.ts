@@ -85,6 +85,16 @@ async function deleteVacation(vacationID:number): Promise<void> {
     if(info.affectedRows === 0) throw new ResourceNotFoundErrorModel(vacationID)     
 }
 
+//Get image-name:
+async function getImageName(vacationID:number): Promise<string> {
+    const sql = `SELECT imageName FROM vacations WHERE vacationID = ?`
+    const resoult = await dal.execute(sql, [vacationID])
+    const imageName = resoult[0].imageName
+    //If id not exists:
+    if(!imageName) throw new ResourceNotFoundErrorModel(vacationID)
+    return imageName    
+}
+
 //Utilities function of saving and deleting images:
 async function generateImageName(vacation: VacationModel):Promise<void> {
     //Generate new imageName:
@@ -111,5 +121,6 @@ export default {
     getOneVacation,
     addNewVacation, 
     updateVacation,
-    deleteVacation
+    deleteVacation,
+    getImageName
 }

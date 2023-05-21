@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import vacationLogic from '../5-logics/vacation-logic'
 import VacationModel from '../4-models/vacation-model'
 import isLoggedIn from '../3-middlewares/is-logged-in'
+import path from 'path'
 
 const router = express.Router()
 
@@ -61,6 +62,19 @@ router.delete("/vacations/:vacationID([0-9]+)",isLoggedIn ,async (request: Reque
         const vacationID = +request.params.vacationID
         await vacationLogic.deleteVacation(vacationID)
         response.sendStatus(204)
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
+//Serve the image to the user:
+router.get("/vacations-images/:vacationID([0-9]+)" ,async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const vacationID = +request.params.vacationID
+        const imageName = await vacationLogic.getImageName(vacationID)
+        const image = path.join(__dirname, "..", "1-assets", "images","vacations", imageName)
+        response.sendFile(image)
     }
     catch (err: any) {
         next(err)        
