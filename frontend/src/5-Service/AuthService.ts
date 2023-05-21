@@ -34,6 +34,12 @@ class AuthService {
         const msg = response.data
         return msg
     }
+
+    public async updatePassword(password: string): Promise<string> {
+        const response = await axios.post<string>(appConfig.passwordRecoveryURL  + password)
+        const msg = response.data
+        return msg
+    }
 }
 
 const authService = new AuthService()

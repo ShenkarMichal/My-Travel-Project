@@ -16,7 +16,7 @@ function Routing(): JSX.Element {
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/recovery" element={<PasswordRecovery />} />
-                <Route path="/auth/recovery/update-password" element={<UpdatePassword />} />
+                <Route path="/auth/recovery/update-password/:email" element={<UpdatePassword />} />
 
                 {/* Vacations Routes: */}
                 <Route path="/vacations" element={<VacationsList />} />

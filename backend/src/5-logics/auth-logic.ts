@@ -64,11 +64,13 @@ async function passwordRecovery(email:string): Promise<void> {
     //If email is not exists:
     if(!await dataUtils.isDataExists(email, "email", "users")) throw new UnauthorizedErrorModel("The email is not exists")
 
-    //Send email with recovery-password link
+    //Set the subject and the content of the mail:
     const subject = "Password-Recovery From My-Travel, Please not Replay!"
-    const content = await fsPromise.readFile("./src/2-utils/PasswordRecoveryMail.html", "utf-8")
+    let content = await fsPromise.readFile("./src/2-utils/password-recovery-mail.txt", "utf-8")   
+    //Change the link in the mail:
+    content = content.replace('email/', email)
     
-
+    //Send email with recovery-password link:
     await dataUtils.sendEmailToUser(email, subject, content)    
 }
 
@@ -82,7 +84,7 @@ async function updateUserPassword(email:string, password: string): Promise<void>
     const err = validateEmail()
     if(err) throw new ValidationErrorModel(err)
 
-    //Secure codeing: hash
+    //Secure codeing- hash password:
     password = cyber.hash(password)
     
     //Update the password by email:
