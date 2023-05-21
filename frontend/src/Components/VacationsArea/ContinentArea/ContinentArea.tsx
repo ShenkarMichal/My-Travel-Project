@@ -1,8 +1,8 @@
-import "./ContaintArea.css";
+import "./ContinentArea.css";
 
-function ContaintArea(): JSX.Element {
+function ContinentArea(): JSX.Element {
     return (
-        <div className="ContaintArea">
+        <div className="ContinentArea">
 			<div className="background"></div>
                 <div className="content">
                     <h1>
@@ -15,4 +15,4 @@ function ContaintArea(): JSX.Element {
     );
 }
 
-export default ContaintArea;
+export default ContinentArea;
