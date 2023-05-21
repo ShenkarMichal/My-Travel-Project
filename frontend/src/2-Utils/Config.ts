@@ -4,6 +4,7 @@ class Config {
     public passwordRecoveryURL = "http://localhost:3001/api/auth/recovery/"
 
     public vacationURL = "http://localhost:3001/api/vacations/"
+    public vacationImageURL = "http://localhost:3001/api/vacations-images/"
 
     public followURL = "http://localhost:3001/api/follow/"
     public vacationOfFollower = "http://localhost:3001/api/vacation-of-follow/"

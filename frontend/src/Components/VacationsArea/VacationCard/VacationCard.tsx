@@ -1,3 +1,4 @@
+import appConfig from "../../../2-Utils/Config";
 import VacationModel from "../../../4-Models/VacationModel";
 import "./VacationCard.css";
 
@@ -7,9 +8,9 @@ interface VacationCardProps {
 
 function VacationCard(props: VacationCardProps): JSX.Element {
     return (
-        <div className="VacationCard">
+        <div className="VacationCard" style={{backgroundImage: `url(${appConfig.vacationImageURL + props.vacation.vacationID})`}} >
 			<h3>{props.vacation.destination}</h3>
-            {/* Image */}
+            {/* <img src={appConfig.vacationImageURL + props.vacation.vacationID} /> */}
             <span>Start: {props.vacation.startDate} | End: {props.vacation.endDate}</span>
         </div>
     );
