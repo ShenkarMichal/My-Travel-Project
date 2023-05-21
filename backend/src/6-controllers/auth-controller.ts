@@ -55,7 +55,7 @@ router.post("/recovery/:email/:password", async (request: Request, response: Res
         const password = request.params.password
         await authLogic.updateUserPassword(email, password)
     
-        response.sendStatus(200)
+        response.status(200).send("The password has been succssefully update")
     }
     catch (err: any) {
         next(err)        

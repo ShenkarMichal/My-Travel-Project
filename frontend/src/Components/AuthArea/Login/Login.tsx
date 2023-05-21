@@ -45,21 +45,21 @@ function Login(): JSX.Element {
     }
     
     return (
-        <div className="Login">
-			<form  onSubmit={handleSubmit(sendForm)}>
+        <div className="Login Auth">
+			    <form  onSubmit={handleSubmit(sendForm)}>
                 <h4>Join Our Travel</h4><hr />
 
                 <CssTextField id="standard-basic" label="username" variant="standard" {...register("username")}/> <br />
 
                 <CssTextField id="standard-basic" label="password" variant="standard" type="password" {...register("password")} /> <br />
-                <NavLink to="/auth/recovery">Forgot Password?</NavLink><br />
+                <NavLink to="/auth/recovery">Forgot Password?</NavLink><br /> <br />
                 <Button color="inherit" variant="outlined" startIcon={<DirectionsRunIcon />} type="submit">
                     Let's Go!
                 </Button> <br />
                 <span>Is your backpack still unpacked? </span>
                 <NavLink to="/auth/register">Click here!</NavLink>
 
-            </form>
+          </form>
 
         </div>
     );

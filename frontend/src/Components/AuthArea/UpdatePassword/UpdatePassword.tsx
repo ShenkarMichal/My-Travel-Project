@@ -4,36 +4,39 @@ import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import authService from "../../../5-Service/AuthService";
+import { useNavigate, useParams } from "react-router-dom";
 
 function UpdatePassword(): JSX.Element {
 
     const [password, setPassword] = useState("");
+    const email = useParams().email
+    const navigate = useNavigate()
   
-    async function sendEmail(event: React.FormEvent<HTMLFormElement>) {
+    async function sendNewPassword(event: React.FormEvent<HTMLFormElement>) {
         try {
-            event.preventDefault();
-
-            const msg = await authService.updatePassword(password)
-            alert(msg)            
+            // event.preventDefault()
+            console.log(email)
+            const msg = await authService.updatePassword(email,password)
+            alert(msg)  
         } 
         catch (err: any) {
             console.log(err)            
         }
     }
     return (
-        <div className="UpdatePassword">
-            <form onSubmit={sendEmail}>
+        <div className="UpdatePassword Auth">
+            <form onSubmit={sendNewPassword}>
                 <h3>Enter a new Password</h3>
                 <hr />
     
                 <TextField
                     id="standard-basic"
-                    label="Email"
+                    label="Password"
                     variant="standard"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}/>
-                <br />
+                <br /> <br/>
                 <Button 
                     color="inherit" 
                     variant="outlined" 

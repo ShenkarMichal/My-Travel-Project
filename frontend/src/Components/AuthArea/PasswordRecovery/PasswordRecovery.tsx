@@ -5,6 +5,7 @@ import SendIcon from '@mui/icons-material/Send';
 import "./PasswordRecovery.css";
 import { useState } from 'react';
 import authService from '../../../5-Service/AuthService';
+import { useNavigate } from 'react-router-dom';
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
@@ -28,14 +29,15 @@ const CssTextField = styled(TextField)({
 
 
   function PasswordRecovery(): JSX.Element {
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState("")
+    const navigate = useNavigate()
   
     async function sendEmail(event: React.FormEvent<HTMLFormElement>) {
         try {
-            event.preventDefault();
-
+            event.preventDefault()
             const msg = await authService.PasswordRecovery(email)
             alert(msg)            
+            navigate("/auth/login")
         } 
         catch (err: any) {
             console.log(err)            
@@ -43,7 +45,7 @@ const CssTextField = styled(TextField)({
     }
   
     return (
-      <div className="PasswordRecovery">
+      <div className="PasswordRecovery Auth">
         <form onSubmit={sendEmail}>
             <h3>Forgot Your Password?</h3>
             <hr />
@@ -56,7 +58,7 @@ const CssTextField = styled(TextField)({
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}/>
-            <br />
+            <br /> <br />
             <Button 
                 color="inherit" 
                 variant="outlined" 

@@ -68,7 +68,7 @@ async function passwordRecovery(email:string): Promise<void> {
     const subject = "Password-Recovery From My-Travel, Please not Replay!"
     let content = await fsPromise.readFile("./src/2-utils/password-recovery-mail.txt", "utf-8")   
     //Change the link in the mail:
-    content = content.replace('email/', email)
+    content = content.replace('email', email+"/")
     
     //Send email with recovery-password link:
     await dataUtils.sendEmailToUser(email, subject, content)    
@@ -77,11 +77,11 @@ async function passwordRecovery(email:string): Promise<void> {
 async function updateUserPassword(email:string, password: string): Promise<void> {
     //Validation:
     const passwordSchema =Joi.string().required().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/)
-    function validateEmail():string {
+    function validatePassword():string {
         const resoult = passwordSchema.validate(password)
         return resoult.error?.message
     } 
-    const err = validateEmail()
+    const err = validatePassword()
     if(err) throw new ValidationErrorModel(err)
 
     //Secure codeing- hash password:
