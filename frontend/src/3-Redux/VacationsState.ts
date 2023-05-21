@@ -45,4 +45,4 @@ export function vacationReducer(currentState = new VacationsState(), action: Vac
 }
 
 //5 - Store
-export const vacationStore = createStore(vacationReducer)
+export const vacationsStore = createStore(vacationReducer)

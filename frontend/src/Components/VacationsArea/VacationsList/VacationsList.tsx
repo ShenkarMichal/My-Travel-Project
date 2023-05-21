@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import VacationCard from "../VacationCard/VacationCard";
 import "./VacationsList.css";
 import VacationModel from "../../../4-Models/VacationModel";
+import vacationService from "../../../5-Service/VacationsService";
 
 function VacationsList(): JSX.Element {
     const [vacations, setVacations] = useState<VacationModel[]>([])
 
     useEffect(()=>{
-        vacat
+        vacationService.getAllVacation()
+            .then(v => setVacations(v))
+            .catch(err => console.log(err))
     },[])
+
     return (
         <div className="VacationsList">
             <h1>
@@ -16,7 +20,7 @@ function VacationsList(): JSX.Element {
                 <br /> WORLD
             </h1>
             <div className="AllVacations">
-                <VacationCard />
+                {vacations && vacations.map(v => <VacationCard key={v.vacationID} vacation={v} />)}
             </div>
         </div>
     );
