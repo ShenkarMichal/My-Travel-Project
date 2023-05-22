@@ -4,6 +4,7 @@ import "./VacationsList.css";
 import VacationModel from "../../../4-Models/VacationModel";
 import vacationService from "../../../5-Service/VacationsService";
 import points from "../../../1-Assets/Images/UtilsImages/BlackPoints.png"
+import FilterButton from "../FilterButton/FilterButton";
 
 function VacationsList(): JSX.Element {
   const [vacations, setVacations] = useState<VacationModel[]>([]);
@@ -20,18 +21,22 @@ function VacationsList(): JSX.Element {
     <div className="VacationsList">
       <h1>
         <span>360 DEG</span><br/> <span>AROUND THE</span>
-        <br /> WORLD
+        <br /> WORLD <br />
+        <div className="FilterButton">
+          <FilterButton />
+        </div>
       </h1>
-            <div className="marquee-container">
-                <div className="marquee">
-                    <div className="marquee-content">
-                        {vacations.map((v) => (
-                        <VacationCard key={v.vacationID} vacation={v} />
-                        ))}
-                    </div>
-                </div>
-                <img src={points} />
-            </div>
+
+      <div className="marquee-container">
+          <div className="marquee">
+              <div className="marquee-content">
+                  {vacations.map((v) => (
+                  <VacationCard key={v.vacationID} vacation={v} />
+                  ))}
+              </div>
+          </div>
+          <img src={points} />
+      </div>
     </div>
   );
 }
