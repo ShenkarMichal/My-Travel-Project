@@ -4,26 +4,30 @@
     background-repeat: no-repeat;
     height: 100vh;
     overflow-y: hidden;
-    font-family: 'Amaranth', sans-serif;
+    font-family: 'Oswald', sans-serif;
     padding: 10vw;
     font-size: 3vw;
 }
 
 .VacationsList h1 {
     text-align: left;
-    color: rgb(51, 51, 55);
-    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
-    line-height: 0.8;
-    letter-spacing: 0.2vw;
+    color: rgb(3, 32, 45);
+    /* text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white; */
+    line-height: 9vh;
+    letter-spacing: 0.5vw;
 
 }
 
 .VacationsList h1 > span {
     font-size: 3.5vw;
+    letter-spacing: 0.1vw;
+
+
 }
 
 .VacationsList h1 >span:first-child {
     font-size: 5.5vw;
+
 }
 
 
