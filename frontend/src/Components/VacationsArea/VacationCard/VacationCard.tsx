@@ -9,9 +9,8 @@ interface VacationCardProps {
 function VacationCard(props: VacationCardProps): JSX.Element {
     return (
         <div className="VacationCard" style={{backgroundImage: `url(${appConfig.vacationImageURL + props.vacation.vacationID})`}} >
-			<h3>{props.vacation.destination}</h3>
-            {/* <img src={appConfig.vacationImageURL + props.vacation.vacationID} /> */}
-            <span>Start: {props.vacation.startDate} | End: {props.vacation.endDate}</span>
+			<h6>{props.vacation.destination}</h6>
+            <span>Start: {props.vacation.startDate} <br /> End: {props.vacation.endDate}</span>
         </div>
     );
 }
