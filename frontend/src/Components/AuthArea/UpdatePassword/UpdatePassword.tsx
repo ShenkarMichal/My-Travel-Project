@@ -1,31 +1,39 @@
-import { useState } from "react";
 import "./UpdatePassword.css";
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import authService from "../../../5-Service/AuthService";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import UserModel from "../../../4-Models/UserModel";
+import { useForm } from "react-hook-form";
+
+type FormValues = {
+    password: string;
+    confirmPassword: string
+};
+  
 
 function UpdatePassword(): JSX.Element {
 
-    const [password, setPassword] = useState("");
     const email = useParams().email
-    const navigate = useNavigate()
-  
-    async function sendNewPassword(event: React.FormEvent<HTMLFormElement>) {
+
+    const { register, handleSubmit, formState, watch } = useForm<FormValues>();
+
+    const password = watch("password");
+
+    async function sendNewPassword(password: FormValues) {
         try {
-            // event.preventDefault()
-            console.log(email)
-            const msg = await authService.updatePassword(email,password)
+            const msg = await authService.updatePassword(email,password.password)
             alert(msg)  
         } 
         catch (err: any) {
-            console.log(err)            
+            alert(err.response.data)            
         }
     }
+
     return (
         <div className="UpdatePassword Auth">
-            <form onSubmit={sendNewPassword}>
+            <form onSubmit={handleSubmit(sendNewPassword)}>
                 <h3>Enter a new Password</h3>
                 <hr />
     
@@ -34,9 +42,23 @@ function UpdatePassword(): JSX.Element {
                     label="Password"
                     variant="standard"
                     type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}/>
-                <br /> <br/>
+                    {...register("password", UserModel.passwordValidatoin)}
+                    /><br/>
+                <span className="ErrorMsg">{formState.errors.password?.message}</span>
+                    
+                <br /> 
+                <TextField
+                    id="standard-basic"
+                    label="Confirm Password"
+                    variant="standard"
+                    type="password"
+                    {...register("confirmPassword",{
+                        required: "You mast confirm password",
+                        validate: (value) =>
+                            value === password || "Passwords do not match",
+                    })}/>
+                <br />
+                <span className="ErrorMsg">{formState.errors.confirmPassword?.message}</span> <br/><br/>
                 <Button 
                     color="inherit" 
                     variant="outlined" 
