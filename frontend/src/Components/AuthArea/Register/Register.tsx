@@ -42,7 +42,7 @@ function Register(): JSX.Element {
             navigate("/vacations")
         }
         catch (err: any) {
-            console.log(err)            
+            alert(err.response.data)            
         }
     }
     
@@ -50,15 +50,18 @@ function Register(): JSX.Element {
         <div className="Register Auth">
 			<form onSubmit={handleSubmit(sendForm)}>
                 <h4>Join Our Travel</h4><hr />
-                <CssTextField id="standard-basic" label="First Name" variant="standard" {...register("firstName")}/> <br />
-
-                <CssTextField id="standard-basic" label="Last Name" variant="standard" {...register("lastName")}/> <br />
-
-                <CssTextField id="standard-basic" label="Email" variant="standard" type="email" {...register("email")}/> <br />
-
-                <CssTextField id="standard-basic" label="username" variant="standard" {...register("username")}/> <br />
-
-                <CssTextField id="standard-basic" label="Password" variant="standard" type="password" {...register("password")}/> <br /> <br />
+                <CssTextField id="standard-basic" label="First Name" variant="standard" {...register("firstName", UserModel.firstNameValidatoin)}/> <br />
+                <span className="ErrorMsg">{formState.errors.username?.message}</span><br/>
+                <CssTextField id="standard-basic" label="Last Name" variant="standard" {...register("lastName", UserModel.lastNameValidatoin)}/> <br />
+                <span className="ErrorMsg">{formState.errors.lastName?.message}</span><br/>
+                <CssTextField id="standard-basic" label="Email" variant="standard" type="email" {...register("email", UserModel.emailValidation)}/> <br />
+                <span className="ErrorMsg">{formState.errors.email?.message}</span><br/>
+                <CssTextField id="standard-basic" label="username" variant="standard" {...register("username", UserModel.usernameValidatoin)}/> <br />
+                <span className="ErrorMsg">{formState.errors.username?.message}</span><br/>
+                <CssTextField id="standard-basic" label="Password" variant="standard" type="password" {...register("password", UserModel.passwordValidatoin)}/> <br />
+                <span className="ErrorMsg">{formState.errors.password?.message}</span><br/> 
+                <CssTextField id="standard-basic" label="Confirm Password" variant="standard" type="password" {...register("confirmPassword", UserModel.confirmPasswordValidation)}/> <br />
+                <span className="ErrorMsg">{formState.errors.confirmPassword?.message}</span><br/> <br />
                 <Button color="inherit" variant="outlined" startIcon={<DirectionsRunIcon />} type="submit">
                     Let's Go!
                 </Button> <br />
