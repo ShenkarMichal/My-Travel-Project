@@ -1,3 +1,111 @@
-.VacationDetails {
-	
+.VacationDetails  {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
+
+
+.DetailsContainer {
+    padding: 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100vh;
+    width: 70%;
+}
+    
+.Details {
+    padding: 2vw;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: -3px -3px 3px  rgba(0, 0, 0, 0.316);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.345);
+}
+    .Details {
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      animation: slide-in 1s ease-in-out;
+    }
+    
+    @keyframes slide-in {
+      0% {
+        transform: translateX(100%);
+        filter: blur(5px);
+      }
+      100% {
+        transform: translateX(0);
+        filter: blur(0);
+      }
+    }
+    
+    .Details:nth-child(5) {
+      width: 100%;
+      height: 20%;
+    }
+    
+    .Details:nth-child(4) {
+      width: 80%;
+      height: 20%;
+    }
+    
+    .Details:nth-child(3) {
+      width: 60%;
+      height: 20%;
+    }
+    
+    .Details:nth-child(2) {
+      width: 40%;
+      height: 20%;
+    }
+    
+    .Details:nth-child(1) {
+      width: 20%;
+      height: 20%;
+    }
+    
+    .Details::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ce1212;
+      transition: transform 0.3s;
+      transform: translateX(100%);
+    }
+    
+    .Details:hover::before {
+      transform: translateX(0);
+    }
+    
+    .Details span, h2, h4 {
+      position: relative;
+      z-index: 999;
+      font-size: 20px;
+      padding: 10px;
+    }
+    
+    .DetailsHeading {
+      position: absolute;
+      top: 50%;
+      right: 10%;
+      transform: translate(20%, -50%);
+      color: #787878;
+      font-size: calc(100vh / 5);
+      padding: 0 5px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 0;
+    }
+    
