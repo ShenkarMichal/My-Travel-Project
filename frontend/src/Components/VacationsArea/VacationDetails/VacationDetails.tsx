@@ -26,7 +26,7 @@ function VacationDetails(): JSX.Element {
                         <div className="DetailsHeading">Where?</div>
                     </div>
                     <div className="Details">
-                        <h4>From: {vacation.startDate} To: {vacation.endDate}. Total: {vacation.daysDiff}</h4>
+                        <h4>From: {vacation.startDate} <br/> To: {vacation.endDate}. <br/> Total: {vacation.daysDiff} days.</h4>
                         <div className="DetailsHeading">When?</div>
                     </div>
                     <div className="Details">
@@ -34,7 +34,7 @@ function VacationDetails(): JSX.Element {
                         <div className="DetailsHeading">What?</div>
                     </div>
                     <div className="Details">
-                        <span>{vacation.price}</span>
+                        <span>{vacation.price}$</span>
                         <div className="DetailsHeading">How much?</div>
                     </div>
                     <div className="Details">
