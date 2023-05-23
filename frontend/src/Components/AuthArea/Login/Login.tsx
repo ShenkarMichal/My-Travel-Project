@@ -40,7 +40,7 @@ function Login(): JSX.Element {
             alert("Welcome back! We're leaving on a journey right away!!")            
         }
         catch (err:any) {
-            console.log(err)            
+            alert(err.response.data)            
         }
     }
     
@@ -49,9 +49,12 @@ function Login(): JSX.Element {
 			    <form  onSubmit={handleSubmit(sendForm)}>
                 <h4>Join Our Travel</h4><hr />
 
-                <CssTextField id="standard-basic" label="username" variant="standard" {...register("username")}/> <br />
+                <CssTextField id="standard-basic" label="username" variant="standard" {...register("username", CredentialModel.usernameValidatoin)}/> <br />
+                <span className="ErrorMsg">{formState.errors.username?.message}</span><br/>
 
-                <CssTextField id="standard-basic" label="password" variant="standard" type="password" {...register("password")} /> <br />
+                <CssTextField id="standard-basic" label="password" variant="standard" type="password" {...register("password", CredentialModel.passwordValidatoin)} /> <br />
+                <span className="ErrorMsg">{formState.errors.password?.message}</span><br/>
+
                 <NavLink to="/auth/recovery">Forgot Password?</NavLink><br /> <br />
                 <Button color="inherit" variant="outlined" startIcon={<DirectionsRunIcon />} type="submit">
                     Let's Go!

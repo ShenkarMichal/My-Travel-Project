@@ -59,4 +59,9 @@ body, html, #root {
   color: rgba(0, 0, 0, 0.399);
 }
 
+.Auth .ErrorMsg {
+  color: red;
+  font-size: medium;
+}
+
 
