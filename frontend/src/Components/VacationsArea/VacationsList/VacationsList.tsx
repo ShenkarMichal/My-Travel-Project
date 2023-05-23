@@ -3,8 +3,9 @@ import VacationCard from "../VacationCard/VacationCard";
 import "./VacationsList.css";
 import VacationModel from "../../../4-Models/VacationModel";
 import vacationService from "../../../5-Service/VacationsService";
-import points from "../../../1-Assets/Images/UtilsImages/BlackPoints.png"
+import points from "../../../1-Assets/Images/UtilsImages/WhitePoints.png"
 import FilterButton from "../FilterButton/FilterButton";
+import { NavLink } from "react-router-dom";
 
 function VacationsList(): JSX.Element {
   const [vacations, setVacations] = useState<VacationModel[]>([]);
@@ -23,6 +24,8 @@ function VacationsList(): JSX.Element {
         <span>360 DEG</span><br/> <span>AROUND THE</span>
         <br /> WORLD <br />
         <div className="FilterButton">
+          <p>A journey of a thousand miles <br />begins with a single step.</p>
+          <p>Lao Tzu</p>
           <FilterButton />
         </div>
       </h1>
@@ -31,7 +34,7 @@ function VacationsList(): JSX.Element {
           <div className="marquee">
               <div className="marquee-content">
                   {vacations.map((v) => (
-                  <VacationCard key={v.vacationID} vacation={v} />
+                  <NavLink to={`/vacations/${v.vacationID}`}><VacationCard key={v.vacationID} vacation={v} /></NavLink>
                   ))}
               </div>
           </div>

@@ -7,6 +7,8 @@ import VacationDetails from "../../VacationsArea/VacationDetails/VacationDetails
 import PageNotFound from "../PageNotFound/PageNotFound";
 import PasswordRecovery from "../../AuthArea/PasswordRecovery/PasswordRecovery";
 import UpdatePassword from "../../AuthArea/UpdatePassword/UpdatePassword";
+import ContinentArea from "../../VacationsArea/ContinentArea/ContinentArea";
+import DateArea from "../../VacationsArea/DateArea/DateArea";
 
 function Routing(): JSX.Element {
     return (
@@ -21,6 +23,8 @@ function Routing(): JSX.Element {
                 {/* Vacations Routes: */}
                 <Route path="/vacations" element={<VacationsList />} />
                 <Route path="/vacations/:vacationID" element={<VacationDetails />} />
+                <Route path="/vacations/continent" element={<ContinentArea />} />
+                <Route path="/vacations/date" element={<DateArea />} />
 
                 {/* Default Route: */}
                 <Route path="/" element={<Navigate to="/auth/login" />} />

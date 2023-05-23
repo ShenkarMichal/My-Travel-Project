@@ -12,8 +12,7 @@
 .VacationsList h1 {
     text-align: left;
     color: rgb(3, 32, 45);
-    /* text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white; */
-    line-height: 9vh;
+    line-height: 10vh;
     letter-spacing: 0.5vw;
 
 }
@@ -21,46 +20,52 @@
 .VacationsList h1 > span {
     font-size: 3.5vw;
     letter-spacing: 0.1vw;
-
-
 }
 
 .VacationsList h1 >span:first-child {
     font-size: 5.5vw;
-
 }
 
+.VacationsList p {
+  font-size:1.5vw;
+  line-height: 3vh;
+  letter-spacing: normal;
+  mix-blend-mode:color-burn;
+}
 
-  .marquee-container {
-    position: fixed;
-    bottom: 10%;
-    right: 0;
-    width: 50vw;
-    height: 60vh;
+.VacationsList p:last-child {
+  font-weight: bolder;
+}
 
-  }
+.marquee-container {
+  position: fixed;
+  bottom: 10%;
+  right: 0;
+  width: 50vw;
+  height: 60vh;
+}
   
-  .marquee {
-    width:100%;
-    height: 100%;
-    overflow: hidden;
-  }
+.marquee {
+  width:100%;
+  height: 100%;
+  overflow: hidden;
+}
   
-  .marquee-content {
-    display: flex;
-    animation: marquee 25s linear infinite;
-    position: relative;
-    z-index: 999;
-  }
+.marquee-content {
+  display: flex;
+  animation: marquee 25s linear infinite;
+  position: relative;
+  z-index: 999;
+}
   
-  .VacationCard {
-    width: 100%;
-    min-width: 150px;
-    margin-right: 2vw; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.VacationCard {
+  width: 80%;
+  min-width: 150px;
+  margin-right: 2vw; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
   
   @keyframes marquee {
     0% {
@@ -88,11 +93,15 @@
     top: 0;
     rotate: 180deg;
     mix-blend-mode: difference;
-    opacity: 0.5;
+    opacity: 0.2;
   }
 
   .VacationsList .FilterButton {
     margin-left: 0.5vw;
+  }
+
+  .VacationsList a {
+    text-decoration: none;
   }
 
 
