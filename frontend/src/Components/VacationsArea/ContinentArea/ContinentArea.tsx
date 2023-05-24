@@ -8,6 +8,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import appConfig from "../../../2-Utils/Config";
+import Earth from "../../../1-Assets/Images/BackGrounds/Earth.jpg"
 
 function ContinentArea(): JSX.Element {
 
@@ -43,16 +45,13 @@ function ContinentArea(): JSX.Element {
         }        
     }
 
-    const path = "../../../1-Assets/Images/BackGrounds/Earth.jpg"
-     path
-
     return (
         <div 
             className="ContinentArea">
 			<div 
                 className="background" 
-                style={{backgroundImage:`url(${image})`}}></div>
-                <div className="content" style={{backgroundImage: `url(${path})`}}>
+                style={{backgroundImage:`url(${appConfig.continentsImageURL + continentName}), url(${Earth})`}}></div>
+                <div className="content" style={{backgroundImage:`url(${appConfig.continentsImageURL + continentName}), url(${Earth})`}}>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel id="demo-simple-select-helper-label">Continent</InputLabel>
                     <Select
@@ -70,7 +69,6 @@ function ContinentArea(): JSX.Element {
             </FormControl>
    
                     <h3>{continentName}</h3>
-                    <img src={path} />
 			    vacations list
             </div>
         </div>

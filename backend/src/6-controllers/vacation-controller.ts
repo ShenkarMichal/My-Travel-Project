@@ -105,10 +105,10 @@ router.get("/vacations/continents" ,async (request: Request, response: Response,
 })
 
 //Serve the continent image to the user:
-router.get("/continent-images/:continentID([0-9]+)" ,async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations/continent-images/:continentName" ,async (request: Request, response: Response, next: NextFunction)=>{
     try {
-        const continentID = +request.params.continentID
-        const imageName = await vacationLogic.getContinentImageName(continentID)
+        const continentName = request.params.continentName
+        const imageName = await vacationLogic.getContinentImageName(continentName)
         const image = path.join(__dirname, "..", "1-assets", "images","continents", imageName)
         response.sendFile(image)
     }

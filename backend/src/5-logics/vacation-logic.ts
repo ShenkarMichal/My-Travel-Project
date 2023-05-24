@@ -123,12 +123,11 @@ async function getAllContinents(): Promise<ContinentModel[]> {
 }
 
 //Get continent-image-name:
-async function getContinentImageName(continentID:number): Promise<string> {
-    const sql = `SELECT continentImageName FROM continents WHERE continentID = ?`
-    const resoult = await dal.execute(sql, [continentID])
+async function getContinentImageName(continentName:string): Promise<string> {
+    const sql = `SELECT continentImageName FROM continents WHERE continentName = ?`
+    const resoult = await dal.execute(sql, [continentName])
     const imageName = resoult[0].continentImageName
-    //If id not exists:
-    if(!imageName) throw new ResourceNotFoundErrorModel(continentID)
+
     return imageName    
 }
 

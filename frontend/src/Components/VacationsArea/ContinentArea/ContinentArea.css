@@ -1,7 +1,7 @@
 .ContinentArea > .background {
 	height: 100vh;
     overflow: hidden;
-    /* background-image: url('../../../1-Assets/Images/BackGrounds/Earth.jpg'); */
+    background-image: url('../../../1-Assets/Images/BackGrounds/Earth.jpg');
     filter: blur(3px);
     background-repeat: no-repeat;
     background-size: cover;
