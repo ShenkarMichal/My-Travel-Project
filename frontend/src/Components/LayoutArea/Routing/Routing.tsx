@@ -23,7 +23,7 @@ function Routing(): JSX.Element {
                 {/* Vacations Routes: */}
                 <Route path="/vacations" element={<VacationsList />} />
                 <Route path="/vacations/:vacationID" element={<VacationDetails />} />
-                <Route path="/vacations/filter/by-continent" element={<ContinentArea />} />
+                <Route path="/vacations/filter/by-continent/" element={<ContinentArea />} />
                 <Route path="/vacations/filter/by-date" element={<DateArea />} />
 
                 {/* Default Route: */}

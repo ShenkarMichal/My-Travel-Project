@@ -1,7 +1,7 @@
 .ContinentArea > .background {
 	height: 100vh;
     overflow: hidden;
-    background-image: url("../../../1-Assets/Images/BackGrounds/HomeBackground.jpg");
+    /* background-image: url("../../../1-Assets/Images/BackGrounds/HomeBackground.jpg"); */
     filter: blur(3px);
     background-repeat: no-repeat;
     background-size: cover;
@@ -20,7 +20,7 @@
     border: rgba(246, 182, 104, 0.362) 6px solid;
     border-radius: 20px;
     box-shadow: 2px 2px 2px 2px rgba(99, 76, 98, 0.375);
-    background-image: url("../../../1-Assets/Images/BackGrounds/HomeBackground.jpg");
+    /* background-image: url("../../../1-Assets/Images/BackGrounds/HomeBackground.jpg"); */
     background-repeat: no-repeat;
     background-size: cover;
     padding: 3vw;

@@ -101,6 +101,7 @@ async function getImageName(vacationID:number): Promise<string> {
     return imageName    
 }
 
+//Get vacations by continent:
 async function getVacationsByContinent(continentID:number): Promise<VacationModel[]> {
     const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description,DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate, 
                 DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate,DATEDIFF(V.endDate, startDate) AS duration,
@@ -111,6 +112,11 @@ async function getVacationsByContinent(continentID:number): Promise<VacationMode
     const vacations = await dal.execute(sql, [continentID])
     if(vacations.length === 0) throw new ValidationErrorModel("We dont have a vacation in that continent")
     return vacations    
+}
+
+//Get all continents:
+async function getAllContinents(): Promise< {
+    
 }
 
 //Utilities function of saving and deleting images:
