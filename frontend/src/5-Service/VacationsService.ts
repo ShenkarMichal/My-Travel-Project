@@ -2,6 +2,8 @@ import axios from "axios"
 import { VacationsActionType, vacationsStore } from "../3-Redux/VacationsState"
 import VacationModel from "../4-Models/VacationModel"
 import appConfig from "../2-Utils/Config"
+import ContinentModel from "../4-Models/ContinentModel"
+import { ContinentsActionType, continentsStore } from "../3-Redux/ContinentsState"
 
 class VacationsService {
 
@@ -70,6 +72,20 @@ class VacationsService {
         }
 
         return vacations
+    }
+
+    //Get all continents:
+    public async getAllContinents(): Promise<ContinentModel[]>{
+
+        let continents = continentsStore.getState().continents
+        //If the store is empty:
+        if(continents.length === 0) {
+            const response = await axios.get<ContinentModel[]>(appConfig.continentsURL)
+            continents = response.data
+            //Save the continents in tthe store:
+            continentsStore.dispatch({type: ContinentsActionType.GetAllContinents, payload: continents})
+        }
+        return continents
     }
 }
 
