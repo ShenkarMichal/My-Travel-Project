@@ -68,11 +68,11 @@ router.delete("/vacations/:vacationID([0-9]+)",isLoggedIn ,async (request: Reque
     }
 })
 
-//Serve the image to the user:
+//Serve the vacation image to the user:
 router.get("/vacations-images/:vacationID([0-9]+)" ,async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const vacationID = +request.params.vacationID
-        const imageName = await vacationLogic.getImageName(vacationID)
+        const imageName = await vacationLogic.getVacationImageName(vacationID)
         const image = path.join(__dirname, "..", "1-assets", "images","vacations", imageName)
         response.sendFile(image)
     }
@@ -98,6 +98,19 @@ router.get("/vacations/continents" ,async (request: Request, response: Response,
     try {
         const continents = await vacationLogic.getAllContinents()
         response.json(continents)
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
+//Serve the continent image to the user:
+router.get("/continent-images/:continentID([0-9]+)" ,async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const continentID = +request.params.continentID
+        const imageName = await vacationLogic.getContinentImageName(continentID)
+        const image = path.join(__dirname, "..", "1-assets", "images","continents", imageName)
+        response.sendFile(image)
     }
     catch (err: any) {
         next(err)        

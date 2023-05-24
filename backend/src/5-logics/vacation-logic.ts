@@ -92,8 +92,8 @@ async function deleteVacation(vacationID:number): Promise<void> {
     if(info.affectedRows === 0) throw new ResourceNotFoundErrorModel(vacationID)     
 }
 
-//Get image-name:
-async function getImageName(vacationID:number): Promise<string> {
+//Get vacation-image-name:
+async function getVacationImageName(vacationID:number): Promise<string> {
     const sql = `SELECT imageName FROM vacations WHERE vacationID = ?`
     const resoult = await dal.execute(sql, [vacationID])
     const imageName = resoult[0].imageName
@@ -120,6 +120,16 @@ async function getAllContinents(): Promise<ContinentModel[]> {
     const sql = `SELECT * FROM continents`
     const continents = await dal.execute(sql)
     return continents    
+}
+
+//Get continent-image-name:
+async function getContinentImageName(continentID:number): Promise<string> {
+    const sql = `SELECT continentImageName FROM continents WHERE continentID = ?`
+    const resoult = await dal.execute(sql, [continentID])
+    const imageName = resoult[0].continentImageName
+    //If id not exists:
+    if(!imageName) throw new ResourceNotFoundErrorModel(continentID)
+    return imageName    
 }
 
 //Utilities function of saving and deleting images:
@@ -149,7 +159,8 @@ export default {
     addNewVacation, 
     updateVacation,
     deleteVacation,
-    getImageName,
+    getVacationImageName,
     getVacationsByContinent,
-    getAllContinents
+    getAllContinents,
+    getContinentImageName
 }
