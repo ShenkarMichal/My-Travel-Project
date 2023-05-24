@@ -5,10 +5,7 @@ function ContinentArea(): JSX.Element {
         <div className="ContinentArea">
 			<div className="background"></div>
                 <div className="content">
-                    <h1>
-                        <span>360 deg <br/> Around </span>
-                        <br /> the world
-                    </h1>
+                    <h3></h3>
 			    vacations list
             </div>
         </div>

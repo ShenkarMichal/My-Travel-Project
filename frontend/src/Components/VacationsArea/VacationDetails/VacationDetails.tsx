@@ -3,7 +3,6 @@ import VacationModel from "../../../4-Models/VacationModel";
 import "./VacationDetails.css";
 import vacationService from "../../../5-Service/VacationsService";
 import { useParams } from "react-router-dom";
-import { url } from "inspector";
 import appConfig from "../../../2-Utils/Config";
 
 function VacationDetails(): JSX.Element {
@@ -26,7 +25,7 @@ function VacationDetails(): JSX.Element {
                         <div className="DetailsHeading">Where?</div>
                     </div>
                     <div className="Details">
-                        <h4>From: {vacation.startDate} <br/> To: {vacation.endDate}. <br/> Total: {vacation.daysDiff} days.</h4>
+                        <h4>From: {vacation.startDate} <br/> To: {vacation.endDate}. <br/> Total: {vacation.duration} days.</h4>
                         <div className="DetailsHeading">When?</div>
                     </div>
                     <div className="Details">
@@ -42,7 +41,7 @@ function VacationDetails(): JSX.Element {
                         <div className="DetailsHeading">More...</div>
                     </div>                
                 </div>
-            </>}
+            </>}            
         </div>
     );
 }

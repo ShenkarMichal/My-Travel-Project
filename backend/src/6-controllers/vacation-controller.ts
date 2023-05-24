@@ -81,6 +81,17 @@ router.get("/vacations-images/:vacationID([0-9]+)" ,async (request: Request, res
     }
 })
 
+//Get vacations by continent:
+router.get("/vacations/by-continent/:continentID([0-9]+)" ,async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const continentID = +request.params.continentID
+        const vacations = await vacationLogic.getVacationsByContinent(continentID)
+        response.json(vacations)
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
 
 
 export default router

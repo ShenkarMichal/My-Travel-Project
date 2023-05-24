@@ -7,8 +7,11 @@ import fs from "fs";
 
 //Get all vacations:
 async function getAllVacation(): Promise<VacationModel[]> {
-    const sql = `SELECT vacationID, destination, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
-                        DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate,DATEDIFF(endDate, startDate) AS daysDiff, price, imageName FROM vacations`
+    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description,DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate, 
+                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate,DATEDIFF(V.endDate, startDate) AS duration,
+                V.price, V.imageName, C.continentName
+                FROM vacations AS V JOIN continents AS C
+                ON V.continentID = C.continentID`
     const vacations = await dal.execute(sql)
     return vacations    
 }
@@ -23,9 +26,9 @@ async function addNewVacation(vacation:VacationModel): Promise<VacationModel> {
     await generateImageName(vacation)
 
     //Add the vacation into database:
-    const sql = `INSERT INTO vacations VALUES(DEFAULT, ?,?,?,?,?,?,?)`
-    const info:OkPacket = await dal.execute(sql, [vacation.destination, vacation.description, vacation.startDate,
-                                                vacation.endDate, vacation.daysDiff, vacation.price, vacation.imageName])
+    const sql = `INSERT INTO vacations VALUES(DEFAULT, ?,?,?,?,?,?,?,?)`
+    const info:OkPacket = await dal.execute(sql, [vacation.destination,vacation.continentID, vacation.description, vacation.startDate,
+                                                vacation.endDate, vacation.duration, vacation.price, vacation.imageName])
     vacation.vacationID = info.insertId
 
     //Get the new vacation:
@@ -40,17 +43,17 @@ async function updateVacation(vacation:VacationModel): Promise<VacationModel> {
     if(err) throw new ValidationErrorModel(err)
 
     //Generate imageName:
-    await generateImageName(vacation)
+    generateImageName(vacation)
 
     //Delete the current image from folder:
     await deleteImageFile(vacation.imageName)
 
     //Update the vacation in database:
     const sql = `UPDATE vacations 
-                SET destination = ?, description = ?, startDate = ?, endDate = ?, daysDiff = ?, price = ?, imageName = ?
+                SET destination = ?, continentID = ?, description = ?, startDate = ?, endDate = ?, duration = ?, price = ?, imageName = ?
                 WHERE vacationID = ?`
-    const info: OkPacket = await dal.execute(sql, [vacation.destination, vacation.description, vacation.startDate, vacation.endDate, 
-                                                    vacation.daysDiff, vacation.price, vacation.imageName, vacation.vacationID])
+    const info: OkPacket = await dal.execute(sql, [vacation.destination,vacation.continentID, vacation.description, vacation.startDate, vacation.endDate, 
+                                                    vacation.duration, vacation.price, vacation.imageName, vacation.vacationID])
     if(info.affectedRows === 0) throw new ResourceNotFoundErrorModel(vacation.vacationID)
 
     //Get the new vacation:
@@ -60,9 +63,12 @@ async function updateVacation(vacation:VacationModel): Promise<VacationModel> {
 
 //Get one specific vacation:
 async function getOneVacation(vacationID:number): Promise<VacationModel> {
-    const sql = `SELECT vacationID, destination, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
-                DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate,DATEDIFF(endDate, startDate) AS daysDiff, price, imageName 
-                FROM vacations WHERE vacationID = ?`
+    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description,DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate, 
+                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate,DATEDIFF(V.endDate, startDate) AS duration,
+                V.price, V.imageName, C.continentName
+                FROM vacations AS V JOIN continents AS C
+                ON V.continentID = C.continentID
+                WHERE V.vacationID = ?`
     const resoult = await dal.execute(sql, [vacationID])
     const vacation = resoult[0]
     //If the id is not exists:
@@ -95,14 +101,26 @@ async function getImageName(vacationID:number): Promise<string> {
     return imageName    
 }
 
+async function getVacationsByContinent(continentID:number): Promise<VacationModel[]> {
+    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description,DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate, 
+                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate,DATEDIFF(V.endDate, startDate) AS duration,
+                V.price, V.imageName, C.continentName
+                FROM vacations AS V JOIN continents AS C
+                ON V.continentID = C.continentID
+                WHERE V.continentID = ?`
+    const vacations = await dal.execute(sql, [continentID])
+    if(vacations.length === 0) throw new ValidationErrorModel("We dont have a vacation in that continent")
+    return vacations    
+}
+
 //Utilities function of saving and deleting images:
-async function generateImageName(vacation: VacationModel):Promise<void> {
+function generateImageName(vacation: VacationModel):void {
     //Generate new imageName:
     const extention = vacation.image.name.substring(vacation.image.name.lastIndexOf("."))
     vacation.imageName = uuid() + extention
 
     //Save the image into folder
-    await vacation.image.mv("./src/1-assets/images/vacations/" + vacation.imageName)
+    vacation.image.mv("./src/1-assets/images/vacations/" + vacation.imageName)
 
     //Delete image from vacation-model:
     delete vacation.image
@@ -122,5 +140,6 @@ export default {
     addNewVacation, 
     updateVacation,
     deleteVacation,
-    getImageName
+    getImageName,
+    getVacationsByContinent
 }
