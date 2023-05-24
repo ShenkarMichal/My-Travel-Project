@@ -93,5 +93,16 @@ router.get("/vacations/by-continent/:continentID([0-9]+)" ,async (request: Reque
     }
 })
 
+//Get all continents:
+router.get("/vacations/continents" ,async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const continents = await vacationLogic.getAllContinents()
+        response.json(continents)
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
 
 export default router

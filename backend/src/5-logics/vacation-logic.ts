@@ -4,6 +4,7 @@ import VacationModel from "../4-models/vacation-model";
 import { ResourceNotFoundErrorModel, ValidationErrorModel } from "../4-models/errors-model";
 import { v4 as uuid } from "uuid";
 import fs from "fs";
+import ContinentModel from "../4-models/continent-model";
 
 //Get all vacations:
 async function getAllVacation(): Promise<VacationModel[]> {
@@ -115,8 +116,10 @@ async function getVacationsByContinent(continentID:number): Promise<VacationMode
 }
 
 //Get all continents:
-async function getAllContinents(): Promise< {
-    
+async function getAllContinents(): Promise<ContinentModel[]> {
+    const sql = `SELECT * FROM continents`
+    const continents = await dal.execute(sql)
+    return continents    
 }
 
 //Utilities function of saving and deleting images:
@@ -147,5 +150,6 @@ export default {
     updateVacation,
     deleteVacation,
     getImageName,
-    getVacationsByContinent
+    getVacationsByContinent,
+    getAllContinents
 }
