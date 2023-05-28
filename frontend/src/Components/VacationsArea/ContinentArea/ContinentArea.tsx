@@ -13,6 +13,7 @@ import Earth from "../../../1-Assets/Images/BackGrounds/Earth.jpg"
 import VacationCard from "../VacationCard/VacationCard";
 import Pagination from '@mui/material/Pagination';
 import ContinentsSentences, { ContinentsSentencesModel } from "../../../2-Utils/ContinentsSentences";
+import { NavLink } from "react-router-dom";
 
 function ContinentArea(): JSX.Element {
 
@@ -102,7 +103,7 @@ function ContinentArea(): JSX.Element {
                                                 map(v => 
                                                     <div className="card">
                                                         <span>{v.duration} days in {v.destination}</span><br/>
-                                                        <VacationCard key={v.vacationID} vacation={v}/>
+                                                        <NavLink to={`/vacations/${v.vacationID}`}><VacationCard key={v.vacationID} vacation={v}/></NavLink>
                                                         <span>Just {v.price}$</span>
                                                     </div>)}
                     </div>
