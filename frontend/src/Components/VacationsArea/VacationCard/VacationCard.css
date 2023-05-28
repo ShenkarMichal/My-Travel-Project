@@ -15,11 +15,11 @@
     text-shadow: -1px -1px 0 rgb(3, 32, 45), 1px -1px 0  rgb(3, 32, 45), -1px 1px 0  rgb(3, 32, 45), 1px 1px 0  rgb(3, 32, 45);
   }
   
-  .VacationCard h6 {
+  .VacationCard > h6 {
     margin-bottom: 3vh;
     text-align: left;
   }
 
-  .VacationCard span {
+  .VacationCard > span {
     font-size: x-small;
   }

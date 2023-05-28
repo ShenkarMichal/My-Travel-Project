@@ -1,5 +1,5 @@
 
-enum ContinentsSentences {
+enum Sentences {
     Asia = "There should not be a contradiction between development and tradition. Countries like Japan and South Korea have grown their economies greatly while maintaining unique cultures",
     AsiaSrc = "Barack Obama",
 
@@ -17,4 +17,57 @@ enum ContinentsSentences {
 
     SouthAmerica = "I want to live like a cultured South American and not kill the Indians like the Europeans",
     SouthAmericaSrc = "Simon Bolivar"
+}
+
+enum Continents {
+    Asia = "Asia",
+    Europe = "Europe",
+    Antarctica = "Antarctica",
+    Australia = "Australia",
+    NorthAmerica = "North-America",
+    SouthAmerica ="South-America"
+}
+
+export class ContinentsSentencesModel {
+    public sentence: string = null
+    public src: string = null
+
+}
+
+function getSentence(continentName: string): ContinentsSentencesModel {
+
+    const sentences = new ContinentsSentencesModel()
+
+    switch (continentName) {
+        case Continents.Asia:
+            sentences.sentence = Sentences.Asia
+            sentences.src = Sentences.AsiaSrc
+            break
+        case Continents.Europe:
+            sentences.sentence = Sentences.Europe
+            sentences.src = Sentences.EuropeSrc
+            break
+        case Continents.Antarctica:
+            sentences.sentence = Sentences.Antarctica
+            sentences.src = Sentences.AntarcticaSrc
+            break
+        case Continents.Australia:
+            sentences.sentence = Sentences.Australia
+            sentences.src = Sentences.AustraliaSrc
+            break
+        case Continents.NorthAmerica:
+            sentences.sentence = Sentences.NorthAmerica
+            sentences.src = Sentences.NorthAmericaSrc
+            break
+        case Continents.SouthAmerica:
+            sentences.sentence = Sentences.SouthAmerica
+            sentences.src = Sentences.SouthAmericaSrc
+            break
+    }
+
+    return sentences
+}
+
+export default {
+    getSentence
 }

@@ -12,6 +12,7 @@ import appConfig from "../../../2-Utils/Config";
 import Earth from "../../../1-Assets/Images/BackGrounds/Earth.jpg"
 import VacationCard from "../VacationCard/VacationCard";
 import Pagination from '@mui/material/Pagination';
+import ContinentsSentences, { ContinentsSentencesModel } from "../../../2-Utils/ContinentsSentences";
 
 function ContinentArea(): JSX.Element {
 
@@ -33,6 +34,7 @@ function ContinentArea(): JSX.Element {
     },[])
 
     const [continentName, setContinentName] = useState<string>("")
+    const [continentSentence, setContinentSentence] = useState<ContinentsSentencesModel>()
 
     async function getVacations(event:SelectChangeEvent) {
         try{
@@ -42,11 +44,13 @@ function ContinentArea(): JSX.Element {
                 setVacations([])
                 setContinentName("")
                 setPageNumber(0)
+                setContinentSentence(null)
             }
             else {
                 const vacationsByContinent = await vacationService.getVacationsByContinent(continentID)
                 setVacations(vacationsByContinent)
                 setContinentName(vacationsByContinent[0].continentName)
+                setContinentSentence(ContinentsSentences.getSentence(vacationsByContinent[0].continentName))
                 //Set pagination:
                 setPageNumber(Math.ceil(vacationsByContinent.length/vacationPerPage))
             }
@@ -88,6 +92,9 @@ function ContinentArea(): JSX.Element {
                 <div className="AllData">
                     <div className="Heading">
                         <h3>{continentName}</h3>
+                        <span>{continentSentence?.sentence}</span><br/>
+                        <p>{continentSentence?.src}</p>
+
                     </div>
                     <div className="Vacations">
 
