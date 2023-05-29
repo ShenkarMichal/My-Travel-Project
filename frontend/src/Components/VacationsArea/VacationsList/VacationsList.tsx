@@ -34,7 +34,7 @@ function VacationsList(): JSX.Element {
           <div className="marquee">
               <div className="marquee-content">
                   {vacations.map((v) => (
-                  <NavLink to={`/vacations/${v.vacationID}`}><VacationCard key={v.vacationID} vacation={v} /></NavLink>
+                  <NavLink to={`/vacations/${v.vacationID}`} key={v.vacationID}><VacationCard key={v.vacationID} vacation={v} /></NavLink>
                   ))}
               </div>
           </div>

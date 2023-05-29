@@ -13,6 +13,7 @@ import { ReactComponent as detailsIcon } from '../../../../1-Assets/Icons/clipbo
 import { ReactComponent as cameraIcon }from '../../../../1-Assets/Icons/camera.svg'
 import { ReactComponent as checkedIcon }from '../../../../1-Assets/Icons/check-circle.svg'
 import StepContent from "../StepContent/StepContent";
+import Register from "../../../AuthArea/Register/Register";
 
 interface stepsAndIcons {
     index: number,
@@ -22,7 +23,7 @@ interface stepsAndIcons {
 
 function AddVacation(): JSX.Element {
 
-    const {handleSubmit} = useForm<VacationModel>()
+    const {register, handleSubmit} = useForm<VacationModel>()
 
 
     const steps: stepsAndIcons[] = [
@@ -34,10 +35,8 @@ function AddVacation(): JSX.Element {
 
     const handleNext = () => {    
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-        if(activeStep === steps.length-1){
-            handleSubmit(addVacation)()
-        }
+        console.log("steps" + steps.length)
+        console.log("activeStep" + activeStep)
       };
 
       const handleBack = () => {
@@ -46,25 +45,25 @@ function AddVacation(): JSX.Element {
 
     async function addVacation(vacation: VacationModel){
         alert("send")
+        console.log("hi")
         console.log(vacation)
+
 
     }
     return (
         <div className="AddVacation">
-  
+            
             <Box sx={{ width: '80%' }}>
                 <Stepper activeStep={activeStep} alternativeLabel>
                     {steps.map(s => {
-
-
                         return (
                             <Step key={s.index}>
-                                <StepLabel StepIconComponent={activeStep < s.index ? s.icon : checkedIcon}>{s.step}</StepLabel>
+                                <StepLabel StepIconComponent={activeStep < s.index ? s.icon : checkedIcon} >{s.step}</StepLabel>
                             </Step>
                         );
                     })}
                 </Stepper>
-                <form onSubmit={()=>addVacation}>
+                <form onSubmit={handleSubmit(addVacation)}>
 
                     {activeStep === steps.length ? (
                         <Fragment>
@@ -76,8 +75,8 @@ function AddVacation(): JSX.Element {
                         <Fragment>
 
                             <Typography sx={{ mt: 2, mb: 1 }}>
-                                        <StepContent stepIndex={activeStep+1} onSubmit={()=>addVacation}/>
-                                </Typography>
+                                        <StepContent key={activeStep+1} stepIndex={activeStep+1}/>
+                            </Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                 <Button
                                     color="inherit"
@@ -86,10 +85,11 @@ function AddVacation(): JSX.Element {
                                     sx={{ mr: 1 }}>
                                     Back
                                 </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />                
-                                <Button onClick={handleNext} >
-                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                </Button>
+                                <Box sx={{ flex: '1 1 auto' }} />  
+                                {activeStep === steps.length-1 ? 
+                                    <Button type="submit" onClick={handleNext}>Finish</Button> :
+                                    <Button onClick={handleNext}>Next</Button>
+                                }
                             </Box>
                         </Fragment>
                     )}
