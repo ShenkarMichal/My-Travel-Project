@@ -10,6 +10,7 @@ import vacationService from "../../../../5-Service/VacationsService";
 import ContinentModel from "../../../../4-Models/ContinentModel";
 import InputAdornment from '@mui/material/InputAdornment';
 import CssTextField from "../../../UtilsComponents/CssTextField/CssTextField";
+import SelectContinent from "../../../UtilsComponents/SelectContinent/SelectContinent";
 
 
 interface StepContentProp {
@@ -18,37 +19,17 @@ interface StepContentProp {
 
 function StepContent(prop: StepContentProp): JSX.Element {
 
-    const {register, handleSubmit, formState} = useForm<VacationModel>()
+    const {register, handleSubmit, formState, setValue} = useForm<VacationModel>()
 
-    const [continents, setContinents] = useState<ContinentModel[]>([])
-    
-    //Get all continents:
-    useEffect(()=>{
-        vacationService.getAllContinents()
-            .then(c => setContinents(c))
-            .catch(err => console.log(err))
-    },[])
+    function getSelectValue(value: number) {
+        setValue("continentID", value)
+    }
 
     const stepContent = [
         <div className="stepContent">
             <h4>Set Destination:</h4>
             <CssTextField label={"Destination"} type={"text"} {...register("destination")} />
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-helper-label">Continent</InputLabel>
-                <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
-                    label="Continent"
-                    className="Select"
-                    variant="outlined"
-                    {...register("continentID")}>
-                        <MenuItem value="0">
-                            <em>None</em>
-                        </MenuItem>
-                        {continents.map(c => <MenuItem value={c.continentID} key={c.continentID}>{c.continentName}</MenuItem>)}
-                </Select>
-                <FormHelperText>Select the continent you want to travel to</FormHelperText>
-            </FormControl>
+            <SelectContinent onSelect={getSelectValue} helperText={"Select the continent of the vacation"} />
         </div>,
         <div className="stepContent">
             <h4>Set Vacation Details:</h4>
