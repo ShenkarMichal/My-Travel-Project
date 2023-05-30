@@ -9,7 +9,7 @@ import { Button } from "@mui/material";
 interface StepContentProp {
     stepIndex: number
     onSubmit: (data: VacationModel) => void
-    onClick: ()=>void
+    onClick: (data: VacationModel)=>void
 }
 
 function StepContentComponent(prop: StepContentProp): JSX.Element {
@@ -43,11 +43,10 @@ function StepContentComponent(prop: StepContentProp): JSX.Element {
         <div className="StepContent">
           <form onSubmit={handleSubmit(prop.onSubmit)}>
             {stepContent[prop.stepIndex]} 
-             
-            <Button type="submit" onClick={prop.onClick}>
-                {prop.stepIndex === stepContent.length-1 ? 'Finish' : 'Next'}
-            </Button> 
-            
+            {prop.stepIndex === stepContent.length-1 ? 
+              <Button onClick={handleSubmit(prop.onClick)}>Finish</Button> :
+              <Button type="submit" >Next</Button>
+            }
           </form>
         </div>
     );

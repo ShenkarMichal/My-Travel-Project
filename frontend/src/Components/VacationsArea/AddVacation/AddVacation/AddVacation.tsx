@@ -14,6 +14,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useState } from "react";
 import StepContentComponent from "../StepContent/StepContentComponent";
+import { NewVacationActionType, newVacationStore } from "../../../../3-Redux/newVacationState";
 
 
 interface stepsAndIcons {
@@ -35,15 +36,19 @@ function AddVacation(): JSX.Element {
     //Set the active step
     const [activeStep, setActiveStep] = useState(0);
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    function saveNewVacation(vacation: VacationModel){
+        newVacationStore.dispatch({type: NewVacationActionType.SaveNewVacation, payload: vacation})
+        const newVacation = newVacationStore.getState().vacation
+        console.log(newVacation)
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    async function addVacation(vacation: VacationModel){
+    async function saveCurrentForm(vacation: VacationModel){
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        newVacationStore.dispatch({type: NewVacationActionType.SaveNewVacation, payload: vacation})
         alert("send")
         console.log(vacation)
     }
@@ -65,7 +70,7 @@ function AddVacation(): JSX.Element {
                         </StepLabel>
                         <StepContent>
                             
-                            <Typography>{step.step}<StepContentComponent stepIndex={index} onSubmit={addVacation} onClick={handleNext} /></Typography>
+                            <Typography>{step.step}<StepContentComponent stepIndex={index} onSubmit={saveCurrentForm} onClick={saveNewVacation} /></Typography>
                             <Box sx={{ mb: 2 }}>
                                 <div>
 
