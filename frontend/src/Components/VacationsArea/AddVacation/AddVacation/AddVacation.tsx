@@ -17,7 +17,7 @@ import StepContentComponent from "../StepContent/StepContentComponent";
 import { NewVacationActionType, newVacationStore } from "../../../../3-Redux/newVacationState";
 import vacationService from "../../../../5-Service/VacationsService";
 import { useNavigate } from "react-router-dom";
-import StepperComponent, { StepModel } from "../../../UtilsComponents/Stepper/StepperComponent";
+import StepperComponent, { StepModel } from "../../../UtilsComponents/StepperComponent/StepperComponent";
 
 
 interface stepsAndIcons {
