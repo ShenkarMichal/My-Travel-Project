@@ -23,7 +23,17 @@ class VacationsService {
     //Add new vacation:
     public async addNewVacation(vacation:VacationModel): Promise<void> {
 
-        const response = await axios.post<VacationModel>(appConfig.vacationURL, vacation)
+        const vacationFormData = new FormData()
+        
+        vacationFormData.append("destination", vacation.destination)
+        vacationFormData.append("description", vacation.description)
+        vacationFormData.append("continentID", vacation.continentID.toLocaleString())
+        vacationFormData.append("price", vacation.price.toLocaleString())
+        vacationFormData.append("startDate", vacation.startDate.toLocaleString())
+        vacationFormData.append("endDate", vacation.endDate.toLocaleString())
+        vacationFormData.append("image", vacation.image[0])
+
+        const response = await axios.post<VacationModel>(appConfig.vacationURL, vacationFormData)
         const newVacation = response.data
 
         //Add the new vacation to the store:

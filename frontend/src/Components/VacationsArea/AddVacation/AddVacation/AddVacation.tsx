@@ -15,6 +15,9 @@ import Typography from '@mui/material/Typography';
 import { useState } from "react";
 import StepContentComponent from "../StepContent/StepContentComponent";
 import { NewVacationActionType, newVacationStore } from "../../../../3-Redux/newVacationState";
+import { useForm } from "react-hook-form";
+import vacationService from "../../../../5-Service/VacationsService";
+import { useNavigate } from "react-router-dom";
 
 
 interface stepsAndIcons {
@@ -25,6 +28,7 @@ interface stepsAndIcons {
 
 function AddVacation(): JSX.Element {
 
+    const navigate = useNavigate()
 
     //Set steps
     const steps: stepsAndIcons[] = [
@@ -36,17 +40,26 @@ function AddVacation(): JSX.Element {
     //Set the active step
     const [activeStep, setActiveStep] = useState(0);
 
-    function saveNewVacation(vacation: VacationModel){
-        newVacationStore.dispatch({type: NewVacationActionType.SaveNewVacation, payload: vacation})
-        const newVacation = newVacationStore.getState().vacation
-        console.log(newVacation)
+    async function saveNewVacation(vacation: VacationModel){
+        try {
+            saveCurrentForm(vacation)
+            const newVacation = newVacationStore.getState().vacation
+            await vacationService.addNewVacation(newVacation)
+            alert("The vacation has been succssefuly added")
+            navigate("/vacations")
+        }
+        catch (err: any) {
+            alert(err.response.data)
+            
+        }
+
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    async function saveCurrentForm(vacation: VacationModel){
+    function saveCurrentForm(vacation: VacationModel){
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         newVacationStore.dispatch({type: NewVacationActionType.SaveNewVacation, payload: vacation})
         alert("send")
