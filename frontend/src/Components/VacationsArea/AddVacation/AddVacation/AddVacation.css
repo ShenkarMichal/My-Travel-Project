@@ -7,22 +7,21 @@
     color: black;
 }
 
-.AddVacation > .stepper {
+.AddVacation .Stepper {
     width: fit-content;
     border-radius: 20px;
     margin: auto;
     margin-top: 5%;
-    background-image: linear-gradient(180deg, rgba(81, 192, 247, 0.61), rgba(255, 255, 255, 0.418));
+    background-image: linear-gradient(180deg, rgba(81, 192, 247, 0.4), rgba(255, 255, 255, 0.4));
     padding: 20px;
-    box-shadow: 2px 2px 2px 2px rgba(194, 191, 191, 0.49);
+    box-shadow: 2px 2px 2px 2px rgba(194, 191, 191, 0.321);
     transition: 0.2s;
 }
 
-.AddVacation > .stepper:hover {
+.AddVacation .Stepper:hover {
     background-color: rgba(255, 255, 255, 0.842);
     box-shadow: 2px 2px 2px 2px rgba(194, 191, 191, 0.759);
     transition: 0.2s;
-
 }
 
 .AddVacation h3 {
@@ -31,4 +30,8 @@
 
 .AddVacation Button {
     display: inline-block;
+}
+
+.AddVacation .Paper {
+    background-color: transparent;
 }

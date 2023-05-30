@@ -15,9 +15,9 @@ import Typography from '@mui/material/Typography';
 import { useState } from "react";
 import StepContentComponent from "../StepContent/StepContentComponent";
 import { NewVacationActionType, newVacationStore } from "../../../../3-Redux/newVacationState";
-import { useForm } from "react-hook-form";
 import vacationService from "../../../../5-Service/VacationsService";
 import { useNavigate } from "react-router-dom";
+import StepperComponent, { StepModel } from "../../../UtilsComponents/Stepper/StepperComponent";
 
 
 interface stepsAndIcons {
@@ -30,16 +30,17 @@ function AddVacation(): JSX.Element {
 
     const navigate = useNavigate()
 
-    //Set steps
-    const steps: stepsAndIcons[] = [
-        {index: 1,step:'Set destination', icon: destinationIcon },
-        {index: 2, step:'Add vacation details',icon: detailsIcon},
-        {index: 3, step:'Add image', icon: cameraIcon}
-    ];
-
     //Set the active step
     const [activeStep, setActiveStep] = useState(0);
+    
+    //Set steps
+    const steps: StepModel[] = [
+        {index: 1,label:'Set destination', icon: activeStep > 0 ? checkedIcon : destinationIcon },
+        {index: 2, label:'Add vacation details',icon: activeStep > 1 ? checkedIcon : detailsIcon},
+        {index: 3, label:'Add image', icon: activeStep > 2 ? checkedIcon : cameraIcon}
+    ];
 
+    //Function on Finish-Handler
     async function saveNewVacation(vacation: VacationModel){
         try {
             saveCurrentForm(vacation)
@@ -49,71 +50,31 @@ function AddVacation(): JSX.Element {
             navigate("/vacations")
         }
         catch (err: any) {
-            alert(err.response.data)
-            
+            alert(err.response?.data)            
         }
-
     };
 
+    //Function on Back-Handler
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    //Function on Next-Handler
     function saveCurrentForm(vacation: VacationModel){
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         newVacationStore.dispatch({type: NewVacationActionType.SaveNewVacation, payload: vacation})
-        alert("send")
-        console.log(vacation)
     }
 
     return (
-        <div className="AddVacation">  
-        <div className="stepper">  
-            <h3>Have a new place to travel?</h3><hr/>
-            <Box sx={{ maxWidth: 400 }}>
-                <Stepper activeStep={activeStep} orientation="vertical">
-                    {steps.map((step, index) => (
-                    <Step key={index}>
-                        <StepLabel
-                            StepIconComponent = {step.index <= activeStep ? checkedIcon : step.icon}
-                            //Set the last-step heading in the step of index #2
-                            optional={
-                                index === 2 ? (
-                                <Typography variant="caption">Last step</Typography>
-                                ) : null 
-                            }>
-                            {step.step}
-                        </StepLabel>
-                        <StepContent>
-                            
-                            <Typography><StepContentComponent stepIndex={index} onSubmit={saveCurrentForm} onClick={saveNewVacation} /></Typography>
-                            <Box sx={{ mb: 2 }}>
-                                <div>
-
-                                <Button
-                                    disabled={index === 0}
-                                    onClick={handleBack}
-                                    sx={{ mt: 1, mr: 1 }}
-                                    color="inherit"
-                                >
-                                    Back
-                                </Button>
-                                </div>
-                            </Box>
-                        </StepContent>
-                    </Step>
-                    ))}
-
-                </Stepper>
-                {activeStep === steps.length && (
-                    <Paper square elevation={0} sx={{ p: 3 }}>
-                        <Typography>All steps completed - The vacation has been successfully added</Typography>
-                    </Paper>
-                )}
-            </Box>
-        </div>
-
-            
+        <div className="AddVacation"> 
+            <StepperComponent 
+                steps={steps} 
+                stepContent={<StepContentComponent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={saveNewVacation} />} 
+                endMsg={"All steps completed - The vacation has been successfully added"} 
+                heading={"Have a new place to travel?"}
+                handleBack={handleBack}
+                activeStep={activeStep}
+            />            
         </div>
     );
 }

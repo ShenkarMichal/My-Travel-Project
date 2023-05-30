@@ -26,7 +26,7 @@ function Routing(): JSX.Element {
                 <Route path="/vacations/:vacationID" element={<VacationDetails />} />
                 <Route path="/vacations/filter/by-continent/" element={<ContinentArea />} />
                 <Route path="/vacations/filter/by-date" element={<DateArea />} />
-                <Route path="/vacations/add-vacation" element={<AddVacation />} />
+                <Route path="/vacations/new" element={<AddVacation />} />
 
                 {/* Default Route: */}
                 <Route path="/" element={<Navigate to="/auth/login" />} />
