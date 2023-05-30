@@ -3,18 +3,19 @@ import VacationModel from "../4-Models/VacationModel"
 
 //1 - Global State:
 export class newVacationState {
-    public vacation: VacationModel 
+    public vacation: VacationModel = null
 }
 
 //2 - Action Type
 export enum NewVacationActionType {
-    SaveNewVacation
+    SaveNewVacation,
+    ClearVacationState
 }
 
 //3 - Action
 export interface NewVacationAction {
     type: NewVacationActionType,
-    payload: VacationModel
+    payload?: VacationModel
 }
 
 //4 - Reducer
@@ -33,6 +34,8 @@ export function newVacationReducer(currentState = new newVacationState(), action
             const newVacation = Object.assign({},newState.vacation, action.payload)
             newState.vacation = newVacation
             break
+        case NewVacationActionType.ClearVacationState:
+            newState.vacation = null
     }
 
     return newState

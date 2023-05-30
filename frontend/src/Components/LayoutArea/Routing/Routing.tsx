@@ -10,6 +10,7 @@ import UpdatePassword from "../../AuthArea/UpdatePassword/UpdatePassword";
 import ContinentArea from "../../VacationsArea/ContinentArea/ContinentArea";
 import DateArea from "../../VacationsArea/DateArea/DateArea";
 import AddVacation from "../../VacationsArea/AddVacation/AddVacation/AddVacation";
+import UpdateVacation from "../../VacationsArea/UpdateVacation/UpdateVacation";
 
 function Routing(): JSX.Element {
     return (
@@ -27,6 +28,7 @@ function Routing(): JSX.Element {
                 <Route path="/vacations/filter/by-continent/" element={<ContinentArea />} />
                 <Route path="/vacations/filter/by-date" element={<DateArea />} />
                 <Route path="/vacations/new" element={<AddVacation />} />
+                <Route path="/vacations/update/:vacationID" element={<UpdateVacation />} />
 
                 {/* Default Route: */}
                 <Route path="/" element={<Navigate to="/auth/login" />} />

@@ -4,27 +4,12 @@ import {ReactComponent as destinationIcon } from '../../../../1-Assets/Icons/tre
 import { ReactComponent as detailsIcon } from '../../../../1-Assets/Icons/clipboard.svg'
 import { ReactComponent as cameraIcon }from '../../../../1-Assets/Icons/camera.svg'
 import { ReactComponent as checkedIcon }from '../../../../1-Assets/Icons/check-circle.svg'
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import StepContent from '@mui/material/StepContent';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import { useState } from "react";
 import StepContentComponent from "../StepContent/StepContentComponent";
 import { NewVacationActionType, newVacationStore } from "../../../../3-Redux/newVacationState";
 import vacationService from "../../../../5-Service/VacationsService";
 import { useNavigate } from "react-router-dom";
 import StepperComponent, { StepModel } from "../../../UtilsComponents/StepperComponent/StepperComponent";
-
-
-interface stepsAndIcons {
-    index: number,
-    step: string,
-    icon: React.ComponentType
-}
 
 function AddVacation(): JSX.Element {
 
@@ -47,6 +32,7 @@ function AddVacation(): JSX.Element {
             const newVacation = newVacationStore.getState().vacation
             await vacationService.addNewVacation(newVacation)
             alert("The vacation has been succssefuly added")
+            newVacationStore.dispatch({type: NewVacationActionType.ClearVacationState})
             navigate("/vacations")
         }
         catch (err: any) {
