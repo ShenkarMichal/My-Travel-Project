@@ -67,12 +67,15 @@ function AddVacation(): JSX.Element {
     }
 
     return (
-        <div className="AddVacation">            
+        <div className="AddVacation">  
+        <div className="stepper">  
+            <h3>Have a new place to travel?</h3><hr/>
             <Box sx={{ maxWidth: 400 }}>
                 <Stepper activeStep={activeStep} orientation="vertical">
                     {steps.map((step, index) => (
                     <Step key={index}>
                         <StepLabel
+                            StepIconComponent = {step.index <= activeStep ? checkedIcon : step.icon}
                             //Set the last-step heading in the step of index #2
                             optional={
                                 index === 2 ? (
@@ -83,7 +86,7 @@ function AddVacation(): JSX.Element {
                         </StepLabel>
                         <StepContent>
                             
-                            <Typography>{step.step}<StepContentComponent stepIndex={index} onSubmit={saveCurrentForm} onClick={saveNewVacation} /></Typography>
+                            <Typography><StepContentComponent stepIndex={index} onSubmit={saveCurrentForm} onClick={saveNewVacation} /></Typography>
                             <Box sx={{ mb: 2 }}>
                                 <div>
 
@@ -91,6 +94,7 @@ function AddVacation(): JSX.Element {
                                     disabled={index === 0}
                                     onClick={handleBack}
                                     sx={{ mt: 1, mr: 1 }}
+                                    color="inherit"
                                 >
                                     Back
                                 </Button>
@@ -107,6 +111,7 @@ function AddVacation(): JSX.Element {
                     </Paper>
                 )}
             </Box>
+        </div>
 
             
         </div>

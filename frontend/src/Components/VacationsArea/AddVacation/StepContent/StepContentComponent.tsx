@@ -50,8 +50,8 @@ function StepContentComponent(prop: StepContentProp): JSX.Element {
           <form onSubmit={handleSubmit(prop.onSubmit)}>
             {stepContent[prop.stepIndex]} 
             {prop.stepIndex === stepContent.length-1 ? 
-              <Button onClick={handleSubmit(prop.onClick)}>Finish</Button> :
-              <Button type="submit">Next</Button>
+              <Button onClick={handleSubmit(prop.onClick)} color="inherit">Finish</Button> :
+              <Button type="submit" color="inherit">Next</Button>
             }
           </form>
         </div>
