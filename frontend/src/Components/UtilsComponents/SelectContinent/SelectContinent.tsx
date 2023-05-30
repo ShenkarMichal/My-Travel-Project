@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import vacationService from "../../../5-Service/VacationsService";
 
 interface SelectContinentProp {
-    onSelect: (data: number) => void
+    onSelect: (data: any) => void
     helperText: string
 }
 
@@ -39,7 +39,7 @@ function SelectContinent(prop: SelectContinentProp): JSX.Element {
                         <MenuItem value="0">
                             <em>None</em>
                         </MenuItem>
-                        {continents.map(c => <MenuItem value={c.continentID} key={c.continentID}>{c.continentName}</MenuItem>)}
+                        {continents && continents.map(c => <MenuItem value={c.continentID} key={c.continentID}>{c.continentName}</MenuItem>)}
                 </Select>
                 <FormHelperText>{prop.helperText}</FormHelperText>
             </FormControl>

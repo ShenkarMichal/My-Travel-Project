@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import "./CssTextField.css";
 import { InputAdornment, TextField } from "@mui/material";
+import { ChangeEvent } from "react";
 
 class InputProp {
     accept?: string
@@ -12,6 +13,8 @@ interface CssTextFieldProp {
     label: string,
     type: string,
     inputProp?: InputProp
+    fieldName: string
+    register?: any
 }
 
 function CssTextField(prop: CssTextFieldProp): JSX.Element {
@@ -35,14 +38,15 @@ function CssTextField(prop: CssTextFieldProp): JSX.Element {
           },
         },
       });
-      
+
+    
     return (
-        <div className="CssTextField">
-            <CssTextField id="standard-basic" label={prop.label} variant="standard" type={prop.type} 
+            <CssTextField id="standard-basic" label={prop.label} variant="standard" type={prop.type} name={prop.fieldName}
                         inputProps={{accept: prop.inputProp?.accept, 
-                                    endAdornment: <InputAdornment position="end">{prop.inputProp?.endAdornment}</InputAdornment>,
-                                    startAdornment: <InputAdornment position="start">{prop.inputProp?.startAdornment}</InputAdornment>}} />			
-        </div>
+                                    endadornment: <InputAdornment position="end">{prop.inputProp?.endAdornment}</InputAdornment>,
+                                    startadornment: <InputAdornment position="start">{prop.inputProp?.startAdornment}</InputAdornment>}}
+                                    {...prop.register}
+                       />			
     );
 }
 

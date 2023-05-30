@@ -1,19 +1,20 @@
-import { useForm } from "react-hook-form";
 import "./AddVacation.css";
 import VacationModel from "../../../../4-Models/VacationModel";
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { Fragment, useEffect, useState } from "react";
 import {ReactComponent as destinationIcon } from '../../../../1-Assets/Icons/trending-up.svg'
 import { ReactComponent as detailsIcon } from '../../../../1-Assets/Icons/clipboard.svg'
 import { ReactComponent as cameraIcon }from '../../../../1-Assets/Icons/camera.svg'
 import { ReactComponent as checkedIcon }from '../../../../1-Assets/Icons/check-circle.svg'
-import StepContent from "../StepContent/StepContent";
-import Register from "../../../AuthArea/Register/Register";
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import StepContent from '@mui/material/StepContent';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import { useState } from "react";
+import StepContentComponent from "../StepContent/StepContentComponent";
+
 
 interface stepsAndIcons {
     index: number,
@@ -23,80 +24,73 @@ interface stepsAndIcons {
 
 function AddVacation(): JSX.Element {
 
-    const {register, handleSubmit} = useForm<VacationModel>()
 
-
+    //Set steps
     const steps: stepsAndIcons[] = [
-        {index: 1,step:'Select destination', icon: destinationIcon },
+        {index: 1,step:'Set destination', icon: destinationIcon },
         {index: 2, step:'Add vacation details',icon: detailsIcon},
         {index: 3, step:'Add image', icon: cameraIcon}
     ];
-    const [activeStep, setActiveStep] = useState<number>(0);
 
-    const handleNext = () => {    
+    //Set the active step
+    const [activeStep, setActiveStep] = useState(0);
+
+    const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        console.log("steps" + steps.length)
-        console.log("activeStep" + activeStep)
-      };
+    };
 
-      const handleBack = () => {
+    const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
-      };   
+    };
 
     async function addVacation(vacation: VacationModel){
         alert("send")
-        console.log("hi")
         console.log(vacation)
-
-
     }
+
     return (
-        <div className="AddVacation">
-            
-            <Box sx={{ width: '80%' }}>
-                <Stepper activeStep={activeStep} alternativeLabel>
-                    {steps.map(s => {
-                        return (
-                            <Step key={s.index}>
-                                <StepLabel StepIconComponent={activeStep < s.index ? s.icon : checkedIcon} >{s.step}</StepLabel>
-                            </Step>
-                        );
-                    })}
-                </Stepper>
-                <form onSubmit={handleSubmit(addVacation)}>
+        <div className="AddVacation">            
+            <Box sx={{ maxWidth: 400 }}>
+                <Stepper activeStep={activeStep} orientation="vertical">
+                    {steps.map((step, index) => (
+                    <Step key={index}>
+                        <StepLabel
+                            //Set the last-step heading in the step of index #2
+                            optional={
+                                index === 2 ? (
+                                <Typography variant="caption">Last step</Typography>
+                                ) : null 
+                            }>
+                            {step.step}
+                        </StepLabel>
+                        <StepContent>
+                            
+                            <Typography>{step.step}<StepContentComponent stepIndex={index} onSubmit={addVacation} onClick={handleNext} /></Typography>
+                            <Box sx={{ mb: 2 }}>
+                                <div>
 
-                    {activeStep === steps.length ? (
-                        <Fragment>
-                            <Typography sx={{ mt: 2, mb: 1 }}>
-                                All steps completed - The vacation has been successfully added
-                            </Typography>
-                        </Fragment>
-                    ) : (
-                        <Fragment>
-
-                            <Typography sx={{ mt: 2, mb: 1 }}>
-                                        <StepContent key={activeStep+1} stepIndex={activeStep+1}/>
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                 <Button
-                                    color="inherit"
-                                    disabled={activeStep === 0}
+                                    disabled={index === 0}
                                     onClick={handleBack}
-                                    sx={{ mr: 1 }}>
+                                    sx={{ mt: 1, mr: 1 }}
+                                >
                                     Back
                                 </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />  
-                                {activeStep === steps.length-1 ? 
-                                    <Button type="submit" onClick={handleNext}>Finish</Button> :
-                                    <Button onClick={handleNext}>Next</Button>
-                                }
+                                </div>
                             </Box>
-                        </Fragment>
-                    )}
-                </form>                            
+                        </StepContent>
+                    </Step>
+                    ))}
 
+                </Stepper>
+                {activeStep === steps.length && (
+                    <Paper square elevation={0} sx={{ p: 3 }}>
+                        <Typography>All steps completed - The vacation has been successfully added</Typography>
+                    </Paper>
+                )}
             </Box>
-        
+
+            
         </div>
     );
 }
