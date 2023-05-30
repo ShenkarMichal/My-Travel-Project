@@ -22,7 +22,13 @@ class VacationsService {
 
     //Add new vacation:
     public async addNewVacation(vacation:VacationModel): Promise<void> {
+        //If the user refresh the app:
+        let vacations = vacationsStore.getState().vacations
+        if(vacations.length === 0){
+            this.getAllVacation()
+        }
 
+        //Use Form-Data for attach files:
         const vacationFormData = new FormData()
         
         vacationFormData.append("destination", vacation.destination)
@@ -42,6 +48,11 @@ class VacationsService {
 
     //Update vacation:
     public async updateVacation(vacation:VacationModel): Promise<void> {
+        //If the user refresh the app:
+        let vacations = vacationsStore.getState().vacations
+        if(vacations.length === 0){
+            this.getAllVacation()
+        }
 
         const response = await axios.put<VacationModel>(appConfig.vacationURL, vacation)
         const newVacation = response.data
@@ -65,6 +76,11 @@ class VacationsService {
 
     //Delete vacation:
     public async deleteVacation(vacationID:number): Promise<void> {
+        //If the user refresh the app:
+        let vacations = vacationsStore.getState().vacations
+        if(vacations.length === 0){
+            this.getAllVacation()
+        }
 
         await axios.delete(appConfig.vacationURL + vacationID)
         //Delete vacation from the store:
@@ -92,7 +108,7 @@ class VacationsService {
         if(continents.length === 0) {
             const response = await axios.get<ContinentModel[]>(appConfig.continentsURL)
             continents = response.data
-            //Save the continents in tthe store:
+            //Save the continents in the store:
             continentsStore.dispatch({type: ContinentsActionType.GetAllContinents, payload: continents})
         }
         return continents
