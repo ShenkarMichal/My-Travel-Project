@@ -17,6 +17,7 @@
     "@types/react-dom": "^18.2.4",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^0.27.2",
+    "date-fns": "^2.30.0",
     "jwt-decode": "^3.1.2",
     "lord-icon-element": "^4.1.1",
     "lottie-web": "^5.11.0",

@@ -7,6 +7,7 @@ import vacationService from "../../../5-Service/VacationsService";
 interface SelectContinentProp {
     onSelect: (data: any) => void
     helperText: string
+    defaultValue?:number
 }
 
 function SelectContinent(prop: SelectContinentProp): JSX.Element {
@@ -35,11 +36,13 @@ function SelectContinent(prop: SelectContinentProp): JSX.Element {
                     label="Continent"
                     className="Select"
                     variant="outlined"
+                    defaultValue={prop.defaultValue}
                     onChange={getSelectValue}>
                         <MenuItem value="0">
                             <em>None</em>
                         </MenuItem>
-                        {continents && continents.map(c => <MenuItem value={c.continentID} key={c.continentID}>{c.continentName}</MenuItem>)}
+                        {continents && continents.map(c =>
+                        <MenuItem value={c.continentID} key={c.continentID} defaultChecked = {c.continentID === prop.defaultValue ? true : false}>{c.continentName}</MenuItem>)}
                 </Select>
                 <FormHelperText>{prop.helperText}</FormHelperText>
             </FormControl>

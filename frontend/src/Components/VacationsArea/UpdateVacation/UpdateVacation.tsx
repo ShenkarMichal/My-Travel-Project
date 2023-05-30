@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StepperComponent, { StepModel } from "../../UtilsComponents/StepperComponent/StepperComponent";
 import "./UpdateVacation.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {ReactComponent as destinationIcon } from '../../../1-Assets/Icons/trending-up.svg'
 import { ReactComponent as detailsIcon } from '../../../1-Assets/Icons/clipboard.svg'
 import { ReactComponent as cameraIcon }from '../../../1-Assets/Icons/camera.svg'
@@ -10,8 +10,31 @@ import VacationModel from "../../../4-Models/VacationModel";
 import { NewVacationActionType, newVacationStore } from "../../../3-Redux/newVacationState";
 import vacationService from "../../../5-Service/VacationsService";
 import UpdateStepperContent from "./UpdateStepperContent/UpdateStepperContent";
+import { format, isValid, parse } from 'date-fns'
+
 
 function UpdateVacation(): JSX.Element {
+
+    const [vacation, setVacation] = useState<VacationModel>()
+    const vacationID = +useParams().vacationID
+    useEffect(() => {
+        vacationService.getOneVacation(vacationID)
+          .then(v => {
+            const parsedStartDate = parse(v.startDate, 'dd/MM/yyyy', new Date());
+            const parsedEndDate = parse(v.endDate, 'dd/MM/yyyy', new Date());
+      
+            if (isValid(parsedStartDate) && isValid(parsedEndDate)) {
+              const formattedStartDate = format(parsedStartDate, 'yyyy-MM-dd');
+              const formattedEndDate = format(parsedEndDate, 'yyyy-MM-dd');
+              const updatedVacation = { ...v, startDate: formattedStartDate, endDate: formattedEndDate };
+      
+              setVacation(updatedVacation);
+            } else {
+              console.log('Invalid date format');
+            }
+          })
+          .catch(err => console.log(err));
+      }, []);
     
     const navigate = useNavigate()
 
@@ -26,10 +49,15 @@ function UpdateVacation(): JSX.Element {
     ];
 
     //Function on Finish-Handler
-    async function updateVacation(vacation: VacationModel){
+    async function updateVacation(updateVacation: VacationModel){
         try {
-            saveCurrentForm(vacation)
-            const newVacation = newVacationStore.getState().vacation
+            saveCurrentForm(updateVacation)
+            let newVacation = newVacationStore.getState().vacation            
+            newVacation = {...newVacation, vacationID:vacationID}
+            //Save the current continentID if is not change:
+            if(!newVacation.continentID){
+                newVacation = {...newVacation, continentID:vacation.continentID}
+            }
             await vacationService.updateVacation(newVacation)
             alert("The vacation has been succssefuly update")
             navigate("/vacations")
@@ -52,14 +80,15 @@ function UpdateVacation(): JSX.Element {
 
     return (
         <div className="UpdateVacation">
+            {vacation &&
 			<StepperComponent 
                 steps={steps} 
-                stepContent={<UpdateStepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={updateVacation} />} 
+                stepContent={<UpdateStepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={updateVacation} vacation={vacation} />} 
                 endMsg={"All steps completed - The vacation has been successfully update"} 
                 heading={"Have a new place to travel?"}
                 handleBack={handleBack}
                 activeStep={activeStep}
-            />            
+            />}  
         </div>
     );
 }

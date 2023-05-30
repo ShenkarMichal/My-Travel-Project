@@ -54,7 +54,7 @@ class VacationsService {
             this.getAllVacation()
         }
 
-        const response = await axios.put<VacationModel>(appConfig.vacationURL, vacation)
+        const response = await axios.put<VacationModel>(appConfig.vacationURL+vacation.vacationID, vacation)
         const newVacation = response.data
 
         //Update the vacation in the store:
@@ -64,11 +64,12 @@ class VacationsService {
     //Get one specific vacation:
     public async getOneVacation(vacationID:number): Promise<VacationModel> {
 
-        let vacation = vacationsStore.getState().vacations.find(v => v.vacationID === vacationID)
+        const vacations = vacationsStore.getState().vacations
+        let vacation = vacations.find(v => v.vacationID === vacationID)
         //If the vacation is not exists in the store:
         if(!vacation){
             const response = await axios.get<VacationModel>(appConfig.vacationURL + vacationID)
-            vacation = response.data            
+            vacation = response.data  
         }
 
         return vacation
