@@ -54,7 +54,19 @@ class VacationsService {
             this.getAllVacation()
         }
 
-        const response = await axios.put<VacationModel>(appConfig.vacationURL+vacation.vacationID, vacation)
+        //Use Form-Data for attach files:
+        const vacationFormData = new FormData()
+        
+        vacationFormData.append("destination", vacation.destination)
+        vacationFormData.append("description", vacation.description)
+        vacationFormData.append("continentID", vacation.continentID.toLocaleString())
+        vacationFormData.append("price", vacation.price.toLocaleString())
+        vacationFormData.append("startDate", vacation.startDate.toLocaleString())
+        vacationFormData.append("endDate", vacation.endDate.toLocaleString())
+        vacationFormData.append("image", vacation.image[0])
+        
+
+        const response = await axios.put<VacationModel>(appConfig.vacationURL+vacation.vacationID, vacationFormData)
         const newVacation = response.data
 
         //Update the vacation in the store:
