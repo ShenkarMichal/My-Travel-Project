@@ -35,10 +35,10 @@ class VacationModel {
         endDate: Joi.date().iso().min(Joi.ref('startDate')).required(),
         duration: Joi.number().optional().integer().positive(),
         price: Joi.number().required().min(0).max(10000).positive(),
-        imageName: Joi.string().optional().valid('image/jpg', 'image/png'), //The file must be with jpg/png extention.
+        imageName: Joi.string().optional().valid('image/*'), //The file must be an image file
         image: Joi.object({
             size: Joi.number().max(10 * 1024 * 1024).required(), //The file size nust be less than 5mb
-          }).required().options({stripUnknown: true}),
+          }).optional().options({stripUnknown: true}),
     })
 
     public validate(): string {

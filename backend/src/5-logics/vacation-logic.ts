@@ -43,11 +43,17 @@ async function updateVacation(vacation:VacationModel): Promise<VacationModel> {
     const err = vacation.validate()
     if(err) throw new ValidationErrorModel(err)
 
-    //Generate imageName:
-    generateImageName(vacation)
+    const imageName = await getVacationImageName(vacation.vacationID)
 
-    //Delete the current image from folder:
-    await deleteImageFile(vacation.imageName)
+    if(vacation.image){
+        //Generate imageName:
+        generateImageName(vacation)
+        //Delete the current image from folder:
+        await deleteImageFile(imageName)
+    }    
+    else {
+        vacation.imageName = imageName
+    }
 
     //Update the vacation in database:
     const sql = `UPDATE vacations 

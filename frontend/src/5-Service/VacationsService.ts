@@ -63,8 +63,7 @@ class VacationsService {
         vacationFormData.append("price", vacation.price.toLocaleString())
         vacationFormData.append("startDate", vacation.startDate.toLocaleString())
         vacationFormData.append("endDate", vacation.endDate.toLocaleString())
-        vacationFormData.append("image", vacation.image[0])
-        
+        if(vacation.image) vacationFormData.append("image", vacation.image[0])        
 
         const response = await axios.put<VacationModel>(appConfig.vacationURL+vacation.vacationID, vacationFormData)
         const newVacation = response.data
@@ -126,6 +125,7 @@ class VacationsService {
         }
         return continents
     }
+
 }
 
 const vacationService = new VacationsService()

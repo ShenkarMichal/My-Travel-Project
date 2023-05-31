@@ -4,7 +4,8 @@ import SelectContinent from "../../../UtilsComponents/SelectContinent/SelectCont
 import "./UpdateStepperContent.css";
 import VacationModel from "../../../../4-Models/VacationModel";
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import appConfig from "../../../../2-Utils/Config";
 
 interface UpdateStepperContentProp {
     stepIndex: number
@@ -15,15 +16,21 @@ interface UpdateStepperContentProp {
 
 function UpdateStepperContent(prop: UpdateStepperContentProp): JSX.Element {
 
-
-
     const {register, handleSubmit, formState, setValue} = useForm<VacationModel>()
 
+    //Get the value from the select-continent box:
     function getSelectValue(value: number) {
+        setValue("continentID" ,value)                
+    }
 
+    //Save the upload-file and it's url:
+    const [fileUpLoad, setFileUpLoad] = useState<string>()
 
-        setValue("continentID" ,value)
-                
+    function handleChangeFile(event: ChangeEvent<HTMLInputElement>){
+        const uploadFile = event.target.files
+        setFileUpLoad(URL.createObjectURL(uploadFile[0]))
+        console.log(uploadFile)
+        setValue("image", uploadFile)
     }
 
     const stepContent = [
@@ -47,8 +54,12 @@ function UpdateStepperContent(prop: UpdateStepperContentProp): JSX.Element {
                             register={register("price")} defaultValue={prop.vacation?.price} /> <br />
 
         </div>,
-        <div className="stepContent">
-            <CssTextField label="Image" type="file" inputProp={{accept: "image/*"}} fieldName="image" register={register("image")}/> <br />
+        <div className="stepContent" >
+            <CssTextField label="Image" type="file" inputProp={{accept: "image/*"}} 
+                        fieldName="image" onChange={handleChangeFile}/> <br />
+            {fileUpLoad ? <img src={fileUpLoad} width={150}/> :
+                <img src={appConfig.vacationImageURL + prop.vacation.vacationID} width={150} />
+            }
         </div>
     ]
     return (

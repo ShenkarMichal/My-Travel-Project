@@ -14,8 +14,9 @@ interface CssTextFieldProp {
     type: string,
     inputProp?: InputProp
     fieldName: string
-    register: any
+    register?: any
     defaultValue?: any
+    onChange?: (event: ChangeEvent<HTMLInputElement>)=> void
 }
 
 function CssTextField(prop: CssTextFieldProp): JSX.Element {
@@ -49,6 +50,7 @@ function CssTextField(prop: CssTextFieldProp): JSX.Element {
                                     endadornment: <InputAdornment position="end">{prop.inputProp?.endAdornment}</InputAdornment>,
                                     startadornment: <InputAdornment position="start">{prop.inputProp?.startAdornment}</InputAdornment>}}
                                     {...prop.register}
+                                    onChange={prop.onChange}
                        />			
         </>
     );
