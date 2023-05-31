@@ -15,8 +15,8 @@ class VacationModel {
 
     public static destinationValidate = {
         required: {value: true, message: "Destination is missing"},
-        min: {value: 5, message: "Destination is too short"},
-        max: {value: 35, message: "Destination is too long"}
+        minLength: {value: 5, message: "Destination is too short"},
+        maxLength: {value: 35, message: "Destination is too long"}
     }
 
     public static continentIDValidate = {
@@ -31,16 +31,16 @@ class VacationModel {
 
     public static startDateValidate = {
         required: {value: true, message: "Date is missing"},
-        // pattern: {value: /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/, message: "Date nust be in a valid date format"},
-        // validate: (value: Date, { now = new Date() }) =>
-        // value >= now || "Date is too early"
+        validate: (value: string) =>{
+        const now = new Date().toISOString()
+        return value >= now || "Date is too early"
+        }
     }
 
     public static endDateValidate = {
             required: {value: true, message: "Date is missing"},
-            // pattern: {value: /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/, message: "Date nust be in a valid date format"},
             validate: (value: string, { startDate }: VacationModel) =>
-            value > startDate || "End must be kater then the start-date"
+            value > startDate || "End must be later than the start-date"
     }
 
     public static priceValidate = {

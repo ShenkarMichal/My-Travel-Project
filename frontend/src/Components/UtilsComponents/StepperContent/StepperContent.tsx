@@ -12,6 +12,7 @@ interface StepperContentProp {
     onSubmit: (data: VacationModel) => void
     onClick: (data: VacationModel)=>void
     vacation?: VacationModel
+    imageErrorMsg?: string  
 }
 
 function StepperContent(prop: StepperContentProp): JSX.Element {
@@ -37,42 +38,52 @@ function StepperContent(prop: StepperContentProp): JSX.Element {
         setFileName(uploadFile[0].name)
     }
 
-    const stepContent = [
-        <div className="stepContent">
-            <CssTextField label={"Destination"} type={"text"} fieldName="destination" 
-                        register={register("destination")} defaultValue={prop.vacation?.destination}/>
-            <SelectContinent onSelect={getSelectValue} helperText={"Select the continent of the vacation"} 
-                        defaultValue={prop.vacation?.continentID}/>
-
-        </div>,
-        <div className="stepContent">
-            <CssTextField label={"Description"} type={"text"} fieldName="description"  
-                        register={register("description")} defaultValue={prop.vacation?.description}/> <br />
-
-            <CssTextField label={"From"} type={"date"} fieldName="startDate" 
-                        register={register("startDate")} defaultValue={prop.vacation?.startDate} /> <br />
-
-            <CssTextField label={"To"} type={"date"} fieldName="endDate" 
-                        register={register("endDate")} defaultValue={prop.vacation?.endDate} /> <br />
-
-            <CssTextField label="Price" type="number" inputProp={{endAdornment: "$"}} fieldName="price" 
-                        register={register("price")} defaultValue={prop.vacation?.price} /> <br />
-
-        </div>,
-        <div className="stepContent" >
-            <label htmlFor="input-file" className="inputFileLabel">{fileName || "Select File"}</label>
-            <CssTextField id="input-file" label="Image" type="file" inputProp={{accept: "image/*"}} 
-                        fieldName="image" onChange={handleChangeFile}/> <br />
-            {fileUpLoad ? <img src={fileUpLoad} width={150}/> :
-                    <img src={appConfig.vacationImageURL + prop.vacation?.vacationID} width={150} />
-            }
-        </div>
-    ]
     return (
         <div className="UpdateStepperContent">
-            <form onSubmit={handleSubmit(prop.onSubmit)}>
-            {stepContent[prop.stepIndex]} 
-            {prop.stepIndex === stepContent.length-1 ? 
+            <form onSubmit={handleSubmit(prop.onSubmit)} >
+                {prop.stepIndex === 0 &&
+                    <div className="stepContent">
+                        <CssTextField label={"Destination"} type={"text"} fieldName="destination" 
+                            register={register("destination", VacationModel.destinationValidate)} defaultValue={prop.vacation?.destination}/>
+                        <span className="ErrorMsg">{formState.errors.destination?.message}</span><br/>
+
+                        <SelectContinent onSelect={getSelectValue} helperText={"Select the continent of the vacation"} 
+                            defaultValue={prop.vacation?.continentID}/>
+                    </div>
+                }
+                {prop.stepIndex === 1 &&
+                    <div className="stepContent">
+                        <CssTextField label={"Description"} type={"text"} fieldName="description"  
+                            register={register("description", VacationModel.descriptionValidate)} defaultValue={prop.vacation?.description}/> <br />
+                        <span className="ErrorMsg">{formState.errors.description?.message}</span>
+
+                        <CssTextField label={"From"} type={"date"} fieldName="startDate" 
+                            register={register("startDate", VacationModel.startDateValidate)} defaultValue={prop.vacation?.startDate} /> <br />
+                        <span className="ErrorMsg">{formState.errors.startDate?.message}</span>
+
+                        <CssTextField label={"To"} type={"date"} fieldName="endDate" 
+                            register={register("endDate", VacationModel.endDateValidate)} defaultValue={prop.vacation?.endDate} /> <br />
+                        <span className="ErrorMsg">{formState.errors.endDate?.message}</span>
+
+                        <CssTextField label="Price" type="number" inputProp={{endAdornment: "$"}} fieldName="price" 
+                            register={register("price", VacationModel.priceValidate)} defaultValue={prop.vacation?.price} /> <br />
+                        <span className="ErrorMsg">{formState.errors.price?.message}</span>                       
+                    </div>
+                }
+                {prop.stepIndex === 2 &&
+                    <div className="stepContent" >
+                        <label htmlFor="input-file" className="inputFileLabel">{fileName || "Select File"}</label>
+                        <CssTextField id="input-file" label="Image" type="file" inputProp={{accept: "image/*"}} 
+                                    fieldName="image" onChange={handleChangeFile}/> <br />
+                        {prop.imageErrorMsg && 
+                            <span className="ErrorMsg">Image is required</span>    
+                        }
+                        {fileUpLoad ? <img src={fileUpLoad} width={150}/> :
+                                <img src={appConfig.vacationImageURL + prop.vacation?.vacationID} />
+                        }
+                    </div>
+                }
+            {prop.stepIndex === 2 ? 
               <Button onClick={handleSubmit(prop.onClick)} color="inherit">Finish</Button> :
               <Button type="submit" color="inherit">Next</Button>
             }

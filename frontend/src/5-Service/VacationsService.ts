@@ -28,6 +28,8 @@ class VacationsService {
             this.getAllVacation()
         }
 
+        console.log(vacation)
+
         //Use Form-Data for attach files:
         const vacationFormData = new FormData()
         

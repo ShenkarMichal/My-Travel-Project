@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import VacationCard from "../VacationCard/VacationCard";
 import "./VacationsList.css";
 import VacationModel from "../../../4-Models/VacationModel";
@@ -10,12 +10,38 @@ import { NavLink } from "react-router-dom";
 function VacationsList(): JSX.Element {
   const [vacations, setVacations] = useState<VacationModel[]>([]);
 
+  const cardRef = useRef(null);
+  
   useEffect(() => {
     vacationService
       .getAllVacation()
       .then((v) => setVacations(v))
       .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    const cardWidth = '200';
+    const cardCount = vacations.length;
+    const marqueeReset = -10;
+
+    cardRef.current.style.setProperty('--card-width', `${cardWidth}px`);
+    cardRef.current.style.setProperty('--card-count', `${cardCount}`);
+    cardRef.current.style.setProperty('--marquee-reset', `${marqueeReset}%`);
+    
+    const marqueeAnimation = `marquee ${vacations.length * 3}s linear infinite`;
+
+    cardRef.current.style.animation = marqueeAnimation;
+    cardRef.current.style.animationDuration = `${vacations.length * 3}s`;
+    cardRef.current.style.animationTimingFunction = 'linear';
+    cardRef.current.style.animationIterationCount = 'infinite';
+
+    return () => {
+      cardRef.current.style.removeProperty('--card-width');
+      cardRef.current.style.removeProperty('--card-count');
+      cardRef.current.style.removeProperty('--marquee-offset');
+      cardRef.current.style.removeProperty('--marquee-reset');
+    };
+  }, [vacations]);
 
 
   return (
@@ -32,7 +58,7 @@ function VacationsList(): JSX.Element {
 
       <div className="marquee-container">
           <div className="marquee">
-              <div className="marquee-content">
+              <div className="marquee-content" ref={cardRef}>
                   {vacations.map((v) => (
                   <NavLink to={`/vacations/${v.vacationID}`} key={v.vacationID}><VacationCard key={v.vacationID} vacation={v} /></NavLink>
                   ))}

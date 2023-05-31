@@ -53,7 +53,7 @@
   
 .VacationsList .marquee-content {
   display: flex;
-  animation: marquee 25s linear infinite;
+  animation: marquee 5s linear infinite;
   position: relative;
   z-index: 999;
 }
@@ -64,15 +64,16 @@
   margin-right: 2vw; 
   display: flex;
 }
+
   
-  @keyframes marquee {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(-200%);
-    }
+@keyframes marquee {
+  0% {
+    transform: translateX(110%);
   }
+  100% {
+    transform: translateX(calc(var(--marquee-reset) - var(--card-width) * var(--card-count)));
+  }
+}
   
   @keyframes marquee-content {
     0% {
