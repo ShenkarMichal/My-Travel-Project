@@ -1,20 +1,20 @@
 import { useForm } from "react-hook-form";
-import CssTextField from "../../../UtilsComponents/CssTextField/CssTextField";
-import SelectContinent from "../../../UtilsComponents/SelectContinent/SelectContinent";
-import "./UpdateStepperContent.css";
-import VacationModel from "../../../../4-Models/VacationModel";
+import CssTextField from "../CssTextField/CssTextField";
+import SelectContinent from "../SelectContinent/SelectContinent";
+import "./StepperContent.css";
+import VacationModel from "../../../4-Models/VacationModel";
 import { Button } from "@mui/material";
 import { ChangeEvent, useState } from "react";
-import appConfig from "../../../../2-Utils/Config";
+import appConfig from "../../../2-Utils/Config";
 
-interface UpdateStepperContentProp {
+interface StepperContentProp {
     stepIndex: number
     onSubmit: (data: VacationModel) => void
     onClick: (data: VacationModel)=>void
-    vacation: VacationModel
+    vacation?: VacationModel
 }
 
-function UpdateStepperContent(prop: UpdateStepperContentProp): JSX.Element {
+function StepperContent(prop: StepperContentProp): JSX.Element {
 
     const {register, handleSubmit, formState, setValue} = useForm<VacationModel>()
 
@@ -40,22 +40,23 @@ function UpdateStepperContent(prop: UpdateStepperContentProp): JSX.Element {
     const stepContent = [
         <div className="stepContent">
             <CssTextField label={"Destination"} type={"text"} fieldName="destination" 
-                            register={register("destination")} defaultValue={prop.vacation?.destination}/>
-            <SelectContinent onSelect={getSelectValue} helperText={"Select the continent of the vacation"} defaultValue={prop.vacation?.continentID}/>
+                        register={register("destination")} defaultValue={prop.vacation?.destination}/>
+            <SelectContinent onSelect={getSelectValue} helperText={"Select the continent of the vacation"} 
+                        defaultValue={prop.vacation?.continentID}/>
 
         </div>,
         <div className="stepContent">
             <CssTextField label={"Description"} type={"text"} fieldName="description"  
-                            register={register("description")} defaultValue={prop.vacation?.description}/> <br />
+                        register={register("description")} defaultValue={prop.vacation?.description}/> <br />
 
             <CssTextField label={"From"} type={"date"} fieldName="startDate" 
-                            register={register("startDate")} defaultValue={prop.vacation?.startDate} /> <br />
+                        register={register("startDate")} defaultValue={prop.vacation?.startDate} /> <br />
 
             <CssTextField label={"To"} type={"date"} fieldName="endDate" 
-                            register={register("endDate")} defaultValue={prop.vacation?.endDate} /> <br />
+                        register={register("endDate")} defaultValue={prop.vacation?.endDate} /> <br />
 
             <CssTextField label="Price" type="number" inputProp={{endAdornment: "$"}} fieldName="price" 
-                            register={register("price")} defaultValue={prop.vacation?.price} /> <br />
+                        register={register("price")} defaultValue={prop.vacation?.price} /> <br />
 
         </div>,
         <div className="stepContent" >
@@ -63,7 +64,7 @@ function UpdateStepperContent(prop: UpdateStepperContentProp): JSX.Element {
             <CssTextField id="input-file" label="Image" type="file" inputProp={{accept: "image/*"}} 
                         fieldName="image" onChange={handleChangeFile}/> <br />
             {fileUpLoad ? <img src={fileUpLoad} width={150}/> :
-                <img src={appConfig.vacationImageURL + prop.vacation.vacationID} width={150} />
+                    <img src={appConfig.vacationImageURL + prop.vacation?.vacationID} width={150} />
             }
         </div>
     ]
@@ -81,4 +82,4 @@ function UpdateStepperContent(prop: UpdateStepperContentProp): JSX.Element {
     );
 }
 
-export default UpdateStepperContent;
+export default StepperContent;

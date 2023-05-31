@@ -1,15 +1,15 @@
 import "./AddVacation.css";
-import VacationModel from "../../../../4-Models/VacationModel";
+import VacationModel from "../../../4-Models/VacationModel";
 import {ReactComponent as destinationIcon } from '../../../../1-Assets/Icons/trending-up.svg'
 import { ReactComponent as detailsIcon } from '../../../../1-Assets/Icons/clipboard.svg'
 import { ReactComponent as cameraIcon }from '../../../../1-Assets/Icons/camera.svg'
 import { ReactComponent as checkedIcon }from '../../../../1-Assets/Icons/check-circle.svg'
 import { useState } from "react";
-import StepContentComponent from "../StepContent/StepContentComponent";
-import { NewVacationActionType, newVacationStore } from "../../../../3-Redux/newVacationState";
-import vacationService from "../../../../5-Service/VacationsService";
+import { NewVacationActionType, newVacationStore } from "../../../3-Redux/newVacationState";
+import vacationService from "../../../5-Service/VacationsService";
 import { useNavigate } from "react-router-dom";
-import StepperComponent, { StepModel } from "../../../UtilsComponents/StepperComponent/StepperComponent";
+import StepperComponent, { StepModel } from "../../UtilsComponents/StepperComponent/StepperComponent";
+import StepperContent from "../../UtilsComponents/StepperContent/StepperContent";
 
 function AddVacation(): JSX.Element {
 
@@ -55,7 +55,7 @@ function AddVacation(): JSX.Element {
         <div className="AddVacation"> 
             <StepperComponent 
                 steps={steps} 
-                stepContent={<StepContentComponent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={saveNewVacation} />} 
+                stepContent={<StepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={saveNewVacation} />} 
                 endMsg={"All steps completed - The vacation has been successfully added"} 
                 heading={"Have a new place to travel?"}
                 handleBack={handleBack}

@@ -9,8 +9,8 @@ import PasswordRecovery from "../../AuthArea/PasswordRecovery/PasswordRecovery";
 import UpdatePassword from "../../AuthArea/UpdatePassword/UpdatePassword";
 import ContinentArea from "../../VacationsArea/ContinentArea/ContinentArea";
 import DateArea from "../../VacationsArea/DateArea/DateArea";
-import AddVacation from "../../VacationsArea/AddVacation/AddVacation/AddVacation";
-import UpdateVacation from "../../VacationsArea/UpdateVacation/UpdateVacation/UpdateVacation";
+import AddVacation from "../../VacationsArea/AddVacation/AddVacation";
+import UpdateVacation from "../../VacationsArea/UpdateVacation/UpdateVacation";
 
 function Routing(): JSX.Element {
     return (

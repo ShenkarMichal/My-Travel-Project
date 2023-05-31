@@ -1,16 +1,16 @@
 import { useNavigate, useParams } from "react-router-dom";
-import StepperComponent, { StepModel } from "../../../UtilsComponents/StepperComponent/StepperComponent";
+import StepperComponent, { StepModel } from "../../UtilsComponents/StepperComponent/StepperComponent";
 import "./UpdateVacation.css";
 import { useEffect, useState } from "react";
 import {ReactComponent as destinationIcon } from '../../../../1-Assets/Icons/trending-up.svg'
 import { ReactComponent as detailsIcon } from '../../../../1-Assets/Icons/clipboard.svg'
 import { ReactComponent as cameraIcon }from '../../../../1-Assets/Icons/camera.svg'
 import { ReactComponent as checkedIcon }from '../../../../1-Assets/Icons/check-circle.svg'
-import VacationModel from "../../../../4-Models/VacationModel";
-import { NewVacationActionType, newVacationStore } from "../../../../3-Redux/newVacationState";
-import vacationService from "../../../../5-Service/VacationsService";
-import UpdateStepperContent from "../UpdateStepperContent/UpdateStepperContent";
+import VacationModel from "../../../4-Models/VacationModel";
+import { NewVacationActionType, newVacationStore } from "../../../3-Redux/newVacationState";
+import vacationService from "../../../5-Service/VacationsService";
 import { format, isValid, parse } from 'date-fns'
+import StepperContent from "../../UtilsComponents/StepperContent/StepperContent";
 
 
 function UpdateVacation(): JSX.Element {
@@ -85,7 +85,7 @@ function UpdateVacation(): JSX.Element {
             {vacation &&
 			<StepperComponent 
                 steps={steps} 
-                stepContent={<UpdateStepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={updateVacation} vacation={vacation} />} 
+                stepContent={<StepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={updateVacation} vacation={vacation} />} 
                 endMsg={"All steps completed - The vacation has been successfully update"} 
                 heading={"Have a new place to travel?"}
                 handleBack={handleBack}
