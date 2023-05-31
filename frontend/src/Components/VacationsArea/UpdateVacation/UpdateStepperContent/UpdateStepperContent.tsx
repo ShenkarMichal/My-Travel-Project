@@ -26,11 +26,15 @@ function UpdateStepperContent(prop: UpdateStepperContentProp): JSX.Element {
     //Save the upload-file and it's url:
     const [fileUpLoad, setFileUpLoad] = useState<string>()
 
+    //Save the file name for the label of the input:
+    const [fileName, setFileName] = useState('')
+
     function handleChangeFile(event: ChangeEvent<HTMLInputElement>){
         const uploadFile = event.target.files
         setFileUpLoad(URL.createObjectURL(uploadFile[0]))
         console.log(uploadFile)
         setValue("image", uploadFile)
+        setFileName(uploadFile[0].name)
     }
 
     const stepContent = [
@@ -55,7 +59,8 @@ function UpdateStepperContent(prop: UpdateStepperContentProp): JSX.Element {
 
         </div>,
         <div className="stepContent" >
-            <CssTextField label="Image" type="file" inputProp={{accept: "image/*"}} 
+            <label htmlFor="input-file" className="inputFileLabel">{fileName || "Select File"}</label>
+            <CssTextField id="input-file" label="Image" type="file" inputProp={{accept: "image/*"}} 
                         fieldName="image" onChange={handleChangeFile}/> <br />
             {fileUpLoad ? <img src={fileUpLoad} width={150}/> :
                 <img src={appConfig.vacationImageURL + prop.vacation.vacationID} width={150} />
