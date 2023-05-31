@@ -3,9 +3,10 @@ import CssTextField from "../CssTextField/CssTextField";
 import SelectContinent from "../SelectContinent/SelectContinent";
 import "./StepperContent.css";
 import VacationModel from "../../../4-Models/VacationModel";
-import { Button } from "@mui/material";
+import { Button, TextareaAutosize } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import appConfig from "../../../2-Utils/Config";
+import CssTextArea from "../CssTextArea/CssTextArea";
 
 interface StepperContentProp {
     stepIndex: number
@@ -53,8 +54,8 @@ function StepperContent(prop: StepperContentProp): JSX.Element {
                 }
                 {prop.stepIndex === 1 &&
                     <div className="stepContent">
-                        <CssTextField label={"Description"} type={"text"} fieldName="description"  
-                            register={register("description", VacationModel.descriptionValidate)} defaultValue={prop.vacation?.description}/> <br />
+                        <CssTextArea placeHolder="Description" defaultValue={prop.vacation?.description} 
+                            register={register("description", VacationModel.descriptionValidate)} /> <br />
                         <span className="ErrorMsg">{formState.errors.description?.message}</span>
 
                         <CssTextField label={"From"} type={"date"} fieldName="startDate" 
