@@ -80,6 +80,7 @@ function UpdateVacation(): JSX.Element {
         newVacationStore.dispatch({type: NewVacationActionType.SaveNewVacation, payload: vacation})
     }
 
+
     return (
         <div className="UpdateVacation">
             {vacation &&

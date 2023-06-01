@@ -32,8 +32,8 @@ function CssTextArea(prop: CssTextAreaProp): JSX.Element {
       };
     
       const StyledTextarea = styled(TextareaAutosize)(
-        ({ theme }) => `
-        width: 320px;
+        ({ theme }: any) => `
+        width: 80%;
         font-family: IBM Plex Sans, sans-serif;
         font-size: 0.875rem;
         font-weight: 400;

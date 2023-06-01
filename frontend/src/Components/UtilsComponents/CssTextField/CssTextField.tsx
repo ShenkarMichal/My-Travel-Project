@@ -49,10 +49,12 @@ function CssTextField(prop: CssTextFieldProp): JSX.Element {
                           name={prop.fieldName} fullWidth defaultValue={prop?.defaultValue}
                           inputProps={{accept: prop.inputProp?.accept, 
                                     endadornment: <InputAdornment position="end">{prop.inputProp?.endAdornment}</InputAdornment>,
-                                    startadornment: <InputAdornment position="start">{prop.inputProp?.startAdornment}</InputAdornment>}}
+                                    startadornment: <InputAdornment position="start">{prop.inputProp?.startAdornment}</InputAdornment>,
+                                    shrink: true}}
                                     {...prop.register}
                                     onChange={prop.onChange}
                                     id = {prop.id}
+
                                     
                                     
                        />			

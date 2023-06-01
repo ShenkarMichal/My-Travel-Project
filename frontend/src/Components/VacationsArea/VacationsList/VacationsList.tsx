@@ -24,9 +24,9 @@ function VacationsList(): JSX.Element {
     const cardCount = vacations.length;
     const marqueeReset = -10;
 
-    cardRef.current.style.setProperty('--card-width', `${cardWidth}px`);
-    cardRef.current.style.setProperty('--card-count', `${cardCount}`);
-    cardRef.current.style.setProperty('--marquee-reset', `${marqueeReset}%`);
+    cardRef.current?.style.setProperty('--card-width', `${cardWidth}px`);
+    cardRef.current?.style.setProperty('--card-count', `${cardCount}`);
+    cardRef.current?.style.setProperty('--marquee-reset', `${marqueeReset}%`);
     
     const marqueeAnimation = `marquee ${vacations.length * 3}s linear infinite`;
 

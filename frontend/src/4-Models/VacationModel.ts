@@ -49,11 +49,6 @@ class VacationModel {
         max: {value: 10000 , message: "Price is too high"}        
     }
 
-    public static imageValidate = {
-        required: {value: true, message: "Image is missing"}     
-    }
-
-
 }
 
 export default VacationModel
