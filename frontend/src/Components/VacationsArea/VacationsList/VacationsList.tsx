@@ -35,12 +35,6 @@ function VacationsList(): JSX.Element {
     cardRef.current.style.animationTimingFunction = 'linear';
     cardRef.current.style.animationIterationCount = 'infinite';
 
-    return () => {
-      cardRef.current.style.removeProperty('--card-width');
-      cardRef.current.style.removeProperty('--card-count');
-      cardRef.current.style.removeProperty('--marquee-offset');
-      cardRef.current.style.removeProperty('--marquee-reset');
-    };
   }, [vacations]);
 
 

@@ -11,6 +11,10 @@ import ContinentArea from "../../VacationsArea/ContinentArea/ContinentArea";
 import DateArea from "../../VacationsArea/DateArea/DateArea";
 import AddVacation from "../../VacationsArea/AddVacation/AddVacation";
 import UpdateVacation from "../../VacationsArea/UpdateVacation/UpdateVacation";
+import About from "../../More/About/About";
+import Profile from "../../AuthArea/Profile/Profile";
+import UserVacations from "../../AuthArea/UserVacations/UserVacations";
+import Contact from "../../More/Contact/Contact";
 
 function Routing(): JSX.Element {
     return (
@@ -21,6 +25,8 @@ function Routing(): JSX.Element {
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/recovery" element={<PasswordRecovery />} />
                 <Route path="/auth/recovery/update-password/:email" element={<UpdatePassword />} />
+                <Route path="/auth/profile" element={<Profile />} />
+                <Route path="/auth/vacations" element={<UserVacations />} />
 
                 {/* Vacations Routes: */}
                 <Route path="/vacations" element={<VacationsList />} />
@@ -29,6 +35,10 @@ function Routing(): JSX.Element {
                 <Route path="/vacations/filter/by-date" element={<DateArea />} />
                 <Route path="/vacations/new" element={<AddVacation />} />
                 <Route path="/vacations/update/:vacationID" element={<UpdateVacation />} />
+
+                {/* More links: */}
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
 
                 {/* Default Route: */}
                 <Route path="/" element={<Navigate to="/auth/login" />} />

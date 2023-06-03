@@ -5,18 +5,31 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import lottie from 'lottie-web';
+import { defineElement } from "lord-icon-element";
+import authService from "../../../5-Service/AuthService";
+
 
 function Header(): JSX.Element {
-    const pages = ['Products', 'Pricing', 'Blog'];
-    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+    defineElement(lottie.loadAnimation)
+
+    const pages = [
+        {page: 'Contact Us', link:'/contact' },
+        {page: 'About Us', link:'/about' },
+    ];
+    const settings = [
+        {head: 'Profile', link: "/auth/profile"},
+        {head: 'My Travels', link: "/auth/vacations"},
+        {head: 'Logout', link: "/auth/login" }
+    ];
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -32,7 +45,11 @@ function Header(): JSX.Element {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = () => {
+    const handleCloseUserMenu = (head: string) => {
+        if(head === "Logout"){
+            authService.logout()
+            alert("Goodbye, we look forward to seeing you again soon!!")
+        }
         setAnchorElUser(null);
     };
 
@@ -41,89 +58,28 @@ function Header(): JSX.Element {
             <AppBar position="static" color="transparent" style={{boxShadow: "none"}}>
                 <Container maxWidth="xl" >
                     <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                        mr: 2,
-                        display: { xs: 'none', md: 'flex' },
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        letterSpacing: '.3rem',
-                        color: 'inherit',
-                        textDecoration: 'none',
-                        }}
-                    >
-                        LOGO
-                    </Typography>
-
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleOpenNavMenu}
-                        color="inherit"
+                    <NavLink to={"/vacations"}>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            sx={{
+                            mr: 2,
+                            display: { xs: 'none', md: 'flex' },
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.2rem',
+                            color: "white",
+                            textDecoration: 'none',
+                            }}
                         >
-                        <MenuIcon />
-                        </IconButton>
-                        <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu}
-                        sx={{
-                            display: { xs: 'block', md: 'none' },
-                        }}
-                        >
-                        {pages.map((page) => (
-                            <MenuItem key={page} onClick={handleCloseNavMenu}>
-                            <Typography textAlign="center">{page}</Typography>
-                            </MenuItem>
-                        ))}
-                        </Menu>
-                    </Box>
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href=""
-                        sx={{
-                        mr: 2,
-                        display: { xs: 'flex', md: 'none' },
-                        flexGrow: 1,
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        letterSpacing: '.3rem',
-                        color: 'inherit',
-                        textDecoration: 'none',
-                        }}
-                    >
-                        LOGO
-                    </Typography>
+                            My Travel
+                        </Typography>
+                    </NavLink>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
-                        <Button
-                            key={page}
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            {page}
-                        </Button>
+                        <NavLink to={page.link} key={page.page}>
+                                {page.page}
+                        </NavLink>
                         ))}
                     </Box>
 
@@ -150,9 +106,11 @@ function Header(): JSX.Element {
                         onClose={handleCloseUserMenu}
                         >
                         {settings.map((setting) => (
-                            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">{setting}</Typography>
-                            </MenuItem>
+                            <NavLink to={setting.link} key={setting.head}>
+                                <MenuItem  onClick={()=>handleCloseUserMenu(setting.head)}>
+                                    <Typography className="user-menu" textAlign="center" >{setting.head}</Typography>
+                                </MenuItem>
+                            </NavLink>
                         ))}
                         </Menu>
                     </Box>
