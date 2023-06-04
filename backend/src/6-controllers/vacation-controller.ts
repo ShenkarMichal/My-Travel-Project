@@ -3,6 +3,7 @@ import vacationLogic from '../5-logics/vacation-logic'
 import VacationModel from '../4-models/vacation-model'
 import isLoggedIn from '../3-middlewares/is-logged-in'
 import path from 'path'
+import isAdmin from '../3-middlewares/is-admin'
 
 const router = express.Router()
 
@@ -30,7 +31,7 @@ router.get("/vacations/:vacationID([0-9]+)", isLoggedIn, async (request: Request
 })
 
 //Add new vacation
-router.post("/vacations", async (request: Request, response: Response, next: NextFunction)=>{
+router.post("/vacations",isAdmin, async (request: Request, response: Response, next: NextFunction)=>{
     try {
         request.body.image = request.files?.image
         const vacation = new VacationModel(request.body)
@@ -43,7 +44,7 @@ router.post("/vacations", async (request: Request, response: Response, next: Nex
 })
 
 //Update vacation
-router.put("/vacations/:vacationID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
+router.put("/vacations/:vacationID([0-9]+)",isAdmin, async (request: Request, response: Response, next: NextFunction)=>{
     try {
         request.body.image = request.files?.image
         request.body.vacationID = +request.params.vacationID
@@ -57,7 +58,7 @@ router.put("/vacations/:vacationID([0-9]+)", async (request: Request, response: 
 })
 
 //Delete vacation
-router.delete("/vacations/:vacationID([0-9]+)" ,async (request: Request, response: Response, next: NextFunction)=>{
+router.delete("/vacations/:vacationID([0-9]+)", isAdmin ,async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const vacationID = +request.params.vacationID
         await vacationLogic.deleteVacation(vacationID)

@@ -5,9 +5,9 @@ class InterceptorService {
 
     public createInterceptor(): void {
         axios.interceptors.request.use(request => {
-            if(sessionStorage.getItem("token")) {
+            if(authStore.getState().token) {
                 request.headers = {
-                    authorization: "Bearer " + sessionStorage.getItem("token")
+                    authorization: "Bearer " + authStore.getState().token
                 }
             }
             return request

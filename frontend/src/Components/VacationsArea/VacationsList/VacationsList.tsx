@@ -6,6 +6,7 @@ import vacationService from "../../../5-Service/VacationsService";
 import points from "../../../1-Assets/Images/UtilsImages/WhitePoints.png"
 import FilterButton from "../FilterButton/FilterButton";
 import { NavLink } from "react-router-dom";
+import { vacationsStore } from "../../../3-Redux/VacationsState";
 
 function VacationsList(): JSX.Element {
   const [vacations, setVacations] = useState<VacationModel[]>([]);

@@ -11,12 +11,15 @@ function Layout(): JSX.Element {
     
     const [user, setUser] = useState<UserModel>()
 
-    //Get re-render when the URL of react-router-dom is change:
-    const location = useLocation()
-
     useEffect(()=>{
         setUser(authStore.getState().user)
-    },[location])
+
+        const unsubscribe = authStore.subscribe(()=>{
+            setUser(authStore.getState().user)
+        })
+
+        return () => unsubscribe()
+    },[])
     
     return (
         <div className="Layout">

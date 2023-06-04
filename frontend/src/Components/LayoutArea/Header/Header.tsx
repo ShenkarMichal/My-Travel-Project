@@ -7,14 +7,12 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import authService from "../../../5-Service/AuthService";
 import UserModel from "../../../4-Models/UserModel";
-import { authStore } from "../../../3-Redux/AuthState";
 
 interface HeaderProp {
     user: UserModel

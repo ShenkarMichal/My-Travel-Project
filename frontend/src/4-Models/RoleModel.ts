@@ -1,6 +1,6 @@
-class RoleModel {
-    public user = "USER"
-    public admin = "ADMIN"
+enum RoleModel {
+    user = "USER",
+    admin = "ADMIN"
 }
 
 export default RoleModel
