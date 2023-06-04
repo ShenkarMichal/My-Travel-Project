@@ -12,7 +12,7 @@ class AuthService {
         const token = response.data
 
         //Save the token in the state:
-        authStore.dispatch({type: AuthActionType.Logout, payload: token})   
+        authStore.dispatch({type: AuthActionType.Register, payload: token})   
     }
 
     public async login(credential:CredentialModel): Promise<void> {

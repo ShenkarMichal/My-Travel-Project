@@ -98,7 +98,7 @@ function ContinentArea(): JSX.Element {
                                                     map(v => 
                                                         <div className="card" key={v.vacationID}>
                                                             <span>{v.duration} days in {v.destination}</span><br/>
-                                                            <VacationCard key={v.vacationID} vacation={v} userRole={user.role}/>
+                                                            <VacationCard key={v.vacationID} vacation={v} user={user}/>
                                                             <span>Just {v.price}$</span>
                                                         </div>)}
                         </div>

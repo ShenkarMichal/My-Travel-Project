@@ -1,5 +1,6 @@
 import { createStore } from "redux";
 import FollowerModel from "../4-Models/FollowerModel";
+import followersService from "../5-Service/FollowersService";
 
 //1 - Global State:
 export class FollowersState {
@@ -8,14 +9,16 @@ export class FollowersState {
 
 //2 - Action Type
 export enum FollowersActionType {
+    GetAllFollowers,
     SetNewFollow,
     DeleteFollow
+    
 }
 
 //3 - Action
 export interface FollowersAction {
     type: FollowersActionType,
-    payload: FollowerModel
+    payload: any
 }
 
 //4 - Reducer
@@ -23,6 +26,9 @@ export function followersReducer(currentState = new FollowersState(), action: Fo
     const newState = {...currentState}
 
     switch (action.type){
+        case FollowersActionType.GetAllFollowers:
+            newState.followers = action.payload
+            break
         case FollowersActionType.SetNewFollow:
             newState.followers.push(action.payload)
             break

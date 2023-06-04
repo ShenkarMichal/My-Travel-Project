@@ -13,13 +13,31 @@
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.163);
     color: white;
     text-shadow: -1px -1px 0 rgb(3, 32, 45), 1px -1px 0  rgb(3, 32, 45), -1px 1px 0  rgb(3, 32, 45), 1px 1px 0  rgb(3, 32, 45);
+    position: relative;
   }
   
-  .VacationCard > h6 {
-    margin-bottom: 3vh;
+  .VacationCard h6 {
+    margin-bottom: 4vh;
     text-align: left;
   }
 
-  .VacationCard > span {
-    font-size: x-small;
+  .VacationCard span {
+    font-size: small;
+
+  }
+
+  .VacationCard a {
+    text-decoration: none;
+    color: white;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    line-height: 2vh;   
+  }
+
+  .VacationCard .CardButtons {
+    position: absolute;
+    top:1vw;
+    left: 1vw;
+    width: fit-content;
   }

@@ -15,7 +15,7 @@ class Config {
     //Followers links
     public followURL = "http://localhost:3001/api/follow/"
     public vacationOfFollower = "http://localhost:3001/api/vacation-of-follow/"
-    public followerOfVacation = "http://localhost:3001/api/follow-of-vacation/"
+    public followerNumberOfVacation = "http://localhost:3001/api/follow-of-vacation/"
 }
 
 const appConfig = new Config()

@@ -1,15 +1,29 @@
 import express, { NextFunction, Request, Response } from 'express'
 import followersLogic from '../5-logics/followers-logic'
 import isLoggedIn from '../3-middlewares/is-logged-in'
+import FollowersModel from '../4-models/followers-model'
 
 const router = express.Router()
+//Get all followers:
+router.get("/follow",async (requset:Request, response: Response, next: NextFunction) => {
+    try {
+        const followers = await followersLogic.getAllFollowers()
+        response.json(followers)          
+    }
+    catch (err: any) {
+        next(err)        
+    }  
+})
+
 //Set new follower:
 router.post("/follow/:userID([0-9]+)/:vacationID([0-9]+)",async (requset:Request, response: Response, next: NextFunction) => {
     try {
         const userID = +requset.params.userID
         const vacationID = +requset.params.vacationID
+
+        const follower: FollowersModel = {userID, vacationID}
     
-        await followersLogic.setNewFollow(userID, vacationID) 
+        await followersLogic.setNewFollow(follower) 
         response.sendStatus(201)          
     }
     catch (err: any) {
@@ -22,8 +36,10 @@ router.delete("/follow/:userID([0-9]+)/:vacationID([0-9]+)",async (requset:Reque
     try {
         const userID = +requset.params.userID
         const vacationID = +requset.params.vacationID
+
+        const follower: FollowersModel = {userID, vacationID}
     
-        await followersLogic.deleteFollower(userID, vacationID)
+        await followersLogic.deleteFollower(follower)
         response.sendStatus(204)           
     }
     catch (err: any) {
@@ -55,6 +71,6 @@ router.get("/follow-of-vacation/:vacationID([0-9]+)",async (requset:Request, res
     }
 })
 
-
+ 
 
 export default router

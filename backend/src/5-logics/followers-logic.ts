@@ -1,36 +1,44 @@
 import dal from "../2-utils/dal"
 import dataUtils from "../2-utils/data-utils"
 import { ResourceNotFoundErrorModel } from "../4-models/errors-model"
+import FollowersModel from "../4-models/followers-model"
 
-async function setNewFollow(userID:number, vacationID: number): Promise<void> {
+async function setNewFollow(follower: FollowersModel): Promise<void> {
     //If vacation is not exists:
-    const vacationCount = await dataUtils.isDataExists(vacationID, "vacationID", "vacations")
-    if(!vacationCount) throw new ResourceNotFoundErrorModel(vacationID)
+    const vacationCount = await dataUtils.isDataExists(follower.vacationID, "vacationID", "vacations")
+    if(!vacationCount) throw new ResourceNotFoundErrorModel(follower.vacationID)
 
     //If user is not exists:
-    const userCount = await dataUtils.isDataExists(userID, "userID", "users")
-    if(!userCount) throw new ResourceNotFoundErrorModel(userID)
+    const userCount = await dataUtils.isDataExists(follower.userID, "userID", "users")
+    if(!userCount) throw new ResourceNotFoundErrorModel(follower.userID)
 
     //Add follower:
     const sql = `INSERT INTO followers VALUES(?,?)`
-    await dal.execute(sql, [userID, vacationID])    
+    await dal.execute(sql, [follower.userID, follower.vacationID])    
 }
 
-async function deleteFollower(userID:number, vacationID: number): Promise<void> {
+async function getAllFollowers():Promise<FollowersModel[]> {
+
+    const sql = "SELECT * FROM followers"
+    const followers = await dal.execute(sql)
+    return followers    
+}
+
+async function deleteFollower(follower: FollowersModel): Promise<void> {
     //If vacation is not exists:
-    const vacationCount = await dataUtils.isDataExists(vacationID, "vacationID", "vacations")
-    if(!vacationCount) throw new ResourceNotFoundErrorModel(vacationID)
+    const vacationCount = await dataUtils.isDataExists(follower.vacationID, "vacationID", "vacations")
+    if(!vacationCount) throw new ResourceNotFoundErrorModel(follower.vacationID)
     
     //If user is not exists:
-    const userCount = await dataUtils.isDataExists(userID, "userID", "users")
-    if(!userCount) throw new ResourceNotFoundErrorModel(userID)
+    const userCount = await dataUtils.isDataExists(follower.userID, "userID", "users")
+    if(!userCount) throw new ResourceNotFoundErrorModel(follower.userID)
     
     //Delete follower:
     const sql = `DELETE FROM followers WHERE userID = ? AND vacationID = ?`
-    await dal.execute(sql, [userID, vacationID])    
+    await dal.execute(sql, [follower.userID, follower.vacationID])    
 }
 
-async function getAllVacationIDByUserID(userID:number): Promise<number[]> {
+async function getAllVacationIDByUserID(userID:number): Promise<[]> {
     //If user is not exists:
     const userCount = await dataUtils.isDataExists(userID, "userID", "users")
     if(!userCount) throw new ResourceNotFoundErrorModel(userID)
@@ -41,22 +49,22 @@ async function getAllVacationIDByUserID(userID:number): Promise<number[]> {
     return vacationsID    
 }
 
-async function getNumberOfFollowersByVacationID(vacationID:number): Promise<[]> {
+async function getNumberOfFollowersByVacationID(vacationID:number): Promise<number> {
     //If vacation is not exists:
     const vacationCount = await dataUtils.isDataExists(vacationID, "vacationID", "vacations")
     if(!vacationCount) throw new ResourceNotFoundErrorModel(vacationID)
 
     //Get the number of followers of this vacation:
-    const sql = `SELECT COUNT(*) AS followersNumber, V.destination
-                 FROM followers AS F JOIN vacations AS V
-                 ON F.vacationID = V.vacationID
-                 WHERE F.vacationID = ?`
+    const sql = `SELECT COUNT(*) AS followersNumber
+                 FROM followers 
+                 WHERE vacationID = ?`
     const followersNumber = await dal.execute(sql, [vacationID])
-    return followersNumber    
+    return followersNumber[0].followersNumber  
 }
 
 
 export default {
+    getAllFollowers,
     setNewFollow,
     deleteFollower,
     getAllVacationIDByUserID,

@@ -84,7 +84,7 @@ function VacationsList(): JSX.Element {
         <div className="marquee-container">
             <div className="marquee">
                 <div className="marquee-content" ref={cardRef}>
-                    {vacations.map((v) => (<VacationCard vacation={v} userRole={user.role} key={v.vacationID}  />))}
+                    {vacations.map((v) => (<VacationCard vacation={v} user={user} key={v.vacationID}  />))}
                 </div>
             </div>
             <img src={points} />
