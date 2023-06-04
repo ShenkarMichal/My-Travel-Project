@@ -2,7 +2,7 @@ import { authStore } from "../3-Redux/AuthState";
 import RoleModel from "../4-Models/RoleModel";
 
 
-class BlockNotLogged {
+class VerifyLogged {
 
     public isLogged(): boolean {
         if(!authStore.getState().user) return false
@@ -19,5 +19,5 @@ class BlockNotLogged {
     }
 }
 
-const blockNotLogged = new BlockNotLogged()
-export default  blockNotLogged
+const verifyLogged = new VerifyLogged()
+export default  verifyLogged

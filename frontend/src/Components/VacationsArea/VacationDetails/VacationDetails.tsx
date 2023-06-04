@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import VacationModel from "../../../4-Models/VacationModel";
 import "./VacationDetails.css";
 import vacationService from "../../../5-Service/VacationsService";
-import { Navigate, useParams } from "react-router-dom";
-import appConfig from "../../../2-Utils/Config";
-import blockNotLogged from "../../../2-Utils/BlockNotLogged";
+import { useParams } from "react-router-dom";
+import useBlokcedPage from "../../../2-Utils/UseBlockedPage";
+import verifyLogged from "../../../2-Utils/VerifyLogged";
 
 function VacationDetails(): JSX.Element {
 
-    const isLogged = blockNotLogged.isLogged()
+    const isLogged = verifyLogged.isLogged()
 
     const [vacation, setVacation] = useState<VacationModel>()
     const vacationID = +useParams().vacationID
@@ -58,7 +58,7 @@ function VacationDetails(): JSX.Element {
             </div>
         }
         {!isLogged &&
-            <Navigate to={"/auth/login"} />
+            useBlokcedPage.NotLoggedBlock()
         }
         </>
     );

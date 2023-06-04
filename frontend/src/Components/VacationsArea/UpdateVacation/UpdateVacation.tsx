@@ -1,4 +1,4 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StepperComponent, { StepModel } from "../../UtilsComponents/StepperComponent/StepperComponent";
 import "./UpdateVacation.css";
 import { useEffect, useState } from "react";
@@ -11,12 +11,13 @@ import { NewVacationActionType, newVacationStore } from "../../../3-Redux/newVac
 import vacationService from "../../../5-Service/VacationsService";
 import { format, isValid, parse } from 'date-fns'
 import StepperContent from "../../UtilsComponents/StepperContent/StepperContent";
-import blockNotLogged from "../../../2-Utils/BlockNotLogged";
+import verifyLogged from "../../../2-Utils/VerifyLogged";
+import useBlokcedPage from "../../../2-Utils/UseBlockedPage";
 
 
 function UpdateVacation(): JSX.Element {
 
-    const isAdmin = blockNotLogged.isAdmin()
+    const isAdmin = verifyLogged.isAdmin()
 
     const [vacation, setVacation] = useState<VacationModel>()
     const vacationID = +useParams().vacationID
@@ -100,7 +101,7 @@ function UpdateVacation(): JSX.Element {
             </div>
         }
         {!isAdmin &&
-            <Navigate to={"/vacations"} />
+            useBlokcedPage.NotAdminBlock()
         }
         </>
     

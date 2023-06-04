@@ -7,13 +7,14 @@ import Earth from "../../../1-Assets/Images/BackGrounds/Earth.jpg"
 import VacationCard from "../VacationCard/VacationCard";
 import Pagination from '@mui/material/Pagination';
 import ContinentsSentences, { ContinentsSentencesModel } from "../../../2-Utils/ContinentsSentences";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import SelectContinent from "../../UtilsComponents/SelectContinent/SelectContinent";
-import blockNotLogged from "../../../2-Utils/BlockNotLogged";
+import useBlokcedPage from "../../../2-Utils/UseBlockedPage";
+import verifyLogged from "../../../2-Utils/VerifyLogged";
 
 function ContinentArea(): JSX.Element {
 
-    const isLogged = blockNotLogged.isLogged()
+    const isLogged = verifyLogged.isLogged()
 
     const [vacations, setVacations] = useState<VacationModel[]>([])
 
@@ -97,7 +98,7 @@ function ContinentArea(): JSX.Element {
             </div>
         }
         {!isLogged &&
-            <Navigate to={"/auth/login"} />
+            useBlokcedPage.NotLoggedBlock()
         }
         </>
     );

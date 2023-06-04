@@ -5,12 +5,13 @@ import VacationModel from "../../../4-Models/VacationModel";
 import vacationService from "../../../5-Service/VacationsService";
 import points from "../../../1-Assets/Images/UtilsImages/WhitePoints.png"
 import FilterButton from "../FilterButton/FilterButton";
-import { NavLink, Navigate, useNavigate } from "react-router-dom";
-import blockNotLogged from "../../../2-Utils/BlockNotLogged";
+import { NavLink } from "react-router-dom";
+import useBlokcedPage from "../../../2-Utils/UseBlockedPage";
+import verifyLogged from "../../../2-Utils/VerifyLogged";
 
 function VacationsList(): JSX.Element {
 
-  const isLogged = blockNotLogged.isLogged()
+  const isLogged = verifyLogged.isLogged()
 
   const [vacations, setVacations] = useState<VacationModel[]>([]);
 
@@ -71,7 +72,7 @@ function VacationsList(): JSX.Element {
       </div>
     }
     {!isLogged &&
-      <Navigate to={"/auth/login"}/>      
+      useBlokcedPage.NotLoggedBlock()    
     }
     </>
   );

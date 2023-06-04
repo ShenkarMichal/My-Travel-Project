@@ -7,14 +7,15 @@ import { ReactComponent as checkedIcon }from '../../../1-Assets/Icons/check-circ
 import { useState } from "react";
 import { NewVacationActionType, newVacationStore } from "../../../3-Redux/newVacationState";
 import vacationService from "../../../5-Service/VacationsService";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StepperComponent, { StepModel } from "../../UtilsComponents/StepperComponent/StepperComponent";
 import StepperContent from "../../UtilsComponents/StepperContent/StepperContent";
-import blockNotLogged from "../../../2-Utils/BlockNotLogged";
+import useBlokcedPage from "../../../2-Utils/UseBlockedPage";
+import verifyLogged from "../../../2-Utils/VerifyLogged";
 
 function AddVacation(): JSX.Element {
 
-    const isAdmin = blockNotLogged.isAdmin()
+    const isAdmin = verifyLogged.isAdmin()
 
     const navigate = useNavigate()
 
@@ -77,7 +78,7 @@ function AddVacation(): JSX.Element {
             </div>
         }
         {!isAdmin &&
-            <Navigate to={"/vacations"} />
+            useBlokcedPage.NotAdminBlock()
         }
         </>
     );
