@@ -7,10 +7,13 @@ import Earth from "../../../1-Assets/Images/BackGrounds/Earth.jpg"
 import VacationCard from "../VacationCard/VacationCard";
 import Pagination from '@mui/material/Pagination';
 import ContinentsSentences, { ContinentsSentencesModel } from "../../../2-Utils/ContinentsSentences";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import SelectContinent from "../../UtilsComponents/SelectContinent/SelectContinent";
+import blockNotLogged from "../../../2-Utils/BlockNotLogged";
 
 function ContinentArea(): JSX.Element {
+
+    const isLogged = blockNotLogged.isLogged()
 
     const [vacations, setVacations] = useState<VacationModel[]>([])
 
@@ -61,34 +64,42 @@ function ContinentArea(): JSX.Element {
     }
 
     return (
-        <div 
-            className="ContinentArea">
-			<div 
-                className="background" 
-                style={{backgroundImage:`url(${continentImageURL}), url(${Earth})`}}></div>
-            <div className="content" style={{backgroundImage:`url(${continentImageURL}), url(${Earth})`}}>
-                <SelectContinent onSelect={getVacations} helperText={"Select the continent you want to travel to"}/>
+        <>
+        {isLogged &&
 
-                <div className="AllData">
-                    <div className="Heading">
-                        <h3>{continentName}</h3>
-                        <span>{continentSentence?.sentence}</span><br/>
-                        <p>{continentSentence?.src}</p>
+            <div 
+                className="ContinentArea">
+                <div 
+                    className="background" 
+                    style={{backgroundImage:`url(${continentImageURL}), url(${Earth})`}}></div>
+                <div className="content" style={{backgroundImage:`url(${continentImageURL}), url(${Earth})`}}>
+                    <SelectContinent onSelect={getVacations} helperText={"Select the continent you want to travel to"}/>
+
+                    <div className="AllData">
+                        <div className="Heading">
+                            <h3>{continentName}</h3>
+                            <span>{continentSentence?.sentence}</span><br/>
+                            <p>{continentSentence?.src}</p>
+                        </div>
+                        <div className="Vacations">
+                            {vacations && vacations.slice((currentPage-1)* vacationPerPage, currentPage * vacationPerPage).
+                                                    map(v => 
+                                                        <div className="card" key={v.vacationID}>
+                                                            <span>{v.duration} days in {v.destination}</span><br/>
+                                                            <NavLink to={`/vacations/${v.vacationID}`}><VacationCard key={v.vacationID} vacation={v}/></NavLink>
+                                                            <span>Just {v.price}$</span>
+                                                        </div>)}
+                        </div>
                     </div>
-                    <div className="Vacations">
-                        {vacations && vacations.slice((currentPage-1)* vacationPerPage, currentPage * vacationPerPage).
-                                                map(v => 
-                                                    <div className="card" key={v.vacationID}>
-                                                        <span>{v.duration} days in {v.destination}</span><br/>
-                                                        <NavLink to={`/vacations/${v.vacationID}`}><VacationCard key={v.vacationID} vacation={v}/></NavLink>
-                                                        <span>Just {v.price}$</span>
-                                                    </div>)}
-                    </div>
+                    <Pagination className="Pagination" count={pageNumber} page={currentPage} onChange={HandleChangePage} color="primary"/>
+
                 </div>
-                <Pagination className="Pagination" count={pageNumber} page={currentPage} onChange={HandleChangePage} color="primary"/>
-
             </div>
-        </div>
+        }
+        {!isLogged &&
+            <Navigate to={"/auth/login"} />
+        }
+        </>
     );
 }
 

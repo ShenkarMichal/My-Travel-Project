@@ -16,7 +16,10 @@ import Profile from "../../AuthArea/Profile/Profile";
 import UserVacations from "../../AuthArea/UserVacations/UserVacations";
 import Contact from "../../More/Contact/Contact";
 
+
 function Routing(): JSX.Element {
+      
+
     return (
         <div className="Routing">
 			<Routes>

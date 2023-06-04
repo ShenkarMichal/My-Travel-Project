@@ -7,11 +7,14 @@ import { ReactComponent as checkedIcon }from '../../../1-Assets/Icons/check-circ
 import { useState } from "react";
 import { NewVacationActionType, newVacationStore } from "../../../3-Redux/newVacationState";
 import vacationService from "../../../5-Service/VacationsService";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import StepperComponent, { StepModel } from "../../UtilsComponents/StepperComponent/StepperComponent";
 import StepperContent from "../../UtilsComponents/StepperContent/StepperContent";
+import blockNotLogged from "../../../2-Utils/BlockNotLogged";
 
 function AddVacation(): JSX.Element {
+
+    const isAdmin = blockNotLogged.isAdmin()
 
     const navigate = useNavigate()
 
@@ -60,16 +63,23 @@ function AddVacation(): JSX.Element {
     }
 
     return (
-        <div className="AddVacation"> 
-            <StepperComponent 
-                steps={steps} 
-                stepContent={<StepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={saveNewVacation} imageErrorMsg={error || ""} />} 
-                endMsg={"All steps completed - The vacation has been successfully added"} 
-                heading={"Have a new place to travel?"}
-                handleBack={handleBack}
-                activeStep={activeStep}
-            />            
-        </div>
+        <>
+        {isAdmin &&
+            <div className="AddVacation"> 
+                <StepperComponent 
+                    steps={steps} 
+                    stepContent={<StepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={saveNewVacation} imageErrorMsg={error || ""} />} 
+                    endMsg={"All steps completed - The vacation has been successfully added"} 
+                    heading={"Have a new place to travel?"}
+                    handleBack={handleBack}
+                    activeStep={activeStep}
+                />            
+            </div>
+        }
+        {!isAdmin &&
+            <Navigate to={"/vacations"} />
+        }
+        </>
     );
 }
 

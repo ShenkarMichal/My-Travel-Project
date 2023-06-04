@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import VacationModel from "../../../4-Models/VacationModel";
 import "./VacationDetails.css";
 import vacationService from "../../../5-Service/VacationsService";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import appConfig from "../../../2-Utils/Config";
+import blockNotLogged from "../../../2-Utils/BlockNotLogged";
 
 function VacationDetails(): JSX.Element {
+
+    const isLogged = blockNotLogged.isLogged()
 
     const [vacation, setVacation] = useState<VacationModel>()
     const vacationID = +useParams().vacationID
@@ -25,32 +28,39 @@ function VacationDetails(): JSX.Element {
     },[vacation])
 
     return (
-        <div className="VacationDetails" style={{backgroundImage: `url(${imageURl})`}}>
-            {vacation && <>
-                <div className="DetailsContainer">
-                    <div className="Details">
-                        <h2>{vacation.destination}</h2>
-                        <div className="DetailsHeading">Where?</div>
+        <>
+        {isLogged &&       
+            <div className="VacationDetails" style={{backgroundImage: `url(${imageURl})`}}>
+                {vacation && <>
+                    <div className="DetailsContainer">
+                        <div className="Details">
+                            <h2>{vacation.destination}</h2>
+                            <div className="DetailsHeading">Where?</div>
+                        </div>
+                        <div className="Details">
+                            <h4>From: {vacation.startDate} <br/> To: {vacation.endDate}. <br/> Total: {vacation.duration} days.</h4>
+                            <div className="DetailsHeading">When?</div>
+                        </div>
+                        <div className="Details">
+                            <span>{vacation.description}</span>
+                            <div className="DetailsHeading">What?</div>
+                        </div>
+                        <div className="Details">
+                            <span>{vacation.price}$</span>
+                            <div className="DetailsHeading">How much?</div>
+                        </div>
+                        <div className="Details">
+                            <span>More...</span>
+                            <div className="DetailsHeading">More...</div>
+                        </div>                
                     </div>
-                    <div className="Details">
-                        <h4>From: {vacation.startDate} <br/> To: {vacation.endDate}. <br/> Total: {vacation.duration} days.</h4>
-                        <div className="DetailsHeading">When?</div>
-                    </div>
-                    <div className="Details">
-                        <span>{vacation.description}</span>
-                        <div className="DetailsHeading">What?</div>
-                    </div>
-                    <div className="Details">
-                        <span>{vacation.price}$</span>
-                        <div className="DetailsHeading">How much?</div>
-                    </div>
-                    <div className="Details">
-                        <span>More...</span>
-                        <div className="DetailsHeading">More...</div>
-                    </div>                
-                </div>
-            </>}            
-        </div>
+                </>}            
+            </div>
+        }
+        {!isLogged &&
+            <Navigate to={"/auth/login"} />
+        }
+        </>
     );
 }
 

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import StepperComponent, { StepModel } from "../../UtilsComponents/StepperComponent/StepperComponent";
 import "./UpdateVacation.css";
 import { useEffect, useState } from "react";
@@ -11,9 +11,12 @@ import { NewVacationActionType, newVacationStore } from "../../../3-Redux/newVac
 import vacationService from "../../../5-Service/VacationsService";
 import { format, isValid, parse } from 'date-fns'
 import StepperContent from "../../UtilsComponents/StepperContent/StepperContent";
+import blockNotLogged from "../../../2-Utils/BlockNotLogged";
 
 
 function UpdateVacation(): JSX.Element {
+
+    const isAdmin = blockNotLogged.isAdmin()
 
     const [vacation, setVacation] = useState<VacationModel>()
     const vacationID = +useParams().vacationID
@@ -82,17 +85,25 @@ function UpdateVacation(): JSX.Element {
 
 
     return (
-        <div className="UpdateVacation">
-            {vacation &&
-			<StepperComponent 
-                steps={steps} 
-                stepContent={<StepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={updateVacation} vacation={vacation} />} 
-                endMsg={"All steps completed - The vacation has been successfully update"} 
-                heading={"Have a new place to travel?"}
-                handleBack={handleBack}
-                activeStep={activeStep}
-            />}  
-        </div>
+        <>
+        {isAdmin &&
+            <div className="UpdateVacation">
+                {vacation &&
+                <StepperComponent 
+                    steps={steps} 
+                    stepContent={<StepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={updateVacation} vacation={vacation} />} 
+                    endMsg={"All steps completed - The vacation has been successfully update"} 
+                    heading={"Have a new place to travel?"}
+                    handleBack={handleBack}
+                    activeStep={activeStep}
+                />}  
+            </div>
+        }
+        {!isAdmin &&
+            <Navigate to={"/vacations"} />
+        }
+        </>
+    
     );
 }
 
