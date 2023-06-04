@@ -6,6 +6,14 @@ import { createStore } from "redux";
 export class AuthState {
     public user: UserModel = null
     public token: string = null
+
+    public constructor(){
+        if(sessionStorage.getItem("token")){
+            this.token = sessionStorage.getItem("token")
+            const container: {user: UserModel} = jwtDecode(this.token)
+            this.user = container.user
+        }
+    }
 }
 
 //2 - Action-Type:

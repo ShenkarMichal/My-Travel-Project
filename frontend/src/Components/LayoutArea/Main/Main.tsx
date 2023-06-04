@@ -3,7 +3,7 @@ import "./Main.css";
 
 function Main(): JSX.Element {
     return (
-        <div className="Main">
+        <div className="Main">            
 			<Routing />
         </div>
     );
