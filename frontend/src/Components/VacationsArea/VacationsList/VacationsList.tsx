@@ -5,24 +5,46 @@ import VacationModel from "../../../4-Models/VacationModel";
 import vacationService from "../../../5-Service/VacationsService";
 import points from "../../../1-Assets/Images/UtilsImages/WhitePoints.png"
 import FilterButton from "../FilterButton/FilterButton";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
 import { vacationsStore } from "../../../3-Redux/VacationsState";
+import UserModel from "../../../4-Models/UserModel";
+import { authStore } from "../../../3-Redux/AuthState";
+import CardButtons from "../../UtilsComponents/CardButtons/CardButtons";
 
 function VacationsList(): JSX.Element {
 
   const isLogged = verifyLogged.isLogged()
 
   const [vacations, setVacations] = useState<VacationModel[]>([]);
+  const [user, setUser] = useState<UserModel>()
 
   const cardRef = useRef(null);
   
   useEffect(() => {
-    vacationService
-      .getAllVacation()
+    vacationService.getAllVacation()
       .then((v) => setVacations(v))
-      .catch((err) => console.log(err));   
+      .catch((err) => console.log(err));
+    
+    const unsubscribe = vacationsStore.subscribe(()=>{
+      vacationService.getAllVacation()
+      .then((v) => setVacations(v))
+      .catch((err) => console.log(err));
+    })
+
+    return ()=> unsubscribe()
+
   }, []);
+
+  useEffect(()=>{
+    setUser(authStore.getState().user)
+
+    const unsubscribe = authStore.subscribe(()=>{
+        setUser(authStore.getState().user)
+    })
+
+    return ()=> unsubscribe()
+  },[])
 
   useEffect(() => {
     const cardWidth = '200';
@@ -62,9 +84,7 @@ function VacationsList(): JSX.Element {
         <div className="marquee-container">
             <div className="marquee">
                 <div className="marquee-content" ref={cardRef}>
-                    {vacations.map((v) => (
-                    <NavLink to={`/vacations/${v.vacationID}`} key={v.vacationID}><VacationCard key={v.vacationID} vacation={v} /></NavLink>
-                    ))}
+                    {vacations.map((v) => (<VacationCard vacation={v} userRole={user.role} key={v.vacationID}  />))}
                 </div>
             </div>
             <img src={points} />

@@ -58,9 +58,9 @@ function Header(prop: HeaderProp): JSX.Element {
                                 sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
-                                fontFamily: 'monospace',
+                                fontFamily: 'Oswald',
                                 fontWeight: 700,
-                                letterSpacing: '.2rem',
+                                letterSpacing: '.3rem',
                                 color: "white",
                                 textDecoration: 'none',
                                 }}
@@ -99,8 +99,8 @@ function Header(prop: HeaderProp): JSX.Element {
                             >
                             {settings.map((setting) => (
                                 <NavLink to={setting.link} key={setting.head}>
-                                    <MenuItem  onClick={()=>handleCloseUserMenu(setting.head)}>
-                                        <Typography className="user-menu" textAlign="center" >{setting.head}</Typography>
+                                    <MenuItem  onClick={()=>handleCloseUserMenu(setting.head)} className="user-menu">
+                                       {setting.head}
                                     </MenuItem>
                                 </NavLink>
                             ))}

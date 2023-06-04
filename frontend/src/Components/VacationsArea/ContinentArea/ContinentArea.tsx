@@ -9,12 +9,25 @@ import ContinentsSentences, { ContinentsSentencesModel } from "../../../2-Utils/
 import { NavLink, Navigate } from "react-router-dom";
 import SelectContinent from "../../UtilsComponents/SelectContinent/SelectContinent";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
+import UserModel from "../../../4-Models/UserModel";
+import { authStore } from "../../../3-Redux/AuthState";
 
 function ContinentArea(): JSX.Element {
 
     const isLogged = verifyLogged.isLogged()
 
     const [vacations, setVacations] = useState<VacationModel[]>([])
+    const [user, setUser] = useState<UserModel>()
+
+    useEffect(()=>{
+        setUser(authStore.getState().user)
+
+        const unsubscribe = authStore.subscribe(()=>{
+            setUser(authStore.getState().user)
+        })
+    
+        return ()=> unsubscribe()
+    },[])
 
     //Set Pagination:
     const [pageNumber, setPageNumber] = useState<number>(0)
@@ -85,7 +98,7 @@ function ContinentArea(): JSX.Element {
                                                     map(v => 
                                                         <div className="card" key={v.vacationID}>
                                                             <span>{v.duration} days in {v.destination}</span><br/>
-                                                            <NavLink to={`/vacations/${v.vacationID}`}><VacationCard key={v.vacationID} vacation={v}/></NavLink>
+                                                            <VacationCard key={v.vacationID} vacation={v} userRole={user.role}/>
                                                             <span>Just {v.price}$</span>
                                                         </div>)}
                         </div>

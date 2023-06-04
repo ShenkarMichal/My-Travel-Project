@@ -100,6 +100,8 @@ class VacationsService {
         await axios.delete(appConfig.vacationURL + vacationID)
         //Delete vacation from the store:
         vacationsStore.dispatch({type: VacationsActionType.deleteVacation, payload: vacationID})
+
+        console.log(vacationsStore.getState().vacations.length)
     }
 
     //Get vacations by continent:
