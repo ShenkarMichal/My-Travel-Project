@@ -1,8 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express'
 import followersLogic from '../5-logics/followers-logic'
+import isLoggedIn from '../3-middlewares/is-logged-in'
 
 const router = express.Router()
-
 //Set new follower:
 router.post("/follow/:userID([0-9]+)/:vacationID([0-9]+)",async (requset:Request, response: Response, next: NextFunction) => {
     try {

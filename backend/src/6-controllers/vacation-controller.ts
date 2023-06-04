@@ -7,7 +7,7 @@ import path from 'path'
 const router = express.Router()
 
 //Get all vacations
-router.get("/vacations", async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations", isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const vacations = await vacationLogic.getAllVacation()
         response.json(vacations)    
@@ -18,7 +18,7 @@ router.get("/vacations", async (request: Request, response: Response, next: Next
 })
 
 //Get one specific vacation
-router.get("/vacations/:vacationID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations/:vacationID([0-9]+)", isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const vacationID = +request.params.vacationID
         const vacation = await vacationLogic.getOneVacation(vacationID)
@@ -43,7 +43,7 @@ router.post("/vacations", async (request: Request, response: Response, next: Nex
 })
 
 //Update vacation
-router.put("/vacations/:vacationID([0-9]+)",isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
+router.put("/vacations/:vacationID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
     try {
         request.body.image = request.files?.image
         request.body.vacationID = +request.params.vacationID
@@ -57,7 +57,7 @@ router.put("/vacations/:vacationID([0-9]+)",isLoggedIn, async (request: Request,
 })
 
 //Delete vacation
-router.delete("/vacations/:vacationID([0-9]+)",isLoggedIn ,async (request: Request, response: Response, next: NextFunction)=>{
+router.delete("/vacations/:vacationID([0-9]+)" ,async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const vacationID = +request.params.vacationID
         await vacationLogic.deleteVacation(vacationID)
@@ -69,7 +69,7 @@ router.delete("/vacations/:vacationID([0-9]+)",isLoggedIn ,async (request: Reque
 })
 
 //Serve the vacation image to the user:
-router.get("/vacations-images/:vacationID([0-9]+)" ,async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations-images/:vacationID([0-9]+)" ,isLoggedIn,async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const vacationID = +request.params.vacationID
         const imageName = await vacationLogic.getVacationImageName(vacationID)
@@ -82,7 +82,7 @@ router.get("/vacations-images/:vacationID([0-9]+)" ,async (request: Request, res
 })
 
 //Get vacations by continent:
-router.get("/vacations/by-continent/:continentID([0-9]+)" ,async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations/by-continent/:continentID([0-9]+)", isLoggedIn ,async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const continentID = +request.params.continentID
         const vacations = await vacationLogic.getVacationsByContinent(continentID)
@@ -94,7 +94,7 @@ router.get("/vacations/by-continent/:continentID([0-9]+)" ,async (request: Reque
 })
 
 //Get all continents:
-router.get("/vacations/continents" ,async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations/continents", isLoggedIn ,async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const continents = await vacationLogic.getAllContinents()
         response.json(continents)
@@ -105,7 +105,7 @@ router.get("/vacations/continents" ,async (request: Request, response: Response,
 })
 
 //Serve the continent image to the user:
-router.get("/vacations/continent-images/:continentName" ,async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations/continent-images/:continentName", isLoggedIn,async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const continentName = request.params.continentName
         const imageName = await vacationLogic.getContinentImageName(continentName)
