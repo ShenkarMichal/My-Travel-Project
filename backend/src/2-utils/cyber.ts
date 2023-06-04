@@ -2,6 +2,7 @@ import Jwt from 'jsonwebtoken'
 import UserModel from '../4-models/user-model';
 import crypto from 'crypto'
 import { Request } from 'express';
+import RoleModel from '../4-models/role-model';
 
 const secretKey = "aroundTheWorld"
 
@@ -44,6 +45,20 @@ function verifyToken(request: Request): Promise<boolean> {
     })
 }
 
+async function verifyAdmin(request: Request): Promise<boolean>{
+    const isLogged =await  verifyToken(request)
+    if(!isLogged) return false
+
+    const header = request.headers.authorization
+    const toekn = header.substring(7)
+
+    const container: any = Jwt.decode(toekn)
+
+    const user: UserModel = container.user
+
+    return user.role === RoleModel.admin
+}
+
 const salt = "myTravelSalt"
 function hash(plainText: string): string {
     if(!plainText) return null
@@ -56,5 +71,6 @@ function hash(plainText: string): string {
 export default {
     getNewToken,
     hash,
-    verifyToken
+    verifyToken,
+    verifyAdmin
 }
