@@ -16,8 +16,16 @@ function VacationDetails(): JSX.Element {
             .catch(err => console.log(err))
     },[])
 
+    const [imageURl, setImageURL] = useState("")
+
+    useEffect(()=>{
+        vacationService.getVacationImageUrl(vacation?.vacationID)
+            .then(url => setImageURL(url))
+            .catch(err => console.log(err))
+    },[vacation])
+
     return (
-        <div className="VacationDetails" style={{backgroundImage: `url(${appConfig.vacationImageURL + vacation?.vacationID})`}}>
+        <div className="VacationDetails" style={{backgroundImage: `url(${imageURl})`}}>
             {vacation && <>
                 <div className="DetailsContainer">
                     <div className="Details">

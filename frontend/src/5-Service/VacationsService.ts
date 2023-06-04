@@ -128,6 +128,21 @@ class VacationsService {
         return continents
     }
 
+    //Get image URL with token:
+    public async getVacationImageUrl(vacationID: number): Promise<string> {
+
+        const response = await axios.get(appConfig.vacationImageURL + vacationID,{responseType: "blob"})
+        const imageURL = URL.createObjectURL(response.data)
+        return imageURL
+    }
+
+    public async getContinentImageUrl(continentName: string): Promise<string> {
+
+        const response = await axios.get(appConfig.continentsImageURL + continentName, {responseType: "blob"})
+        const continentImageURL = URL.createObjectURL(response.data)
+        return continentImageURL
+    }
+
 }
 
 const vacationService = new VacationsService()

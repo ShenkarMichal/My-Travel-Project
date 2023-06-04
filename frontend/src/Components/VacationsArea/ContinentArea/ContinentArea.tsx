@@ -20,6 +20,8 @@ function ContinentArea(): JSX.Element {
 
     const vacationPerPage = 3
 
+    const [continentImageURL, setContinentImageURL] = useState("")
+
     const [continentName, setContinentName] = useState<string>("")
     const [continentSentence, setContinentSentence] = useState<ContinentsSentencesModel>()
 
@@ -31,12 +33,19 @@ function ContinentArea(): JSX.Element {
                 setContinentName("")
                 setPageNumber(0)
                 setContinentSentence(null)
+                setContinentImageURL("")
             }
             else {
+                //Get vacations by continent:
                 const vacationsByContinent = await vacationService.getVacationsByContinent(continentID)
                 setVacations(vacationsByContinent)
+                //Get continent-name:
                 setContinentName(vacationsByContinent[0].continentName)
+                //Get continent sentences:
                 setContinentSentence(ContinentsSentences.getSentence(vacationsByContinent[0].continentName))
+                //Get continent image-url:
+                const continentImageURL = await vacationService.getContinentImageUrl(vacationsByContinent[0].continentName)
+                setContinentImageURL(continentImageURL)
                 //Set pagination:
                 setPageNumber(Math.ceil(vacationsByContinent.length/vacationPerPage))
             }
@@ -56,8 +65,8 @@ function ContinentArea(): JSX.Element {
             className="ContinentArea">
 			<div 
                 className="background" 
-                style={{backgroundImage:`url(${appConfig.continentsImageURL + continentName}), url(${Earth})`}}></div>
-            <div className="content" style={{backgroundImage:`url(${appConfig.continentsImageURL + continentName}), url(${Earth})`}}>
+                style={{backgroundImage:`url(${continentImageURL}), url(${Earth})`}}></div>
+            <div className="content" style={{backgroundImage:`url(${continentImageURL}), url(${Earth})`}}>
                 <SelectContinent onSelect={getVacations} helperText={"Select the continent you want to travel to"}/>
 
                 <div className="AllData">
