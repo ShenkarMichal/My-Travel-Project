@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import StepperComponent, { StepModel } from "../../UtilsComponents/StepperComponent/StepperComponent";
 import "./UpdateVacation.css";
 import { useEffect, useState } from "react";
@@ -12,7 +12,6 @@ import vacationService from "../../../5-Service/VacationsService";
 import { format, isValid, parse } from 'date-fns'
 import StepperContent from "../../UtilsComponents/StepperContent/StepperContent";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
-import useBlokcedPage from "../../../2-Utils/UseBlockedPage";
 
 
 function UpdateVacation(): JSX.Element {
@@ -101,7 +100,7 @@ function UpdateVacation(): JSX.Element {
             </div>
         }
         {!isAdmin &&
-            useBlokcedPage.NotAdminBlock()
+            <Navigate to={"/vacations"} />
         }
         </>
     

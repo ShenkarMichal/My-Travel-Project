@@ -5,9 +5,9 @@ import VacationModel from "../../../4-Models/VacationModel";
 import vacationService from "../../../5-Service/VacationsService";
 import points from "../../../1-Assets/Images/UtilsImages/WhitePoints.png"
 import FilterButton from "../FilterButton/FilterButton";
-import { NavLink } from "react-router-dom";
-import useBlokcedPage from "../../../2-Utils/UseBlockedPage";
+import { NavLink, Navigate } from "react-router-dom";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
+import { vacationsStore } from "../../../3-Redux/VacationsState";
 
 function VacationsList(): JSX.Element {
 
@@ -21,7 +21,7 @@ function VacationsList(): JSX.Element {
     vacationService
       .getAllVacation()
       .then((v) => setVacations(v))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err));   
   }, []);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ function VacationsList(): JSX.Element {
       </div>
     }
     {!isLogged &&
-      useBlokcedPage.NotLoggedBlock()    
+      <Navigate to={"/auth/login"}/>
     }
     </>
   );

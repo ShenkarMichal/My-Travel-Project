@@ -4,13 +4,14 @@ import SelectContinent from "../SelectContinent/SelectContinent";
 import "./StepperContent.css";
 import VacationModel from "../../../4-Models/VacationModel";
 import { Button, TextareaAutosize } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import appConfig from "../../../2-Utils/Config";
 import CssTextArea from "../CssTextArea/CssTextArea";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
+import vacationService from "../../../5-Service/VacationsService";
 
 interface StepperContentProp {
     stepIndex: number
@@ -50,6 +51,14 @@ function StepperContent(prop: StepperContentProp): JSX.Element {
     //     setValue("startDate", newValue.toISOString() )
     // }
 
+    const [imageURl, setImageURL] = useState("")
+
+    useEffect(()=>{
+        vacationService.getVacationImageUrl(prop.vacation?.vacationID)
+            .then(url => setImageURL(url))
+            .catch(err => console.log(err))
+    },[prop.vacation])
+
     return (
         <div className="UpdateStepperContent">
             <form onSubmit={handleSubmit(prop.onSubmit)} >
@@ -68,17 +77,17 @@ function StepperContent(prop: StepperContentProp): JSX.Element {
                         <CssTextArea placeHolder="Description" defaultValue={prop.vacation?.description} 
                             register={register("description", VacationModel.descriptionValidate)} /> <br />
                         <span className="ErrorMsg">{formState.errors.description?.message}</span>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker defaultValue={dayjs(prop.vacation?.startDate)} label="From"  /><br/><br/>
                             <DatePicker defaultValue={dayjs(prop.vacation?.endDate)} label="To" /><br/> <br/>
-                        </LocalizationProvider>
-                        {/* <CssTextField label={"From"} type={"date"} fieldName="startDate" 
+                        </LocalizationProvider> */}
+                        <CssTextField label={"From"} type={"date"} fieldName="startDate" 
                             register={register("startDate", VacationModel.startDateValidate)} defaultValue={prop.vacation?.startDate} /> <br />
                         <span className="ErrorMsg">{formState.errors.startDate?.message}</span>
 
                         <CssTextField label={"To"} type={"date"} fieldName="endDate" 
                             register={register("endDate", VacationModel.endDateValidate)} defaultValue={prop.vacation?.endDate} /> <br />
-                        <span className="ErrorMsg">{formState.errors.endDate?.message}</span> */}
+                        <span className="ErrorMsg">{formState.errors.endDate?.message}</span>
 
                         <CssTextField label="Price" type="number" inputProp={{endAdornment: "$"}} fieldName="price" 
                             register={register("price", VacationModel.priceValidate)} defaultValue={prop.vacation?.price} /> <br />
@@ -91,7 +100,7 @@ function StepperContent(prop: StepperContentProp): JSX.Element {
                         <CssTextField id="input-file" label="Image" type="file" inputProp={{accept: "image/*"}} 
                                     fieldName="image" onChange={handleChangeFile}/> <br />
                         {fileUpLoad ? <img src={fileUpLoad} width={150}/> :
-                                <img src={appConfig.vacationImageURL + prop.vacation?.vacationID} />
+                                <img src={imageURl} />
                         }<br/>
                         {prop.imageErrorMsg && 
                             <span className="ErrorMsg">Image is required</span>    

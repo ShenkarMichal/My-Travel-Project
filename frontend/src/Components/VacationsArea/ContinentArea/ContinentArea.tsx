@@ -2,14 +2,12 @@ import { ChangeEvent, useEffect, useState } from "react";
 import VacationModel from "../../../4-Models/VacationModel";
 import "./ContinentArea.css";
 import vacationService from "../../../5-Service/VacationsService";
-import appConfig from "../../../2-Utils/Config";
 import Earth from "../../../1-Assets/Images/BackGrounds/Earth.jpg"
 import VacationCard from "../VacationCard/VacationCard";
 import Pagination from '@mui/material/Pagination';
 import ContinentsSentences, { ContinentsSentencesModel } from "../../../2-Utils/ContinentsSentences";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import SelectContinent from "../../UtilsComponents/SelectContinent/SelectContinent";
-import useBlokcedPage from "../../../2-Utils/UseBlockedPage";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
 
 function ContinentArea(): JSX.Element {
@@ -92,13 +90,15 @@ function ContinentArea(): JSX.Element {
                                                         </div>)}
                         </div>
                     </div>
-                    <Pagination className="Pagination" count={pageNumber} page={currentPage} onChange={HandleChangePage} color="primary"/>
+                    {pageNumber > 1 &&
+                        <Pagination className="Pagination" count={pageNumber} page={currentPage} onChange={HandleChangePage} color="primary"/>
+                    }       
 
                 </div>
             </div>
         }
         {!isLogged &&
-            useBlokcedPage.NotLoggedBlock()
+            <Navigate to={"/auth/login"} />
         }
         </>
     );

@@ -1,7 +1,7 @@
 
 enum RoleModel {
     user = "User",
-    admin = "ADMIN"
+    admin = "Admin"
 }
 
 export default RoleModel

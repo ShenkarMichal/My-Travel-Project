@@ -32,11 +32,11 @@ export function vacationReducer(currentState = new VacationsState(), action: Vac
             newState.vacations.push(action.payload)
             break
         case VacationsActionType.UpdateVacation:
-            const indexToUpdate = newState.vacations.findIndex(v => v.vacationID = action.payload.vacationID)
+            const indexToUpdate = newState.vacations.findIndex(v => v.vacationID === action.payload.vacationID)
             newState.vacations[indexToUpdate] = action.payload
             break
         case VacationsActionType.deleteVacation:
-            const indexToDelete = newState.vacations.findIndex(v => v.vacationID = action.payload)
+            const indexToDelete = newState.vacations.findIndex(v => v.vacationID === action.payload)
             newState.vacations.splice(indexToDelete, 1)
             break
     }

@@ -7,17 +7,16 @@ import { ReactComponent as checkedIcon }from '../../../1-Assets/Icons/check-circ
 import { useState } from "react";
 import { NewVacationActionType, newVacationStore } from "../../../3-Redux/newVacationState";
 import vacationService from "../../../5-Service/VacationsService";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import StepperComponent, { StepModel } from "../../UtilsComponents/StepperComponent/StepperComponent";
 import StepperContent from "../../UtilsComponents/StepperContent/StepperContent";
-import useBlokcedPage from "../../../2-Utils/UseBlockedPage";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
 
 function AddVacation(): JSX.Element {
 
-    const isAdmin = verifyLogged.isAdmin()
-
     const navigate = useNavigate()
+
+    const isAdmin = verifyLogged.isAdmin()
 
     //Set the active step
     const [activeStep, setActiveStep] = useState(0);
@@ -78,7 +77,7 @@ function AddVacation(): JSX.Element {
             </div>
         }
         {!isAdmin &&
-            useBlokcedPage.NotAdminBlock()
+            <Navigate to={"/vacations"} />
         }
         </>
     );
