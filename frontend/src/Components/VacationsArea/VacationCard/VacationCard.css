@@ -19,6 +19,7 @@
   .VacationCard h6 {
     margin-bottom: 4vh;
     text-align: left;
+    line-height: 5vh;
   }
 
   .VacationCard span {

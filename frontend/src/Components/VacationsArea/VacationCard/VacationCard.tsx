@@ -3,7 +3,7 @@ import VacationModel from "../../../4-Models/VacationModel";
 import "./VacationCard.css";
 import vacationService from "../../../5-Service/VacationsService";
 import CardButtons from "../../UtilsComponents/CardButtons/CardButtons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import UserModel from "../../../4-Models/UserModel";
 
 
@@ -21,11 +21,13 @@ function VacationCard(props: VacationCardProps): JSX.Element {
             .catch(err => console.log(err))
     },[props.vacation])
 
+    const navigate = useNavigate()
+
     async function deleteVacation(vacationID:number):Promise<void> {
         try {
             await vacationService.deleteVacation(vacationID)    
             console.log("The vacation ahs been successfully deleted")
-
+            navigate("/vacations")        
         }
         catch (err: any) {
             console.log(err)            

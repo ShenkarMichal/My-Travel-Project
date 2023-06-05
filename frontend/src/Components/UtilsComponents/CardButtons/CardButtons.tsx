@@ -4,7 +4,7 @@ import UserModel from "../../../4-Models/UserModel";
 import "./CardButtons.css";
 import VacationModel from "../../../4-Models/VacationModel";
 import EditLocationAltIcon from '@mui/icons-material/EditLocationAlt';
-import WrongLocationIcon from '@mui/icons-material/WrongLocation';
+import LocationOffIcon from '@mui/icons-material/LocationOff';
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
@@ -45,10 +45,7 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
             .then(v => setUserFollow(v))
             .catch(err => console.log(err))
         const userVacationFollow = userFollow.find(v => v.vacationID === prop.vacation?.vacationID)
-        console.log(userVacationFollow)
             if(userVacationFollow){
-                console.log(userFollow)
-
                 setIsFollow(true)
             }
     },[prop])
@@ -75,7 +72,6 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
         else {
             try {
                 await followersService.deleteFollower(follower) 
-                console.log(followersStore.getState().followers)
                 setIsFollow(false)   
                 const number = await followersService.getFollowNumberByVacation(prop.vacation?.vacationID)
                 setFollowNumber(number)
@@ -88,7 +84,7 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
 
     return (
         <div className="CardButtons">
-            {/* {prop.user?.role === RoleModel.user && */}
+            {prop.user?.role === RoleModel.user &&
                 <>
                     {/* Follower-button */}
                     <IconButton aria-label="follow" 
@@ -105,17 +101,17 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                     </IconButton>
                     {/* Followers-count */}
                 </>
-            {/* } */}
+            } 
             {prop.user?.role === RoleModel.admin &&
                 <>
                     {/* Edit-button */}
-                    <NavLink to={`/vacations/update/${prop.vacation?.vacationID}`}>
-                        <EditLocationAltIcon />
+                    <NavLink to={`/vacations/update/${prop.vacation?.vacationID}`} title="Edit">
+                        <EditLocationAltIcon color="warning" sx={{fontSize: 35}} />
                     </NavLink>
                     {/* Delete-button */}
-                    <button onClick={()=>prop.deleteVacation(prop.vacation?.vacationID)}>
-                        <WrongLocationIcon />
-                    </button>
+                    <a onClick={()=>prop.deleteVacation(prop.vacation?.vacationID)} title="Delete">
+                        <LocationOffIcon color="error" sx={{fontSize: 35}}/>
+                    </a>
 
                 </>
             }
