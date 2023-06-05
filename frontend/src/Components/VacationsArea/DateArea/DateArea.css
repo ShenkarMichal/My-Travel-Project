@@ -1,3 +1,26 @@
 .DateArea {
-	
+    background-image: url("../../../1-Assets/Images/BackGrounds/Date\ Background.jpg");
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(3px)	
+}
+
+.DataContent {
+    background-image: url("../../../1-Assets/Images/BackGrounds/Date\ Background.jpg");
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    width: 70%;
+    height: 70%;
+    text-align: center;
+    border: rgba(246, 182, 104, 0.362) 6px solid;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px 2px rgba(99, 76, 98, 0.375);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 3vw;
+    filter: blur(0px);
 }
