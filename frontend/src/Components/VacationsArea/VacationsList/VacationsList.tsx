@@ -64,6 +64,33 @@ function VacationsList(): JSX.Element {
       cardRef.current.style.animationIterationCount = 'infinite';
     }
 
+    
+  let animationTimeout: string | number | NodeJS.Timeout; // משתנה לאחזור האנימציה אחרי הפסקה
+
+  const handleMouseEnter = () => {
+    if (cardRef.current) {
+      cardRef.current.style.animationPlayState = 'paused'; // השהיית האנימציה בעת מעבר העכבר
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (cardRef.current) {
+      animationTimeout = setTimeout(() => {
+        cardRef.current.style.animationPlayState = 'running'; // המשך האנימציה מהנקודה שבה הפסקה
+      }, 500); // משך ההשהייה לפני ההמשך
+    }
+  };
+
+  cardRef.current?.addEventListener('mouseenter', handleMouseEnter);
+  cardRef.current?.addEventListener('mouseleave', handleMouseLeave);
+
+  return () => {
+    // ניקוי האיוונטים והטיימאוט בסיום חיי הקומפוננטה
+    cardRef.current?.removeEventListener('mouseenter', handleMouseEnter);
+    cardRef.current?.removeEventListener('mouseleave', handleMouseLeave);
+    clearTimeout(animationTimeout);
+  };
+
   }, [vacations]);
 
 

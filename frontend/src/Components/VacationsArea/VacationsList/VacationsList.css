@@ -56,6 +56,7 @@
   animation: marquee 5s linear infinite;
   position: relative;
   z-index: 999;
+  animation-play-state: running;
 }
   
 .VacationsList .VacationCard {
@@ -63,6 +64,7 @@
   min-width: 150px;
   margin-right: 2vw; 
   display: flex;
+
 }
 
   
