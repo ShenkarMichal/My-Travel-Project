@@ -76,7 +76,7 @@ function DateArea(): JSX.Element {
                 setVacations(filterVacations)
             }  
             //Set pagination:
-            setPageNumber(Math.ceil(vacations.length/vacationPerPage))                    
+            setPageNumber(Math.ceil(filterVacations.length/vacationPerPage))                    
         }
         catch (err: any) {
             console.log(err)            

@@ -24,3 +24,67 @@
     padding: 3vw;
     filter: blur(0px);
 }
+
+.DataContent .AllData {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap: 15%;
+}
+
+.DataContent .Vacations {
+    display:flex;
+    gap: 1vw;
+}
+
+.DataContent .Heading > h3 {
+    font-size: 15vh;
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;   
+    margin-bottom: 0; 
+    text-shadow:
+    -1px -1px 0 #000, 
+    1px -1px 0 #000, 
+    -1px 1px 0 #000, 
+    1px 1px 0 #000; 
+}
+
+.DataContent .Heading > span, .DataContent .Heading > p {
+    font-size: large;
+    color:  rgb(249, 248, 248);
+    font-family: 'Lobster', cursive;
+    text-shadow:
+    0 0 5px rgba(255, 255, 255, 0.5),
+    0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 15px rgba(16, 15, 15, 0.5),
+    0 0 20px rgba(10, 10, 10, 0.5),
+    0 0 25px rgba(10, 10, 10, 0.5);
+}
+
+.DataContent .Heading > p {
+    font-weight: bolder;
+}
+
+.DataContent .card > span {
+    color: white;
+    font-size: 1vw;
+    text-align: left !important;
+    font-family: 'Lobster', cursive;
+
+}
+
+.DataContent .VacationCard {
+    font-size: 3vw;
+    font-family: 'Oswald', sans-serif;
+}
+
+.DataContent .Pagination {
+    position: absolute;
+    bottom: 5vh;
+    left: 50%;
+}
+
+.DataContent a {
+    text-decoration: none;
+}
+
