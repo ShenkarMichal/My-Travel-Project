@@ -11,6 +11,7 @@ class Config {
     public vacationsByContinent = "http://localhost:3001/api/vacations/by-continent/"
     public continentsURL = "http://localhost:3001/api/vacations/continents/"
     public continentsImageURL = "http://localhost:3001/api/vacations/continent-images/"
+    public futureVacationsURL = "http://localhost:3001/api/vacations/by-date/future/"
 
     //Followers links
     public followURL = "http://localhost:3001/api/follow/"

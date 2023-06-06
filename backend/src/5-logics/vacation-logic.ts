@@ -12,7 +12,8 @@ async function getAllVacation(): Promise<VacationModel[]> {
                 DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate,DATEDIFF(V.endDate, startDate) AS duration,
                 V.price, V.imageName, C.continentName
                 FROM vacations AS V JOIN continents AS C
-                ON V.continentID = C.continentID`
+                ON V.continentID = C.continentID
+                ORDER BY V.startDate`
     const vacations = await dal.execute(sql)
     return vacations    
 }
@@ -115,7 +116,8 @@ async function getVacationsByContinent(continentID:number): Promise<VacationMode
                 V.price, V.imageName, C.continentName
                 FROM vacations AS V JOIN continents AS C
                 ON V.continentID = C.continentID
-                WHERE V.continentID = ?`
+                WHERE V.continentID = ?
+                ORDER BY V.startDate`
     const vacations = await dal.execute(sql, [continentID])
     if(vacations.length === 0) throw new ValidationErrorModel("We dont have a vacation in that continent")
     return vacations    
@@ -135,6 +137,16 @@ async function getContinentImageName(continentName:string): Promise<string> {
     const imageName = resoult[0].continentImageName
 
     return imageName    
+}
+
+//Get all future-vacations:
+async function getFutureVacations(): Promise<VacationModel[]> {
+
+    const sql = `SELECT * FROM vacations
+                WHERE startDate > CURRENT_DATE
+                ORDER BY startDate`
+    const vacations = await dal.execute(sql)
+    return vacations    
 }
 
 //Utilities function of saving and deleting images:
@@ -167,5 +179,6 @@ export default {
     getVacationImageName,
     getVacationsByContinent,
     getAllContinents,
-    getContinentImageName
+    getContinentImageName,
+    getFutureVacations
 }

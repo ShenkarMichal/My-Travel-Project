@@ -146,6 +146,14 @@ class VacationsService {
         return continentImageURL
     }
 
+    //Get future vacations:
+    public async getFutureVacations(): Promise<VacationModel[]> {
+        const response = await axios.get<VacationModel[]>(appConfig.futureVacationsURL)
+        const vacations = response.data
+
+        return vacations
+    }
+
 }
 
 const vacationService = new VacationsService()

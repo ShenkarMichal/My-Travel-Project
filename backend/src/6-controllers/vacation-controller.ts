@@ -118,5 +118,16 @@ router.get("/vacations/continent-images/:continentName", isLoggedIn,async (reque
     }
 })
 
+//Get the future vacations:
+router.get("/vacations/by-date/future", isLoggedIn,async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const futureVacations = await vacationLogic.getFutureVacations()
+        response.json(futureVacations)
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
 
 export default router
