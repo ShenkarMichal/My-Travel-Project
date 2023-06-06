@@ -79,10 +79,8 @@ function ContinentArea(): JSX.Element {
         <>
         {isLogged &&
 
-            <div 
-                className="ContinentArea">
-                <div 
-                    className="background" 
+            <div className="ContinentArea">
+                <div className="background" 
                     style={{backgroundImage:`url(${continentImageURL}), url(${Earth})`}}></div>
                 <div className="content" style={{backgroundImage:`url(${continentImageURL}), url(${Earth})`}}>
                     <SelectContinent onSelect={getVacations} helperText={"Select the continent you want to travel to"}/>
