@@ -129,5 +129,16 @@ router.get("/vacations/by-date/future", isLoggedIn,async (request: Request, resp
     }
 })
 
+//Get the current vacations:
+router.get("/vacations/by-date/current", isLoggedIn,async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const currentVacations = await vacationLogic.getCurrentVacations()
+        response.json(currentVacations)
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
 
 export default router

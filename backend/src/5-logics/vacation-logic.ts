@@ -13,7 +13,7 @@ async function getAllVacation(): Promise<VacationModel[]> {
                 V.price, V.imageName, C.continentName
                 FROM vacations AS V JOIN continents AS C
                 ON V.continentID = C.continentID
-                ORDER BY V.startDate`
+                ORDER BY V.startDate, V.endDate`
     const vacations = await dal.execute(sql)
     return vacations    
 }
@@ -117,7 +117,7 @@ async function getVacationsByContinent(continentID:number): Promise<VacationMode
                 FROM vacations AS V JOIN continents AS C
                 ON V.continentID = C.continentID
                 WHERE V.continentID = ?
-                ORDER BY V.startDate`
+                ORDER BY V.startDate, V.endDate`
     const vacations = await dal.execute(sql, [continentID])
     if(vacations.length === 0) throw new ValidationErrorModel("We dont have a vacation in that continent")
     return vacations    
@@ -144,7 +144,16 @@ async function getFutureVacations(): Promise<VacationModel[]> {
 
     const sql = `SELECT * FROM vacations
                 WHERE startDate > CURRENT_DATE
-                ORDER BY startDate`
+                ORDER BY startDate, endDate`
+    const vacations = await dal.execute(sql)
+    return vacations    
+}
+
+async function getCurrentVacations(): Promise<VacationModel[]> {
+
+    const sql = `SELECT * FROM vacations
+                WHERE startDate <= CURRENT_DATE && endDate >= CURRENT_DATE
+                ORDER BY startDate, endDate`
     const vacations = await dal.execute(sql)
     return vacations    
 }
@@ -180,5 +189,6 @@ export default {
     getVacationsByContinent,
     getAllContinents,
     getContinentImageName,
-    getFutureVacations
+    getFutureVacations,
+    getCurrentVacations
 }

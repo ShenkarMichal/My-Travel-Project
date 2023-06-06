@@ -6,6 +6,7 @@ import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlin
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { useState } from "react";
 import VacationModel from "../../../4-Models/VacationModel";
+import vacationService from "../../../5-Service/VacationsService";
 
 function DateArea(): JSX.Element {
     const label = { inputProps: { 'aria-label': 'Checkbox date' } };
@@ -15,20 +16,40 @@ function DateArea(): JSX.Element {
 
     const [vacations, setVacations] = useState<VacationModel[]>([])
 
-    function handleCurrent(event: React.ChangeEvent<HTMLInputElement>) {
+    async function handleCurrent(event: React.ChangeEvent<HTMLInputElement>) {
         setCurrent(event.target.checked)
         
         if(!current){
             setFuture(false)
-            
+            await getVacations("current")            
         }
     }
 
-    function handleFuture(event: React.ChangeEvent<HTMLInputElement>) {
+    async function handleFuture(event: React.ChangeEvent<HTMLInputElement>) {
         setFuture(event.target.checked)
         
         if(!future){
             setCurrent(false)
+            await getVacations("future")
+        }
+    }
+
+    async function getVacations(filter: string): Promise<void> {
+        setVacations([])
+        let filterVacations: VacationModel[] = []
+        try {
+            if(filter === "future"){
+                filterVacations = await vacationService.getFutureVacations()
+                setVacations(filterVacations)
+            }
+            else if(filter === "current"){
+                filterVacations = await
+            }
+            
+            
+        }
+        catch (err: any) {
+            
         }
     }
     

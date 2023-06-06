@@ -154,6 +154,14 @@ class VacationsService {
         return vacations
     }
 
+    //Get current vacations:
+    public async getCurrentVacations(): Promise<VacationModel[]> {
+        const response = await axios.get<VacationModel[]>(appConfig.currentVacationsURL)
+        const vacations = response.data
+
+        return vacations
+    }
+
 }
 
 const vacationService = new VacationsService()
