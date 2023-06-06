@@ -141,8 +141,10 @@ async function getContinentImageName(continentName:string): Promise<string> {
 
 //Get all future-vacations:
 async function getFutureVacations(): Promise<VacationModel[]> {
-
-    const sql = `SELECT * FROM vacations
+ 
+    const sql = `SELECT vacationID, destination, continentID, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
+                DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate, DATEDIFF(endDate, startDate) AS duration, price, imageName
+                FROM vacations
                 WHERE startDate > CURRENT_DATE
                 ORDER BY startDate, endDate`
     const vacations = await dal.execute(sql)
@@ -151,7 +153,9 @@ async function getFutureVacations(): Promise<VacationModel[]> {
 
 async function getCurrentVacations(): Promise<VacationModel[]> {
 
-    const sql = `SELECT * FROM vacations
+    const sql = `SELECT vacationID, destination, continentID, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
+                DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate, DATEDIFF(endDate, startDate) AS duration, price, imageName
+                FROM vacations
                 WHERE startDate <= CURRENT_DATE && endDate >= CURRENT_DATE
                 ORDER BY startDate, endDate`
     const vacations = await dal.execute(sql)
