@@ -5,6 +5,8 @@ import "./Layout.css";
 import UserModel from "../../../4-Models/UserModel";
 import { authStore } from "../../../3-Redux/AuthState";
 import { useLocation } from "react-router-dom";
+import AdminSpeedDial from "../../UtilsComponents/AdminSpeedDial/AdminSpeedDial";
+import RoleModel from "../../../4-Models/RoleModel";
 
 function Layout(): JSX.Element {
 
@@ -26,7 +28,12 @@ function Layout(): JSX.Element {
             <header>
                 <Header user={user} />
             </header>
-			<Main />
+            <main>
+			    <Main />
+            </main>
+            <aside>
+                <AdminSpeedDial />
+            </aside>
         </div>
     );
 }

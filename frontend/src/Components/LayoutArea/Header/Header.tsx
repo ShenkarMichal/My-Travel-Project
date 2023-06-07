@@ -13,6 +13,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import authService from "../../../5-Service/AuthService";
 import UserModel from "../../../4-Models/UserModel";
+import RoleModel from "../../../4-Models/RoleModel";
 
 interface HeaderProp {
     user: UserModel
@@ -47,69 +48,71 @@ function Header(prop: HeaderProp): JSX.Element {
 
     return (
         <div className="Header">
-            {prop.user &&
-                <AppBar position="static" color="transparent" style={{boxShadow: "none"}}>
-                    <Container maxWidth="xl" >
-                        <Toolbar disableGutters>
-                        <NavLink to={"/vacations"}>
-                            <Typography
-                                variant="h6"
-                                noWrap
-                                sx={{
-                                mr: 2,
-                                display: { xs: 'none', md: 'flex' },
-                                fontFamily: 'Oswald',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: "white",
-                                textDecoration: 'none',
-                                }}
-                            >
-                                My Travel
-                            </Typography>
-                        </NavLink>
-                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page) => (
-                            <NavLink to={page.link} key={page.page}>
-                                    {page.page}
+            <AppBar position="static" color="transparent" style={{boxShadow: "none"}}>
+                <Container maxWidth="xl" >
+                    <Toolbar disableGutters>
+                        {prop.user && <>
+                            <NavLink to={"/vacations"}>
+                                <Typography
+                                    variant="h6"
+                                    noWrap
+                                    sx={{
+                                    mr: 2,
+                                    display: { xs: 'none', md: 'flex' },
+                                    fontFamily: 'Oswald',
+                                    fontWeight: 700,
+                                    letterSpacing: '.3rem',
+                                    color: "white",
+                                    textDecoration: 'none',
+                                    }}
+                                >
+                                    My Travel
+                                </Typography>
                             </NavLink>
-                            ))}
-                        </Box>
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                            </Tooltip>
-                            <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                            >
-                            {settings.map((setting) => (
-                                <NavLink to={setting.link} key={setting.head}>
-                                    <MenuItem  onClick={()=>handleCloseUserMenu(setting.head)} className="user-menu">
-                                       {setting.head}
-                                    </MenuItem>
+                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                                {pages.map((page) => (
+                                <NavLink to={page.link} key={page.page}>
+                                        {page.page}
                                 </NavLink>
-                            ))}
-                            </Menu>
-                        </Box>
+                                ))}
+                            </Box>
+                        </>}
+                        {prop.user?.role === RoleModel.user &&
+                            <Box sx={{ flexGrow: 0 }}>
+                                <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                </IconButton>
+                                </Tooltip>
+                                <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                                >
+                                {settings.map((setting) => (
+                                    <NavLink to={setting.link} key={setting.head}>
+                                        <MenuItem  onClick={()=>handleCloseUserMenu(setting.head)} className="user-menu">
+                                        {setting.head}
+                                        </MenuItem>
+                                    </NavLink>
+                                ))}
+                                </Menu>
+                            </Box>
+                        }
                         </Toolbar>
                     </Container>
                 </AppBar>   
-            }         
         </div>
     );
 }
