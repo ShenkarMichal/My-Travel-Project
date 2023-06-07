@@ -14,6 +14,7 @@ import FollowerModel from "../../../4-Models/FollowerModel";
 import followersService from "../../../5-Service/FollowersService";
 import { followersStore } from "../../../3-Redux/FollowersState";
 import { useEffect, useState } from "react";
+import { authStore } from "../../../3-Redux/AuthState";
 
 
 interface CardButtonsProp{
@@ -36,19 +37,21 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
     const [followNumber, setFollowNumber] = useState<number>(0)
     const [userFollow, setUserFollow] = useState<any[]>([])
 
-    useEffect(()=>{
-        followersService.getFollowNumberByVacation(prop.vacation?.vacationID)
-            .then(f => setFollowNumber(f))
-            .catch(err => console.log(err))
-        followersService.getVacationsByUser(prop.user?.userID)
-            .then(v => setUserFollow(v))
-            .catch(err => console.log(err))
-        const userVacationFollow = userFollow.find(v => v.vacationID === prop.vacation?.vacationID)
-            if(userVacationFollow){
-                setIsFollow(true)
-            }
-    },[prop])
-
+    setTimeout(()=>{
+            //Set the numer of followers per vacation:
+            followersService.getFollowNumberByVacation(prop.vacation?.vacationID)
+                .then(f => setFollowNumber(f))
+                .catch(err => console.log(err))
+            //Set the current user vacation (just vacationID):
+            followersService.getVacationsByUser(prop.user?.userID)
+                .then(v => setUserFollow(v))
+                .catch(err => console.log(err))
+            //Set the badge on state of follow/unFollow when the component is render:
+            const userVacationFollow = userFollow.find(v => v.vacationID === prop.vacation?.vacationID)
+                if(userVacationFollow){
+                    setIsFollow(true)
+                }    
+    },50) //Component will render after the redux will update.
 
     async function follow(userID:number, vacationID: number): Promise<void> {
         const follower = new FollowerModel(userID, vacationID)

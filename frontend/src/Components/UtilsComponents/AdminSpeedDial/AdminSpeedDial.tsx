@@ -10,8 +10,14 @@ import TableViewRoundedIcon from '@mui/icons-material/TableViewRounded';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import UserModel from "../../../4-Models/UserModel";
+import RoleModel from "../../../4-Models/RoleModel";
 
-function AdminSpeedDial(): JSX.Element {
+interface AdminSpeedDialProp {
+    user: UserModel
+}
+
+function AdminSpeedDial(prop: AdminSpeedDialProp): JSX.Element {
 
     const actions = [
         { icon: <AddLocationAltRoundedIcon />, name: 'Add Vacation', link: "/vacations/new" },
@@ -30,35 +36,39 @@ function AdminSpeedDial(): JSX.Element {
     }
       
     return (
-        <div className="AdminSpeedDial">
-			<Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>
-                <SpeedDial
-                    ariaLabel="SpeedDial basic example"
-                    sx={{ position: 'absolute', bottom: 16, right: 16 }}
-                    icon={<SpeedDialIcon />} 
-                    onClose={()=> setOpen(false)}
-                    onOpen={handleOpen}
-                    open={open} 
-                    FabProps={{
-                        sx: {
-                          bgcolor: 'rgb(133,84,26)',
-                          '&:hover': {
-                            bgcolor: 'rgb(146,156,122)',
-                          }
-                        }
-                    }}                                    
-                >
-                    {actions.map((action) => ( 
-                    <SpeedDialAction
-                        key={action.name}
-                        icon={action.icon}
-                        tooltipTitle={action.name}
-                        onClick={() => handleClose(action.link)}
-                    />
-                    ))}
-                </SpeedDial>
-            </Box>
-        </div>
+        <>
+        {prop.user?.role === RoleModel.admin &&
+            <div className="AdminSpeedDial">
+                <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>
+                    <SpeedDial
+                        ariaLabel="SpeedDial basic example"
+                        sx={{ position: 'absolute', bottom: 16, right: 16 }}
+                        icon={<SpeedDialIcon />} 
+                        onClose={()=> setOpen(false)}
+                        onOpen={handleOpen}
+                        open={open} 
+                        FabProps={{
+                            sx: {
+                            bgcolor: 'rgb(133,84,26)',
+                            '&:hover': {
+                                bgcolor: 'rgb(146,156,122)',
+                            }
+                            }
+                        }}                                    
+                    >
+                        {actions.map((action) => ( 
+                        <SpeedDialAction
+                            key={action.name}
+                            icon={action.icon}
+                            tooltipTitle={action.name}
+                            onClick={() => handleClose(action.link)}
+                        />
+                        ))}
+                    </SpeedDial>
+                </Box>
+            </div>
+        }
+        </>
     );
 }
 

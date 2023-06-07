@@ -14,7 +14,7 @@ function Layout(): JSX.Element {
     const [user, setUser] = useState<UserModel>()
 
     useEffect(()=>{
-        setUser(authStore.getState().user)
+        setUser(authStore.getState().user)        
         
         const unsubscribe = authStore.subscribe(()=>{
             setUser(authStore.getState().user)
@@ -31,11 +31,9 @@ function Layout(): JSX.Element {
             <main>
 			    <Main />
             </main>
-            {user?.role === RoleModel.admin &&
-                <aside>
-                    <AdminSpeedDial />
-                </aside>
-            }
+            <aside>
+                <AdminSpeedDial user={user} />
+            </aside>    
         </div>
     );
 }

@@ -11,7 +11,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import authService from "../../../5-Service/AuthService";
 import UserModel from "../../../4-Models/UserModel";
 import RoleModel from "../../../4-Models/RoleModel";
 
@@ -63,7 +62,7 @@ function Header(prop: HeaderProp): JSX.Element {
                                     textDecoration: 'none',
                                     }}
                                 >
-                                    My Travel{prop.user?.role && <span>hi</span>}
+                                    My Travel
                                 </Typography>
                             </NavLink>
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>

@@ -14,17 +14,16 @@ interface VacationCardProps {
 
 function VacationCard(props: VacationCardProps): JSX.Element {
     const [imageURl, setImageURL] = useState("")
-
     useEffect(()=>{
         vacationService.getVacationImageUrl(props.vacation.vacationID)
             .then(url => setImageURL(url))
             .catch(err => console.log(err))
-    },[props.vacation])
+    },[props])
 
 
     return (
         <div className="VacationCard" style={{backgroundImage: `url(${imageURl})`}} >
-            <CardButtons user={props.user} vacation={props.vacation}  />
+            <CardButtons  user={props.user} vacation={props.vacation}  />
             <NavLink to={`/vacations/${props.vacation?.vacationID}`}>
                     <h6>{props.vacation.destination}</h6>
                     <span>Start: {props.vacation.startDate}</span> <br/>

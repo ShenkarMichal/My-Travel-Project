@@ -106,7 +106,7 @@
     right: 10%;
     transform: translate(20%, -50%);
     color: #a4a2a2;
-    font-size: calc(100vh / 5);
+    font-size: calc(100vh / 8);
     padding: 0 5px;
     height: 100%;
     display: flex;

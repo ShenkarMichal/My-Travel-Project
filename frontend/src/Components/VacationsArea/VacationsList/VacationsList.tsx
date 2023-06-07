@@ -16,33 +16,27 @@ function VacationsList(): JSX.Element {
     const isLogged = verifyLogged.isLogged()
 
     const [vacations, setVacations] = useState<VacationModel[]>([]);
-    const [user, setUser] = useState<UserModel>()
 
     const cardRef = useRef(null);
     
     useEffect(() => {
         vacationService.getAllVacation()
-        .then((v) => setVacations(v))
-        .catch((err) => console.log(err));
-        
-        const unsubscribe = vacationsStore.subscribe(()=>{
-        vacationService.getAllVacation()
-        .then((v) => setVacations(v))
-        .catch((err) => console.log(err));
-        })
-
-        return ()=> unsubscribe()
-
-    }, []);
-
-    useEffect(()=>{
+            .then((v) => setVacations(v))
+            .catch((err) => console.log(err));
         setUser(authStore.getState().user)
-
+        console.log(user)
+    
         const unsubscribe = authStore.subscribe(()=>{
             setUser(authStore.getState().user)
         })
+    
+        return()=> unsubscribe()
+    }, []);
 
-        return ()=> unsubscribe()
+    const [user, setUser] = useState<UserModel>()
+
+    useEffect(()=>{
+
     },[])
 
     useEffect(() => {
@@ -62,33 +56,32 @@ function VacationsList(): JSX.Element {
         cardRef.current.style.animationTimingFunction = 'linear';
         cardRef.current.style.animationIterationCount = 'infinite';
         }
+            
+        let animationTimeout: string | number | NodeJS.Timeout; // Variable to retrieve the animation after a break
 
-        
-    let animationTimeout: string | number | NodeJS.Timeout; // Variable to retrieve the animation after a break
+        const handleMouseEnter = () => {
+            if (cardRef.current) {
+            cardRef.current.style.animationPlayState = 'paused'; // Pause the animation when mouse enter
+            }
+        };
 
-    const handleMouseEnter = () => {
-        if (cardRef.current) {
-        cardRef.current.style.animationPlayState = 'paused'; // Pause the animation when mouse enter
-        }
-    };
+        const handleMouseLeave = () => {
+            if (cardRef.current) {
+            animationTimeout = setTimeout(() => {
+                cardRef.current.style.animationPlayState = 'running'; // Continue the animation from the point where it paused
+            }, 1000); // The duration of the pause before continuing
+            }
+        };
 
-    const handleMouseLeave = () => {
-        if (cardRef.current) {
-        animationTimeout = setTimeout(() => {
-            cardRef.current.style.animationPlayState = 'running'; // Continue the animation from the point where it paused
-        }, 500); // The duration of the pause before continuing
-        }
-    };
+        cardRef.current?.addEventListener('mouseenter', handleMouseEnter);
+        cardRef.current?.addEventListener('mouseleave', handleMouseLeave);
 
-    cardRef.current?.addEventListener('mouseenter', handleMouseEnter);
-    cardRef.current?.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-        // Clearing the events and timeout at the end of the component's life:
-        cardRef.current?.removeEventListener('mouseenter', handleMouseEnter);
-        cardRef.current?.removeEventListener('mouseleave', handleMouseLeave);
-        clearTimeout(animationTimeout);
-    };
+        return () => {
+            // Clearing the events and timeout at the end of the component's life:
+            cardRef.current?.removeEventListener('mouseenter', handleMouseEnter);
+            cardRef.current?.removeEventListener('mouseleave', handleMouseLeave);
+            clearTimeout(animationTimeout);
+        };
 
     }, [vacations]);
 

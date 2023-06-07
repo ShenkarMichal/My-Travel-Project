@@ -4,6 +4,7 @@ import VacationModel from "../4-Models/VacationModel"
 import appConfig from "../2-Utils/Config"
 import ContinentModel from "../4-Models/ContinentModel"
 import { ContinentsActionType, continentsStore } from "../3-Redux/ContinentsState"
+import followersService from "./FollowersService"
 
 class VacationsService {
 
@@ -195,6 +196,24 @@ class VacationsService {
         }
 
         return vacations
+    }
+
+    //Get vacations by user:
+    public async getVacationsByUser(userID: number): Promise<VacationModel[]> {
+        let allVacations = vacationsStore.getState().vacations
+        let userVacations: VacationModel[] = []
+        if(allVacations.length === 0) {
+            const response = await axios.get<VacationModel[]>(appConfig.userVacationsURL + userID)
+            userVacations = response.data            
+        }
+        else {
+            const vacationOfFollower = await followersService.getVacationsByUser(userID)
+            userVacations = allVacations.filter(v => {
+                vacationOfFollower.find( f => f === v.vacationID)
+            })
+            console.log(vacationOfFollower)
+        }
+        return userVacations
     }
 
 }
