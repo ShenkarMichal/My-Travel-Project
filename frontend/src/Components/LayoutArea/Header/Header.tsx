@@ -29,7 +29,7 @@ function Header(prop: HeaderProp): JSX.Element {
     const settings = [
         {head: 'Profile', link: "/auth/profile"},
         {head: 'My Travels', link: "/auth/vacations"},
-        {head: 'Logout', link: "/auth/login" }
+        {head: 'Logout', link: "/auth/logout" }
     ];
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -39,10 +39,7 @@ function Header(prop: HeaderProp): JSX.Element {
     };
 
     function handleCloseUserMenu(head: string) {
-        if(head === "Logout"){
-            authService.logout()
-            alert("Goodbye, we look forward to seeing you again soon!!")
-        }
+
         setAnchorElUser(null);
     };
 

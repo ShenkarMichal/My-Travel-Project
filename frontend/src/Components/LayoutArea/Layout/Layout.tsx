@@ -31,9 +31,11 @@ function Layout(): JSX.Element {
             <main>
 			    <Main />
             </main>
-            <aside>
-                <AdminSpeedDial />
-            </aside>
+            {user?.role === RoleModel.admin &&
+                <aside>
+                    <AdminSpeedDial />
+                </aside>
+            }
         </div>
     );
 }

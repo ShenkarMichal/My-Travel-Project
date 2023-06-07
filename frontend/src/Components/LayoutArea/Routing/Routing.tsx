@@ -15,7 +15,10 @@ import About from "../../More/About/About";
 import Profile from "../../AuthArea/Profile/Profile";
 import UserVacations from "../../AuthArea/UserVacations/UserVacations";
 import Contact from "../../More/Contact/Contact";
-import DeleteVacation from "../../UtilsComponents/DeleteVacation/DeleteVacation";
+import DeleteVacation from "../../VacationsArea/DeleteVacation/DeleteVacation";
+import Logout from "../../AuthArea/Logout/Logout";
+import VacationsReport from "../../VacationsArea/VacationsReport/VacationsReport";
+import VacationsCSV from "../../VacationsArea/VacationsCSV/VacationsCSV";
 
 
 function Routing(): JSX.Element {
@@ -27,6 +30,7 @@ function Routing(): JSX.Element {
                 {/* Auth Routes: */}
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/login" element={<Login />} />
+                <Route path="/auth/logout" element={<Logout />} />
                 <Route path="/auth/recovery" element={<PasswordRecovery />} />
                 <Route path="/auth/recovery/update-password/:email" element={<UpdatePassword />} />
                 <Route path="/auth/profile" element={<Profile />} />
@@ -40,6 +44,8 @@ function Routing(): JSX.Element {
                 <Route path="/vacations/new" element={<AddVacation />} />
                 <Route path="/vacations/update/:vacationID" element={<UpdateVacation />} />
                 <Route path="/vacations/delete/:vacationID" element={<DeleteVacation />} />
+                <Route path="/vacations/report" element={<VacationsReport />} />
+                <Route path="/vacations/csv-download" element={<VacationsCSV />} />
 
                 {/* More links: */}
                 <Route path="/about" element={<About />} />
