@@ -15,12 +15,12 @@ function Layout(): JSX.Element {
 
     useEffect(()=>{
         setUser(authStore.getState().user)
-
+        
         const unsubscribe = authStore.subscribe(()=>{
             setUser(authStore.getState().user)
         })
 
-        return () => unsubscribe()
+        return ()=> unsubscribe()
     },[])
     
     return (

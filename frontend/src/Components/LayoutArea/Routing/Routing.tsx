@@ -13,7 +13,7 @@ import AddVacation from "../../VacationsArea/AddVacation/AddVacation";
 import UpdateVacation from "../../VacationsArea/UpdateVacation/UpdateVacation";
 import About from "../../More/About/About";
 import Profile from "../../AuthArea/Profile/Profile";
-import UserVacations from "../../AuthArea/UserVacations/UserVacations";
+import UserVacations from "../../VacationsArea/UserVacations/UserVacations";
 import Contact from "../../More/Contact/Contact";
 import DeleteVacation from "../../VacationsArea/DeleteVacation/DeleteVacation";
 import Logout from "../../AuthArea/Logout/Logout";

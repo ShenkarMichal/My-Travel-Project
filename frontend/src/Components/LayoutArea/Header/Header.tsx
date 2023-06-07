@@ -63,7 +63,7 @@ function Header(prop: HeaderProp): JSX.Element {
                                     textDecoration: 'none',
                                     }}
                                 >
-                                    My Travel
+                                    My Travel{prop.user?.role && <span>hi</span>}
                                 </Typography>
                             </NavLink>
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
