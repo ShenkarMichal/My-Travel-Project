@@ -209,7 +209,8 @@ class VacationsService {
         else {
             const vacationOfFollower = await followersService.getVacationsByUser(userID)
             userVacations = allVacations.filter(v => {
-                vacationOfFollower.find( f => f === v.vacationID)
+                console.log(v)
+                vacationOfFollower.find( f => f.vacationID === v.vacationID)
             })
             console.log(vacationOfFollower)
         }

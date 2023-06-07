@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import UserModel from "../../../4-Models/UserModel";
 import RoleModel from "../../../4-Models/RoleModel";
@@ -27,7 +27,7 @@ function Header(prop: HeaderProp): JSX.Element {
 
     const settings = [
         {head: 'Profile', link: "/auth/profile"},
-        {head: 'My Travels', link: "/auth/vacations"},
+        {head: 'My Travels', link: `/vacations/by-user/${prop.user?.userID}`},
         {head: 'Logout', link: "/auth/logout" }
     ];
 
@@ -37,7 +37,7 @@ function Header(prop: HeaderProp): JSX.Element {
         setAnchorElUser(event.currentTarget);
     };
 
-    function handleCloseUserMenu(head: string) {
+    function handleCloseUserMenu() {
 
         setAnchorElUser(null);
     };
@@ -98,7 +98,7 @@ function Header(prop: HeaderProp): JSX.Element {
                                 >
                                 {settings.map((setting) => (
                                     <NavLink to={setting.link} key={setting.head}>
-                                        <MenuItem  onClick={()=>handleCloseUserMenu(setting.head)} className="user-menu">
+                                        <MenuItem  onClick={handleCloseUserMenu} className="user-menu">
                                         {setting.head}
                                         </MenuItem>
                                     </NavLink>

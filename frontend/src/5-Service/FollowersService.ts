@@ -49,7 +49,7 @@ class FollowersService {
         return number
     }
 
-    public async getVacationsByUser(userID: number): Promise<[]> {
+    public async getVacationsByUser(userID: number): Promise<{vacationID: number}[]> {
 
         const response = await axios.get<[]>(appConfig.vacationOfFollower + userID)
         const vacationsNumbers = response.data

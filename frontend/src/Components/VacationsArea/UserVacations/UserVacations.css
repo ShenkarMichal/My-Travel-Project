@@ -1,3 +1,9 @@
-.UserVacations {
+.UserVacations > .Background {
+    background-image: url("../../../1-Assets/Images/BackGrounds/userBackground.jpg");
 	
+}
+
+.UserVacations > .Content {
+    background-image: url("../../../1-Assets/Images/BackGrounds/userBackground.jpg");
+
 }

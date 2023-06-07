@@ -4,12 +4,9 @@ import "./VacationCard.css";
 import vacationService from "../../../5-Service/VacationsService";
 import CardButtons from "../../UtilsComponents/CardButtons/CardButtons";
 import { NavLink, useNavigate } from "react-router-dom";
-import UserModel from "../../../4-Models/UserModel";
-
 
 interface VacationCardProps {
     vacation: VacationModel
-    user: UserModel
 }
 
 function VacationCard(props: VacationCardProps): JSX.Element {
@@ -23,7 +20,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
 
     return (
         <div className="VacationCard" style={{backgroundImage: `url(${imageURl})`}} >
-            <CardButtons  user={props.user} vacation={props.vacation}  />
+            <CardButtons vacation={props.vacation}  />
             <NavLink to={`/vacations/${props.vacation?.vacationID}`}>
                     <h6>{props.vacation.destination}</h6>
                     <span>Start: {props.vacation.startDate}</span> <br/>

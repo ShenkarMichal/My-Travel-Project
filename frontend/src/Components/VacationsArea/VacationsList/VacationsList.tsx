@@ -4,7 +4,7 @@ import "./VacationsList.css";
 import VacationModel from "../../../4-Models/VacationModel";
 import vacationService from "../../../5-Service/VacationsService";
 import points from "../../../1-Assets/Images/UtilsImages/WhitePoints.png"
-import FilterButton from "../FilterButton/FilterButton";
+import FilterButton from "../../UtilsComponents/FilterButton/FilterButton";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
 import { vacationsStore } from "../../../3-Redux/VacationsState";
@@ -23,21 +23,9 @@ function VacationsList(): JSX.Element {
         vacationService.getAllVacation()
             .then((v) => setVacations(v))
             .catch((err) => console.log(err));
-        setUser(authStore.getState().user)
-        console.log(user)
-    
-        const unsubscribe = authStore.subscribe(()=>{
-            setUser(authStore.getState().user)
-        })
-    
-        return()=> unsubscribe()
+
     }, []);
 
-    const [user, setUser] = useState<UserModel>()
-
-    useEffect(()=>{
-
-    },[])
 
     useEffect(() => {
         const cardWidth = '200';
@@ -103,7 +91,7 @@ function VacationsList(): JSX.Element {
             <div className="marquee-container">
                 <div className="marquee">
                     <div className="marquee-content" ref={cardRef}>
-                        {vacations.map((v) => (<VacationCard vacation={v} user={user} key={v.vacationID} />))}
+                        {vacations.map((v) => (<VacationCard vacation={v} key={v.vacationID} />))}
                     </div>
                 </div>
                 <img src={points} />

@@ -13,17 +13,6 @@ import { authStore } from "../../../3-Redux/AuthState";
 import { Pagination } from "@mui/material";
 
 function DateArea(): JSX.Element {
-    const [user, setUser] = useState<UserModel>()
-
-    useEffect(()=>{
-        setUser(authStore.getState().user)
-
-        const unsubscribe = authStore.subscribe(()=>{
-            setUser(authStore.getState().user)
-        })
-    
-        return ()=> unsubscribe()
-    },[])
     
     const [current, setCurrent] = useState<boolean>(false)
     const [future, setFuture] = useState<boolean>(false)
@@ -95,8 +84,9 @@ function DateArea(): JSX.Element {
     
     return (
         <>
-        <div className="DateArea"></div>
-            <div className="DataContent">
+        <div className="DateArea">
+            <div className="Background"></div>
+            <div className="Content">
                 <Checkbox 
                     checked = {future}
                     onChange={handleFuture}
@@ -123,7 +113,7 @@ function DateArea(): JSX.Element {
                                                 map(v => 
                                                     <div className="card" key={v.vacationID}>
                                                         <span>{v.duration} days in {v.destination}</span><br/>
-                                                        <VacationCard key={v.vacationID} vacation={v} user={user}/>
+                                                        <VacationCard key={v.vacationID} vacation={v}/>
                                                         <span>Just {v.price}$</span>
                                                     </div>)}
                     </div>
@@ -132,6 +122,7 @@ function DateArea(): JSX.Element {
                     <Pagination className="Pagination" count={pageNumber} page={currentPage} onChange={HandleChangePage} color="primary"/>
                 }  
             </div>
+        </div>
         </>
     );
 }

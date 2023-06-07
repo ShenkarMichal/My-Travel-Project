@@ -18,7 +18,6 @@ import { authStore } from "../../../3-Redux/AuthState";
 
 
 interface CardButtonsProp{
-    user: UserModel
     vacation: VacationModel
 }
 function CardButtons(prop: CardButtonsProp): JSX.Element {
@@ -32,25 +31,30 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
         },
     }));
 
+    const [user, setUser] = useState<UserModel>()
+
     //Set the current-follow:
     const [isFollow, setIsFollow] = useState<boolean>(false)
     const [followNumber, setFollowNumber] = useState<number>(0)
     const [userFollow, setUserFollow] = useState<any[]>([])
 
     setTimeout(()=>{
+            //Set the user from Redux:
+            setUser(authStore.getState().user)
             //Set the numer of followers per vacation:
             followersService.getFollowNumberByVacation(prop.vacation?.vacationID)
                 .then(f => setFollowNumber(f))
                 .catch(err => console.log(err))
             //Set the current user vacation (just vacationID):
-            followersService.getVacationsByUser(prop.user?.userID)
+            followersService.getVacationsByUser(user?.userID)
                 .then(v => setUserFollow(v))
                 .catch(err => console.log(err))
             //Set the badge on state of follow/unFollow when the component is render:
             const userVacationFollow = userFollow.find(v => v.vacationID === prop.vacation?.vacationID)
                 if(userVacationFollow){
                     setIsFollow(true)
-                }    
+                }  
+              
     },50) //Component will render after the redux will update.
 
     async function follow(userID:number, vacationID: number): Promise<void> {
@@ -86,11 +90,11 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
 
     return (
         <div className="CardButtons">
-            {prop.user?.role === RoleModel.user &&
+            {user?.role === RoleModel.user &&
                 <>
                     {/* Follower-button */}
                     <IconButton aria-label="follow" 
-                    onClick={() => follow(prop.user.userID, prop.vacation.vacationID)}
+                    onClick={() => follow(user.userID, prop.vacation.vacationID)}
                     >
                         <StyledBadge badgeContent={followNumber} color="error" sx={{fontSize: 15}}>
                             {!isFollow &&
@@ -104,7 +108,7 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                     {/* Followers-count */}
                 </>
             } 
-            {prop.user?.role === RoleModel.admin &&
+            {user?.role === RoleModel.admin &&
                 <>
                     {/* Edit-button */}
                     <NavLink to={`/vacations/update/${prop.vacation?.vacationID}`} title="Edit">

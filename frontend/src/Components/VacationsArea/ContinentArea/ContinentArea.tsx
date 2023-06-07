@@ -9,25 +9,13 @@ import ContinentsSentences, { ContinentsSentencesModel } from "../../../2-Utils/
 import { NavLink, Navigate } from "react-router-dom";
 import SelectContinent from "../../UtilsComponents/SelectContinent/SelectContinent";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
-import UserModel from "../../../4-Models/UserModel";
-import { authStore } from "../../../3-Redux/AuthState";
+
 
 function ContinentArea(): JSX.Element {
 
     const isLogged = verifyLogged.isLogged()
 
     const [vacations, setVacations] = useState<VacationModel[]>([])
-    const [user, setUser] = useState<UserModel>()
-
-    useEffect(()=>{
-        setUser(authStore.getState().user)
-
-        const unsubscribe = authStore.subscribe(()=>{
-            setUser(authStore.getState().user)
-        })
-    
-        return ()=> unsubscribe()
-    },[])
 
     //Set Pagination:
     const [pageNumber, setPageNumber] = useState<number>(0)
@@ -75,16 +63,6 @@ function ContinentArea(): JSX.Element {
         setCurrentPage(newPage)
     }
 
-    async function deleteVacation(vacationID:number):Promise<void> {
-        try {
-            await vacationService.deleteVacation(vacationID)    
-            console.log("The vacation ahs been successfully deleted")
-        }
-        catch (err: any) {
-            console.log(err)            
-        }        
-    }
-
     return (
         <>
         {isLogged &&
@@ -106,7 +84,7 @@ function ContinentArea(): JSX.Element {
                                                     map(v => 
                                                         <div className="card" key={v.vacationID}>
                                                             <span>{v.duration} days in {v.destination}</span><br/>
-                                                            <VacationCard key={v.vacationID} vacation={v} user={user}/>
+                                                            <VacationCard key={v.vacationID} vacation={v} />
                                                             <span>Just {v.price}$</span>
                                                         </div>)}
                         </div>

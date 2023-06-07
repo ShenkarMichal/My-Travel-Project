@@ -34,7 +34,6 @@ function Routing(): JSX.Element {
                 <Route path="/auth/recovery" element={<PasswordRecovery />} />
                 <Route path="/auth/recovery/update-password/:email" element={<UpdatePassword />} />
                 <Route path="/auth/profile" element={<Profile />} />
-                <Route path="/auth/vacations" element={<UserVacations />} />
 
                 {/* Vacations Routes: */}
                 <Route path="/vacations" element={<VacationsList />} />
@@ -44,6 +43,7 @@ function Routing(): JSX.Element {
                 <Route path="/vacations/new" element={<AddVacation />} />
                 <Route path="/vacations/update/:vacationID" element={<UpdateVacation />} />
                 <Route path="/vacations/delete/:vacationID" element={<DeleteVacation />} />
+                <Route path="/vacations/by-user/:userID" element={<UserVacations />} />
                 <Route path="/vacations/report" element={<VacationsReport />} />
                 <Route path="/vacations/csv-download" element={<VacationsCSV />} />
 
