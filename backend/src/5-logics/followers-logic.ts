@@ -2,6 +2,7 @@ import dal from "../2-utils/dal"
 import dataUtils from "../2-utils/data-utils"
 import { ResourceNotFoundErrorModel } from "../4-models/errors-model"
 import FollowersModel from "../4-models/followers-model"
+import VacationModel from "../4-models/vacation-model"
 
 async function setNewFollow(follower: FollowersModel): Promise<void> {
     //If vacation is not exists:
@@ -62,11 +63,10 @@ async function getNumberOfFollowersByVacationID(vacationID:number): Promise<numb
     return followersNumber[0].followersNumber  
 }
 
-
 export default {
     getAllFollowers,
     setNewFollow,
     deleteFollower,
     getAllVacationIDByUserID,
-    getNumberOfFollowersByVacationID
+    getNumberOfFollowersByVacationID,
 }

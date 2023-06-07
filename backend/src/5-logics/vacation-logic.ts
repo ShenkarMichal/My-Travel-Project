@@ -5,6 +5,7 @@ import { ResourceNotFoundErrorModel, ValidationErrorModel } from "../4-models/er
 import { v4 as uuid } from "uuid";
 import fs from "fs";
 import ContinentModel from "../4-models/continent-model";
+import dataUtils from "../2-utils/data-utils";
 
 //Get all vacations:
 async function getAllVacation(): Promise<VacationModel[]> {
@@ -140,8 +141,7 @@ async function getContinentImageName(continentName:string): Promise<string> {
 }
 
 //Get all future-vacations:
-async function getFutureVacations(): Promise<VacationModel[]> {
- 
+async function getFutureVacations(): Promise<VacationModel[]> { 
     const sql = `SELECT vacationID, destination, continentID, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
                 DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate, DATEDIFF(endDate, startDate) AS duration, price, imageName
                 FROM vacations
@@ -151,8 +151,8 @@ async function getFutureVacations(): Promise<VacationModel[]> {
     return vacations    
 }
 
+//Get current vacations:
 async function getCurrentVacations(): Promise<VacationModel[]> {
-
     const sql = `SELECT vacationID, destination, continentID, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
                 DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate, DATEDIFF(endDate, startDate) AS duration, price, imageName
                 FROM vacations
@@ -160,6 +160,20 @@ async function getCurrentVacations(): Promise<VacationModel[]> {
                 ORDER BY startDate, endDate`
     const vacations = await dal.execute(sql)
     return vacations    
+}
+
+//Get vacations by user:
+async function getVacationsByUser(userID:number): Promise<VacationModel> {
+    //If user is not exists:
+    const userCount = await dataUtils.isDataExists(userID, "userID", "users")
+    if(!userCount) throw new ResourceNotFoundErrorModel(userID)
+
+    //Get the vacations from database:
+    const sql = `SELECT * FROM vacations AS V JOIN followers AS F
+                ON V.vacationID = F.VacationID
+                WHERE F.userID = ${userID}`
+    const vacations = await dal.execute(sql)
+    return vacations       
 }
 
 //Utilities function of saving and deleting images:
@@ -194,5 +208,6 @@ export default {
     getAllContinents,
     getContinentImageName,
     getFutureVacations,
-    getCurrentVacations
+    getCurrentVacations,
+    getVacationsByUser
 }

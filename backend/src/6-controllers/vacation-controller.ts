@@ -140,5 +140,17 @@ router.get("/vacations/by-date/current", isLoggedIn,async (request: Request, res
     }
 })
 
+//Get vacations by userID:
+router.get("/vacations/by-user/:userID([0-9]+)", isLoggedIn, async (requset:Request, response: Response, next: NextFunction) => {
+    try {
+        const userID = +requset.params.userID
+        const vacations = await vacationLogic.getVacationsByUser(userID)
+        response.status(200).json(vacations)            
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
 
 export default router
