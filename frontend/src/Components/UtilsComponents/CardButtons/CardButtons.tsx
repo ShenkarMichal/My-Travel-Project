@@ -19,7 +19,6 @@ import { useEffect, useState } from "react";
 interface CardButtonsProp{
     user: UserModel
     vacation: VacationModel
-    deleteVacation: (data: number)=> void
 }
 function CardButtons(prop: CardButtonsProp): JSX.Element {
 
@@ -109,9 +108,9 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                         <EditLocationAltIcon color="warning" sx={{fontSize: 35}} />
                     </NavLink>
                     {/* Delete-button */}
-                    <a onClick={()=>prop.deleteVacation(prop.vacation?.vacationID)} title="Delete">
+                    <NavLink to= {`/vacations/delete/${prop.vacation?.vacationID}`} title="Delete" >
                         <LocationOffIcon color="error" sx={{fontSize: 35}}/>
-                    </a>
+                    </NavLink>
 
                 </>
             }

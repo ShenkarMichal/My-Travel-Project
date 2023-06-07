@@ -82,6 +82,16 @@ function DateArea(): JSX.Element {
             console.log(err)            
         }
     }
+
+    async function deleteVacation(vacationID:number):Promise<void> {
+        try {
+            await vacationService.deleteVacation(vacationID)    
+            console.log("The vacation ahs been successfully deleted")
+        }
+        catch (err: any) {
+            console.log(err)            
+        }        
+    }
     
     return (
         <>

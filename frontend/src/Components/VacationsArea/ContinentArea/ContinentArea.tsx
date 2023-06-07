@@ -75,6 +75,16 @@ function ContinentArea(): JSX.Element {
         setCurrentPage(newPage)
     }
 
+    async function deleteVacation(vacationID:number):Promise<void> {
+        try {
+            await vacationService.deleteVacation(vacationID)    
+            console.log("The vacation ahs been successfully deleted")
+        }
+        catch (err: any) {
+            console.log(err)            
+        }        
+    }
+
     return (
         <>
         {isLogged &&

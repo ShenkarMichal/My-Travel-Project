@@ -15,6 +15,7 @@ import About from "../../More/About/About";
 import Profile from "../../AuthArea/Profile/Profile";
 import UserVacations from "../../AuthArea/UserVacations/UserVacations";
 import Contact from "../../More/Contact/Contact";
+import DeleteVacation from "../../UtilsComponents/DeleteVacation/DeleteVacation";
 
 
 function Routing(): JSX.Element {
@@ -38,6 +39,7 @@ function Routing(): JSX.Element {
                 <Route path="/vacations/filter/by-date" element={<DateArea />} />
                 <Route path="/vacations/new" element={<AddVacation />} />
                 <Route path="/vacations/update/:vacationID" element={<UpdateVacation />} />
+                <Route path="/vacations/delete/:vacationID" element={<DeleteVacation />} />
 
                 {/* More links: */}
                 <Route path="/about" element={<About />} />

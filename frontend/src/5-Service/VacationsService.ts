@@ -100,8 +100,6 @@ class VacationsService {
         await axios.delete(appConfig.vacationURL + vacationID)
         //Delete vacation from the store:
         vacationsStore.dispatch({type: VacationsActionType.deleteVacation, payload: vacationID})
-
-        console.log(vacationsStore.getState().vacations.length)
     }
 
     //Get vacations by continent:
@@ -148,16 +146,53 @@ class VacationsService {
 
     //Get future vacations:
     public async getFutureVacations(): Promise<VacationModel[]> {
-        const response = await axios.get<VacationModel[]>(appConfig.futureVacationsURL)
-        const vacations = response.data
+        //Set the current date without time:
+        const now = new Date()
+        now.setHours(0,0,0,0)
 
+        const allVacations = vacationsStore.getState().vacations
+        let vacations: VacationModel[]
+        //If the vacations are not exist in the state:
+        if(allVacations.length === 0){
+            const response = await axios.get<VacationModel[]>(appConfig.futureVacationsURL)
+            vacations = response.data
+        }
+        else {
+            vacations = allVacations.filter(v =>{                
+                const [day, month, year] = v.startDate.split("/").map(Number)
+                const startDate = new Date (year, month-1, day)
+                startDate.setHours(0,0,0,0)
+                return startDate > now
+            })
+        }
         return vacations
     }
 
     //Get current vacations:
     public async getCurrentVacations(): Promise<VacationModel[]> {
-        const response = await axios.get<VacationModel[]>(appConfig.currentVacationsURL)
-        const vacations = response.data
+        //Set the current date without time:
+        const now = new Date()
+        now.setHours(0,0,0,0)
+        const allVacations = vacationsStore.getState().vacations
+        let vacations: VacationModel[]
+
+        //If the store is empty:
+        if(allVacations.length === 0){
+            const response = await axios.get<VacationModel[]>(appConfig.currentVacationsURL)
+            vacations = response.data
+        }
+        else {
+            vacations = allVacations.filter(v => {
+                const [Sday, Smonth, Syear] = v.startDate.split("/").map(Number)
+                const startDate = new Date(Syear, Smonth-1, Sday)
+                startDate.setHours(0,0,0,0)
+                const [Eday, Emonth, Eyear] = v.endDate.split("/").map(Number)
+                const endDate = new Date(Eyear, Emonth-1, Eday)
+                endDate.setHours(0,0,0,0)
+
+                return startDate <= now && endDate >= now
+            })
+        }
 
         return vacations
     }

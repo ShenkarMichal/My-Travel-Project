@@ -37,7 +37,6 @@ export function vacationReducer(currentState = new VacationsState(), action: Vac
             break
         case VacationsActionType.deleteVacation:
             const indexToDelete = newState.vacations.findIndex(v => v.vacationID === action.payload)
-            console.log(indexToDelete)
             newState.vacations.splice(indexToDelete, 1)
             break
     }
