@@ -1,3 +1,4 @@
+import csvWriter from "../2-utils/csv-writer"
 import dal from "../2-utils/dal"
 import dataUtils from "../2-utils/data-utils"
 import { ResourceNotFoundErrorModel } from "../4-models/errors-model"
@@ -63,10 +64,22 @@ async function getNumberOfFollowersByVacationID(vacationID:number): Promise<numb
     return followersNumber[0].followersNumber  
 }
 
+async function getDataOfCsvFile(): Promise<string> {
+    const sql = `SELECT V.destination, COUNT(F.vacationID) AS followers_count
+                FROM vacations AS V
+                JOIN followers AS F
+                ON V.vacationID = F.vacationID
+                GROUP BY V.destination`
+    const data = await dal.execute(sql)
+    const now = await csvWriter.writeCsv(data)  
+    return now  
+}
+
 export default {
     getAllFollowers,
     setNewFollow,
     deleteFollower,
     getAllVacationIDByUserID,
     getNumberOfFollowersByVacationID,
+    getDataOfCsvFile
 }
