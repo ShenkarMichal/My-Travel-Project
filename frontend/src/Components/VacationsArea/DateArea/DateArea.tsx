@@ -37,6 +37,10 @@ function DateArea(): JSX.Element {
             setFuture(false)
             await getVacations("current")                        
         }
+        else {
+            setVacations([])
+            setFilter("") 
+        }
     }
 
     async function handleFuture(event: React.ChangeEvent<HTMLInputElement>) {
@@ -45,6 +49,10 @@ function DateArea(): JSX.Element {
         if(!future){
             setCurrent(false)
             await getVacations("future")
+        }
+        else {
+            setVacations([])
+            setFilter("") 
         }
     }
 
@@ -71,16 +79,6 @@ function DateArea(): JSX.Element {
             console.log(err)            
         }
     }
-
-    async function deleteVacation(vacationID:number):Promise<void> {
-        try {
-            await vacationService.deleteVacation(vacationID)    
-            console.log("The vacation ahs been successfully deleted")
-        }
-        catch (err: any) {
-            console.log(err)            
-        }        
-    }
     
     return (
         <>
@@ -105,8 +103,10 @@ function DateArea(): JSX.Element {
                 <div className="AllData">
                     <div className="Heading">
                         <h3>{filter}</h3>
-                        {/* <span>{continentSentence?.sentence}</span><br/>
-                        <p>{continentSentence?.src}</p> */}
+                        {filter && <>
+                            <span>The opportunity will soon pass, </span><br/>
+                            <span>to reserve a place contact us immediately</span>
+                        </>}
                     </div>
                     <div className="Vacations">
                         {vacations && vacations.slice((currentPage-1)* vacationPerPage, currentPage * vacationPerPage).
