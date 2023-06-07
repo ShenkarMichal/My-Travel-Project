@@ -56,6 +56,10 @@ class FollowersService {
 
         return vacationsNumbers
     }
+
+    public async getCsvFile(): Promise<void> {
+        await axios.get(appConfig.csvFileDownloadURL)
+    }
 }
 
 const followersService = new FollowersService()

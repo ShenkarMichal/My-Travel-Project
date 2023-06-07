@@ -19,6 +19,7 @@ class Config {
     public followURL = "http://localhost:3001/api/follow/"
     public vacationOfFollower = "http://localhost:3001/api/vacation-of-follow/"
     public followerNumberOfVacation = "http://localhost:3001/api/follow-of-vacation/"
+    public csvFileDownloadURL = "http://localhost:3001/api/follow-of-vacation/download"
 }
 
 const appConfig = new Config()

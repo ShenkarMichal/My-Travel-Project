@@ -64,15 +64,14 @@ async function getNumberOfFollowersByVacationID(vacationID:number): Promise<numb
     return followersNumber[0].followersNumber  
 }
 
-async function getDataOfCsvFile(): Promise<string> {
+async function getDataOfCsvFile(): Promise<void> {
     const sql = `SELECT V.destination, COUNT(F.vacationID) AS followers_count
                 FROM vacations AS V
                 JOIN followers AS F
                 ON V.vacationID = F.vacationID
                 GROUP BY V.destination`
     const data = await dal.execute(sql)
-    const now = await csvWriter.writeCsv(data)  
-    return now  
+    await csvWriter.writeCsv(data)  
 }
 
 export default {

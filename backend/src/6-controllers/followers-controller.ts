@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express'
 import followersLogic from '../5-logics/followers-logic'
-import isLoggedIn from '../3-middlewares/is-logged-in'
 import FollowersModel from '../4-models/followers-model'
+import path, { dirname } from 'path'
 
 const router = express.Router()
 //Get all followers:
@@ -65,6 +65,18 @@ router.get("/follow-of-vacation/:vacationID([0-9]+)",async (requset:Request, res
         const vacationID = +requset.params.vacationID
         const numberOfFollowers = await followersLogic.getNumberOfFollowersByVacationID(vacationID)
         response.status(200).json(numberOfFollowers)            
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
+//Get the csv-file download:
+router.get("/follow-of-vacation/download",async (requset:Request, response: Response, next: NextFunction) => {
+    try {
+        await followersLogic.getDataOfCsvFile()
+        const filePath = path.join(__dirname, '..', '..','src', '1-assets', 'files', `output-${new Date().toDateString()}.csv`);
+        response.download(filePath)
     }
     catch (err: any) {
         next(err)        
