@@ -11,10 +11,8 @@ import ContinentArea from "../../VacationsArea/ContinentArea/ContinentArea";
 import DateArea from "../../VacationsArea/DateArea/DateArea";
 import AddVacation from "../../VacationsArea/AddVacation/AddVacation";
 import UpdateVacation from "../../VacationsArea/UpdateVacation/UpdateVacation";
-import About from "../../More/About/About";
 import Profile from "../../AuthArea/Profile/Profile";
 import UserVacations from "../../VacationsArea/UserVacations/UserVacations";
-import Contact from "../../More/Contact/Contact";
 import DeleteVacation from "../../VacationsArea/DeleteVacation/DeleteVacation";
 import Logout from "../../AuthArea/Logout/Logout";
 import VacationsReport from "../../VacationsArea/VacationsReport/VacationsReport";
@@ -46,10 +44,6 @@ function Routing(): JSX.Element {
                 <Route path="/vacations/by-user/:userID" element={<UserVacations />} />
                 <Route path="/vacations/report" element={<VacationsReport />} />
                 <Route path="/vacations/csv-download" element={<VacationsCSV />} />
-
-                {/* More links: */}
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
 
                 {/* Default Route: */}
                 <Route path="/" element={<Navigate to="/auth/login" />} />

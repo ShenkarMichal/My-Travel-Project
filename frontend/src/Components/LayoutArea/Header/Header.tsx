@@ -20,11 +20,6 @@ interface HeaderProp {
 
 function Header(prop: HeaderProp): JSX.Element {    
 
-    const pages = [
-        {page: 'Contact Us', link:'/contact' },
-        {page: 'About Us', link:'/about' },
-    ];
-
     const settings = [
         {head: 'Profile', link: "/auth/profile"},
         {head: 'My Travels', link: `/vacations/by-user/${prop.user?.userID}`},
@@ -62,16 +57,10 @@ function Header(prop: HeaderProp): JSX.Element {
                                     textDecoration: 'none',
                                     }}
                                 >
-                                    My Travel
+                                    My Travel | 
                                 </Typography>
-                            </NavLink>
-                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                                {pages.map((page) => (
-                                <NavLink to={page.link} key={page.page}>
-                                        {page.page}
-                                </NavLink>
-                                ))}
-                            </Box>
+                            </NavLink> 
+                            Helo {prop.user?.firstName} {prop.user?.lastName}
                         </>}
                         {prop.user?.role === RoleModel.user &&
                             <Box sx={{ flexGrow: 0 }}>
