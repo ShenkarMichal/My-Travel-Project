@@ -1,3 +1,27 @@
-.VacationsReport {
-	
+.VacationsReport > .Background {
+    background-image: url("../../../1-Assets/Images/BackGrounds/report\ background.jpg");
 }
+
+.VacationsReport > .Content {
+    background-image: url("../../../1-Assets/Images/BackGrounds/report\ background1.jpg");
+    display: flex;
+
+}
+
+.VacationsReport .Charts {
+    height: 100%;
+    width: 100%;
+    display: flex; 
+    justify-content: space-between;
+    padding: 10px;
+    border: 3px solid rgb(43, 29, 9);
+    background-color: white;
+
+} 
+
+.VacationsReport .canvas {
+    display: flex;
+    justify-content: space-between;
+    width: 45%;
+    overflow: auto;
+} 
