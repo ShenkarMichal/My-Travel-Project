@@ -60,6 +60,13 @@ class FollowersService {
     public async getCsvFile(): Promise<void> {
         await axios.get(appConfig.csvFileDownloadURL)
     }
+
+    public async getDataToReport(): Promise<any[]> {
+        const response = await axios.get<any[]>(appConfig.reportURL)
+        const data = response.data
+        console.log(data)
+        return data
+    }
 }
 
 const followersService = new FollowersService()

@@ -8,7 +8,7 @@ const csv = createObjectCsvWriter({
     path: filePath ,
     header: [
         {id: "destination", title: "Destination"},
-        {id: "followers-count", title: "Followers-Count"}
+        {id: "followers_count", title: "Followers-Count"}
     ]
 })
 
