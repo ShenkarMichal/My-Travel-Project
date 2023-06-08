@@ -3,10 +3,11 @@
     border-radius: 20px;
     margin: auto;
     margin-top: 5%;
-    background-image: linear-gradient(180deg, rgba(81, 192, 247, 0.4), rgba(255, 255, 255, 0.4));
+    background-image: linear-gradient(180deg, rgba(247, 200, 81, 0.4), rgba(255, 255, 255, 0.4));
     padding: 20px;
     box-shadow: 2px 2px 2px 2px rgba(194, 191, 191, 0.321);
     transition: 0.2s;
+    height: 80%;
 }
 
 .Stepper:hover {
@@ -17,6 +18,7 @@
 
 .Stepper h3 {
     font-size: x-large;
+    margin-top: 0;
 }
 
 .Stepper Button {

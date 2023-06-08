@@ -69,13 +69,13 @@ function StepperContent(prop: StepperContentProp): JSX.Element {
                         <span className="ErrorMsg">{formState.errors.destination?.message}</span><br/>
 
                         <SelectContinent onSelect={getSelectValue} helperText={"Select the continent of the vacation"} 
-                            defaultValue={prop.vacation?.continentID}/>
+                            defaultValue={prop.vacation?.continentID} required={true}/>
                     </div>
                 }
                 {prop.stepIndex === 1 &&
                     <div className="stepContent">
-                        <CssTextArea placeHolder="Description" defaultValue={prop.vacation?.description} 
-                            register={register("description", VacationModel.descriptionValidate)} /> <br />
+                        <CssTextField label={"Description"} type={"text"} fieldName="description" id="outlined-multiline-static" Multiline= {4}
+                            register={register("description", VacationModel.descriptionValidate)} defaultValue={prop.vacation?.description}/>
                         <span className="ErrorMsg">{formState.errors.description?.message}</span>
                         {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker defaultValue={dayjs(prop.vacation?.startDate)} label="From"  /><br/><br/>

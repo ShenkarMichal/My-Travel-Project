@@ -8,6 +8,7 @@ interface SelectContinentProp {
     onSelect: (data: any) => void
     helperText: string
     defaultValue?:number
+    required?: boolean
 }
 
 function SelectContinent(prop: SelectContinentProp): JSX.Element {
@@ -36,6 +37,7 @@ function SelectContinent(prop: SelectContinentProp): JSX.Element {
                     label="Continent"
                     className="Select"
                     variant="outlined"
+                    required={prop.required || false}
                     defaultValue={prop.defaultValue}
                     onChange={getSelectValue}>
                         <MenuItem value="0">
