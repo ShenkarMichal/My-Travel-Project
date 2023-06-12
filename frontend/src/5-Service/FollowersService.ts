@@ -21,9 +21,10 @@ class FollowersService {
         if(followers.length === 0){
             this.getAllFollowers()
         }
-        await axios.post<void>(`${appConfig.followURL}${follower.userID}/${follower.vacationID}`)
+        const response = await axios.post<FollowerModel>(`${appConfig.followURL}${follower.userID}/${follower.vacationID}`)
+        const newFollower = response.data
         
-        followersStore.dispatch({type: FollowersActionType.SetNewFollow, payload: follower})
+        followersStore.dispatch({type: FollowersActionType.SetNewFollow, payload: newFollower})
     }
 
     public async deleteFollower(follower: FollowerModel): Promise<void> {
@@ -57,8 +58,9 @@ class FollowersService {
         return vacationsNumbers
     }
 
-    public async getCsvFile(): Promise<void> {
-        await axios.get(appConfig.csvFileDownloadURL)
+    public async getCsvFile(): Promise<any> {
+        const response = await axios.get(appConfig.csvFileDownloadURL)
+        return response.data
     }
 
     public async getDataToReport(): Promise<any[]> {

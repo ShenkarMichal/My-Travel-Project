@@ -13,6 +13,8 @@ import { authStore } from "../../../3-Redux/AuthState";
 import { Pagination } from "@mui/material";
 
 function DateArea(): JSX.Element {
+
+    const user = authStore.getState().user
     
     const [current, setCurrent] = useState<boolean>(false)
     const [future, setFuture] = useState<boolean>(false)
@@ -59,17 +61,18 @@ function DateArea(): JSX.Element {
     async function getVacations(filter: string): Promise<void> {
         setVacations([])
         setFilter("")
+        setCurrentPage(1)
 
         let filterVacations: VacationModel[] = []
         try {
             if(filter === "future"){
                 setFilter("Future Vacations")
-                filterVacations = await vacationService.getFutureVacations()
+                filterVacations = await vacationService.getFutureVacations(user.userID)
                 setVacations(filterVacations)
             }
             else if(filter === "current"){
                 setFilter("Current Vacations")
-                filterVacations = await vacationService.getCurrentVacations()
+                filterVacations = await vacationService.getCurrentVacations(user.userID)
                 setVacations(filterVacations)
             }  
             //Set pagination:

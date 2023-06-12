@@ -18,14 +18,21 @@ function VacationsList(): JSX.Element {
     const [vacations, setVacations] = useState<VacationModel[]>([]);
 
     const cardRef = useRef(null);
+
+    const [user, setUser] = useState<UserModel>()
     
     useEffect(() => {
-        vacationService.getAllVacation()
+        setTimeout(() => {
+            setUser(authStore.getState().user)               
+        }, 200); //Set the user after redux will update
+        
+        //Set the vacations only when the user is exists:
+        if(user){              
+            vacationService.getAllVacation(user)
             .then((v) => setVacations(v))
-            .catch((err) => console.log(err));
-
-    }, []);
-
+            .catch((err) => console.log(err));  
+        }  
+    }, [user]);
 
     useEffect(() => {
         const cardWidth = '200';

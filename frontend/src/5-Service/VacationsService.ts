@@ -5,31 +5,26 @@ import appConfig from "../2-Utils/Config"
 import ContinentModel from "../4-Models/ContinentModel"
 import { ContinentsActionType, continentsStore } from "../3-Redux/ContinentsState"
 import followersService from "./FollowersService"
+import UserModel from "../4-Models/UserModel"
 
 class VacationsService {
 
     //Get all vacations:
-    public async getAllVacation(): Promise<VacationModel[]> {
-
+    public async getAllVacation(user: UserModel): Promise<VacationModel[]> {
+        console.log(user)
         let vacations = vacationsStore.getState().vacations
         //If the store is empty:
         if(vacations.length === 0){
-            const response = await axios.get<VacationModel[]>(appConfig.vacationURL)
+            const response = await axios.post<VacationModel[]>(appConfig.vacationURL, user)
             vacations = response.data
             vacationsStore.dispatch({type: VacationsActionType.GetAllVacations, payload: vacations})
         }
+        
         return vacations        
     }
 
     //Add new vacation:
     public async addNewVacation(vacation:VacationModel): Promise<void> {
-        //If the user refresh the app:
-        let vacations = vacationsStore.getState().vacations
-        if(vacations.length === 0){
-            this.getAllVacation()
-        }
-
-        console.log(vacation)
 
         //Use Form-Data for attach files:
         const vacationFormData = new FormData()
@@ -51,11 +46,6 @@ class VacationsService {
 
     //Update vacation:
     public async updateVacation(vacation:VacationModel): Promise<void> {
-        //If the user refresh the app:
-        let vacations = vacationsStore.getState().vacations
-        if(vacations.length === 0){
-            this.getAllVacation()
-        }
 
         //Use Form-Data for attach files:
         const vacationFormData = new FormData()
@@ -92,11 +82,6 @@ class VacationsService {
 
     //Delete vacation:
     public async deleteVacation(vacationID:number): Promise<void> {
-        //If the user refresh the app:
-        let vacations = vacationsStore.getState().vacations
-        if(vacations.length === 0){
-            this.getAllVacation()
-        }
 
         await axios.delete(appConfig.vacationURL + vacationID)
         //Delete vacation from the store:
@@ -104,12 +89,12 @@ class VacationsService {
     }
 
     //Get vacations by continent:
-    public async getVacationsByContinent(continentID: number): Promise<VacationModel[]> {
+    public async getVacationsByContinent(continentID: number, userID: number): Promise<VacationModel[]> {
 
         let vacations = vacationsStore.getState().vacations.filter(v => v.continentID === continentID)
         //If the vacations are not exist in the store:
         if(vacations.length === 0){
-            const response = await axios.get<VacationModel[]>(appConfig.vacationsByContinent + continentID)
+            const response = await axios.get<VacationModel[]>(appConfig.vacationsByContinent + continentID + "/" + userID)
             vacations = response.data
         }
 
@@ -146,7 +131,7 @@ class VacationsService {
     }
 
     //Get future vacations:
-    public async getFutureVacations(): Promise<VacationModel[]> {
+    public async getFutureVacations(userID: number): Promise<VacationModel[]> {
         //Set the current date without time:
         const now = new Date()
         now.setHours(0,0,0,0)
@@ -155,7 +140,7 @@ class VacationsService {
         let vacations: VacationModel[]
         //If the vacations are not exist in the state:
         if(allVacations.length === 0){
-            const response = await axios.get<VacationModel[]>(appConfig.futureVacationsURL)
+            const response = await axios.get<VacationModel[]>(appConfig.futureVacationsURL + userID)
             vacations = response.data
         }
         else {
@@ -170,7 +155,7 @@ class VacationsService {
     }
 
     //Get current vacations:
-    public async getCurrentVacations(): Promise<VacationModel[]> {
+    public async getCurrentVacations(userID: number): Promise<VacationModel[]> {
         //Set the current date without time:
         const now = new Date()
         now.setHours(0,0,0,0)
@@ -179,7 +164,7 @@ class VacationsService {
 
         //If the store is empty:
         if(allVacations.length === 0){
-            const response = await axios.get<VacationModel[]>(appConfig.currentVacationsURL)
+            const response = await axios.get<VacationModel[]>(appConfig.currentVacationsURL + userID)
             vacations = response.data
         }
         else {
@@ -208,11 +193,7 @@ class VacationsService {
         }
         else {
             const vacationOfFollower = await followersService.getVacationsByUser(userID)
-            userVacations = allVacations.filter(v => {
-                console.log(v)
-                vacationOfFollower.find( f => f.vacationID === v.vacationID)
-            })
-            console.log(vacationOfFollower)
+            userVacations = allVacations.filter(v => v.isFollow ===1)            
         }
         return userVacations
     }

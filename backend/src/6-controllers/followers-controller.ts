@@ -26,8 +26,8 @@ router.post("/follow/:userID([0-9]+)/:vacationID([0-9]+)",isLoggedIn,async (requ
 
         const follower: FollowersModel = {userID, vacationID}
     
-        await followersLogic.setNewFollow(follower) 
-        response.sendStatus(201)          
+        const newFollower = await followersLogic.setNewFollow(follower) 
+        response.json(newFollower)          
     }
     catch (err: any) {
         next(err)        

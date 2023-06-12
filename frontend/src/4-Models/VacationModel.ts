@@ -12,6 +12,7 @@ class VacationModel {
     public image: FileList
 
     public continentName: string
+    public isFollow: number    
 
     public static destinationValidate = {
         required: {value: true, message: "Destination is missing"},

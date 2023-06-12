@@ -9,6 +9,7 @@ import ContinentsSentences, { ContinentsSentencesModel } from "../../../2-Utils/
 import { NavLink, Navigate } from "react-router-dom";
 import SelectContinent from "../../UtilsComponents/SelectContinent/SelectContinent";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
+import { authStore } from "../../../3-Redux/AuthState";
 
 
 function ContinentArea(): JSX.Element {
@@ -28,6 +29,8 @@ function ContinentArea(): JSX.Element {
     const [continentName, setContinentName] = useState<string>("")
     const [continentSentence, setContinentSentence] = useState<ContinentsSentencesModel>()
 
+    const user = authStore.getState().user
+
     async function getVacations(continentID:number) {
         try{
             //If none continent selected
@@ -40,7 +43,7 @@ function ContinentArea(): JSX.Element {
             }
             else {
                 //Get vacations by continent:
-                const vacationsByContinent = await vacationService.getVacationsByContinent(continentID)
+                const vacationsByContinent = await vacationService.getVacationsByContinent( continentID, user.userID)
                 setVacations(vacationsByContinent)
                 //Get continent-name:
                 setContinentName(vacationsByContinent[0].continentName)

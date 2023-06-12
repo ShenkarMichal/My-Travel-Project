@@ -3,9 +3,8 @@ import dal from "../2-utils/dal"
 import dataUtils from "../2-utils/data-utils"
 import { ResourceNotFoundErrorModel } from "../4-models/errors-model"
 import FollowersModel from "../4-models/followers-model"
-import VacationModel from "../4-models/vacation-model"
 
-async function setNewFollow(follower: FollowersModel): Promise<void> {
+async function setNewFollow(follower: FollowersModel): Promise<FollowersModel> {
     //If vacation is not exists:
     const vacationCount = await dataUtils.isDataExists(follower.vacationID, "vacationID", "vacations")
     if(!vacationCount) throw new ResourceNotFoundErrorModel(follower.vacationID)
@@ -17,6 +16,7 @@ async function setNewFollow(follower: FollowersModel): Promise<void> {
     //Add follower:
     const sql = `INSERT INTO followers VALUES(?,?)`
     await dal.execute(sql, [follower.userID, follower.vacationID])    
+    return follower
 }
 
 async function getAllFollowers():Promise<FollowersModel[]> {

@@ -4,13 +4,15 @@ import VacationModel from '../4-models/vacation-model'
 import isLoggedIn from '../3-middlewares/is-logged-in'
 import path from 'path'
 import isAdmin from '../3-middlewares/is-admin'
+import UserModel from '../4-models/user-model'
 
 const router = express.Router()
 
 //Get all vacations
-router.get("/vacations", isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
+router.post("/vacations", isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
     try {
-        const vacations = await vacationLogic.getAllVacation()
+        const user = new UserModel(request.body)
+        const vacations = await vacationLogic.getAllVacation(user)
         response.json(vacations)    
     }
     catch (err: any) {
@@ -83,10 +85,11 @@ router.get("/vacations-images/:vacationID([0-9]+)" ,isLoggedIn,async (request: R
 })
 
 //Get vacations by continent:
-router.get("/vacations/by-continent/:continentID([0-9]+)", isLoggedIn ,async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations/by-continent/:continentID([0-9]+)/:userID([0-9]+)", isLoggedIn ,async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const continentID = +request.params.continentID
-        const vacations = await vacationLogic.getVacationsByContinent(continentID)
+        const userID = +request.params.userID
+        const vacations = await vacationLogic.getVacationsByContinent(continentID, userID)
         response.json(vacations)
     }
     catch (err: any) {
@@ -119,9 +122,10 @@ router.get("/vacations/continent-images/:continentName", isLoggedIn,async (reque
 })
 
 //Get the future vacations:
-router.get("/vacations/by-date/future", isLoggedIn,async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations/by-date/future/:userID([0-9]+)", isLoggedIn,async (request: Request, response: Response, next: NextFunction)=>{
     try {
-        const futureVacations = await vacationLogic.getFutureVacations()
+        const userID = +request.params.userID
+        const futureVacations = await vacationLogic.getFutureVacations(userID)
         response.json(futureVacations)
     }
     catch (err: any) {
@@ -130,9 +134,10 @@ router.get("/vacations/by-date/future", isLoggedIn,async (request: Request, resp
 })
 
 //Get the current vacations:
-router.get("/vacations/by-date/current", isLoggedIn,async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations/by-date/current/:userID([0-9]+)", isLoggedIn,async (request: Request, response: Response, next: NextFunction)=>{
     try {
-        const currentVacations = await vacationLogic.getCurrentVacations()
+        const userID = + request.params.userID
+        const currentVacations = await vacationLogic.getCurrentVacations(userID)
         response.json(currentVacations)
     }
     catch (err: any) {

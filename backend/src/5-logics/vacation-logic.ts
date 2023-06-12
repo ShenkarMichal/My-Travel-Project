@@ -6,16 +6,18 @@ import { v4 as uuid } from "uuid";
 import fs from "fs";
 import ContinentModel from "../4-models/continent-model";
 import dataUtils from "../2-utils/data-utils";
+import UserModel from "../4-models/user-model";
 
 //Get all vacations:
-async function getAllVacation(): Promise<VacationModel[]> {
-    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description,DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate, 
-                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate,DATEDIFF(V.endDate, startDate) AS duration,
-                V.price, V.imageName, C.continentName
-                FROM vacations AS V JOIN continents AS C
-                ON V.continentID = C.continentID
-                ORDER BY V.startDate, V.endDate`
-    const vacations = await dal.execute(sql)
+async function getAllVacation(user: UserModel): Promise<VacationModel[]> {
+    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description, DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate,
+                        DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate, DATEDIFF(V.endDate, V.startDate) AS duration, V.price,
+                        V.imageName, C.continentName, IF(F.userID IS NOT NULL, 1, 0) AS isFollow
+                        FROM vacations AS V JOIN continents AS C ON V.continentID = C.continentID
+                            LEFT JOIN followers AS F ON V.vacationID = F.vacationID AND F.userID = ?
+                        ORDER BY V.startDate, V.endDate`
+    const vacations = await dal.execute(sql, [user.userID])
+    console.log(user.userID)
     return vacations    
 }
 
@@ -72,13 +74,13 @@ async function updateVacation(vacation:VacationModel): Promise<VacationModel> {
 
 //Get one specific vacation:
 async function getOneVacation(vacationID:number): Promise<VacationModel> {
-    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description,DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate, 
-                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate,DATEDIFF(V.endDate, startDate) AS duration,
-                V.price, V.imageName, C.continentName
-                FROM vacations AS V JOIN continents AS C
-                ON V.continentID = C.continentID
+    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description, DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate,
+                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate, DATEDIFF(V.endDate, V.startDate) AS duration, V.price,
+                V.imageName, C.continentName, IF(F.userID IS NOT NULL, 1, 0) AS isFollow
+                FROM vacations AS V JOIN continents AS C ON V.continentID = C.continentID
+                LEFT JOIN followers AS F ON V.vacationID = F.vacationID AND F.userID = 0
                 WHERE V.vacationID = ?`
-    const resoult = await dal.execute(sql, [vacationID])
+    const resoult = await dal.execute(sql, [vacationID ])
     const vacation = resoult[0]
     //If the id is not exists:
     if(!vacation) throw new ResourceNotFoundErrorModel(vacationID)
@@ -111,15 +113,15 @@ async function getVacationImageName(vacationID:number): Promise<string> {
 }
 
 //Get vacations by continent:
-async function getVacationsByContinent(continentID:number): Promise<VacationModel[]> {
-    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description,DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate, 
-                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate,DATEDIFF(V.endDate, startDate) AS duration,
-                V.price, V.imageName, C.continentName
-                FROM vacations AS V JOIN continents AS C
-                ON V.continentID = C.continentID
+async function getVacationsByContinent(continentID:number, userID: number): Promise<VacationModel[]> {
+    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description, DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate,
+                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate, DATEDIFF(V.endDate, V.startDate) AS duration, V.price,
+                V.imageName, C.continentName, IF(F.userID IS NOT NULL, 1, 0) AS isFollow
+                FROM vacations AS V JOIN continents AS C ON V.continentID = C.continentID
+                LEFT JOIN followers AS F ON V.vacationID = F.vacationID AND F.userID = ?
                 WHERE V.continentID = ?
                 ORDER BY V.startDate, V.endDate`
-    const vacations = await dal.execute(sql, [continentID])
+    const vacations = await dal.execute(sql, [userID,continentID])
     if(vacations.length === 0) throw new ValidationErrorModel("We dont have a vacation in that continent")
     return vacations    
 }
@@ -141,24 +143,27 @@ async function getContinentImageName(continentName:string): Promise<string> {
 }
 
 //Get all future-vacations:
-async function getFutureVacations(): Promise<VacationModel[]> { 
-    const sql = `SELECT vacationID, destination, continentID, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
-                DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate, DATEDIFF(endDate, startDate) AS duration, price, imageName
-                FROM vacations
-                WHERE startDate > CURRENT_DATE
-                ORDER BY startDate, endDate`
-    const vacations = await dal.execute(sql)
+async function getFutureVacations(userID: number): Promise<VacationModel[]> { 
+    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description, DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate, 
+                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate, DATEDIFF(V.endDate, V.startDate) AS duration, V.price, V.imageName,
+                IF(F.userID IS NOT NULL, 1, 0) AS isFollow
+                FROM vacations AS V JOIN followers AS F ON V.vacationID = F.vacationID AND F.userID = ?
+                WHERE V.startDate > CURRENT_DATE
+                ORDER BY V.startDate, V.endDate`
+    const vacations = await dal.execute(sql, [userID])
     return vacations    
 }
 
 //Get current vacations:
-async function getCurrentVacations(): Promise<VacationModel[]> {
-    const sql = `SELECT vacationID, destination, continentID, description, DATE_FORMAT(startDate, '%d/%m/%Y') AS startDate, 
-                DATE_FORMAT(endDate, '%d/%m/%Y') AS endDate, DATEDIFF(endDate, startDate) AS duration, price, imageName
-                FROM vacations
-                WHERE startDate <= CURRENT_DATE && endDate >= CURRENT_DATE
-                ORDER BY startDate, endDate`
-    const vacations = await dal.execute(sql)
+async function getCurrentVacations(userID: number): Promise<VacationModel[]> {
+    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description, DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate, 
+                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate, DATEDIFF(V.endDate, V.startDate) AS duration, V.price, V.imageName,
+                IF(F.userID IS NOT NULL, 1, 0) AS isFollow
+                FROM vacations AS V JOIN followers AS F ON V.vacationID = F.vacationID AND F.userID = ?
+                WHERE V.startDate <= CURRENT_DATE && V.endDate >= CURRENT_DATE
+                ORDER BY V.startDate, V.endDate`
+    const vacations = await dal.execute(sql, [userID])
+
     return vacations    
 }
 
@@ -169,10 +174,14 @@ async function getVacationsByUser(userID:number): Promise<VacationModel> {
     if(!userCount) throw new ResourceNotFoundErrorModel(userID)
 
     //Get the vacations from database:
-    const sql = `SELECT * FROM vacations AS V JOIN followers AS F
-                ON V.vacationID = F.VacationID
-                WHERE F.userID = ${userID}`
-    const vacations = await dal.execute(sql)
+    const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description, DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate, 
+                DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate, DATEDIFF(V.endDate, V.startDate) AS duration, V.price, V.imageName,
+                IF(F.userID IS NOT NULL, 1, 0) AS isFollow
+                FROM vacations AS V JOIN followers AS F
+                ON V.vacationID = F.VacationID AND F.userID = ?
+                WHERE F.userID = ?
+                ORDER BY V.startDate, V.endDate`
+    const vacations = await dal.execute(sql, [userID,userID])
     return vacations       
 }
 

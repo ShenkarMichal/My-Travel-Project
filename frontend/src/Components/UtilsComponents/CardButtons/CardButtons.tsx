@@ -38,24 +38,25 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
     const [followNumber, setFollowNumber] = useState<number>(0)
     const [userFollow, setUserFollow] = useState<any[]>([])
 
-    setTimeout(()=>{
-            //Set the user from Redux:
-            setUser(authStore.getState().user)
-            //Set the numer of followers per vacation:
-            followersService.getFollowNumberByVacation(prop.vacation?.vacationID)
-                .then(f => setFollowNumber(f))
-                .catch(err => console.log(err))
-            //Set the current user vacation (just vacationID):
-            followersService.getVacationsByUser(user?.userID)
-                .then(v => setUserFollow(v))
-                .catch(err => console.log(err))
-            //Set the badge on state of follow/unFollow when the component is render:
-            const userVacationFollow = userFollow.find(v => v.vacationID === prop.vacation?.vacationID)
-                if(userVacationFollow){
+
+
+    useEffect(()=>{
+                //Set the user from Redux:
+                setUser(authStore.getState().user)
+
+                //Set the numer of followers per vacation:
+                followersService.getFollowNumberByVacation(prop.vacation?.vacationID)
+                    .then(f => setFollowNumber(f))
+                    .catch(err => console.log(err))
+
+                //Set the button on follow/un-follow on component first rendering:
+                if(prop.vacation?.isFollow > 0){
                     setIsFollow(true)
-                }  
-              
-    },50) //Component will render after the redux will update.
+                }                
+
+    },[prop.vacation])
+    
+
 
     async function follow(userID:number, vacationID: number): Promise<void> {
         const follower = new FollowerModel(userID, vacationID)
@@ -65,7 +66,6 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
         if(!followers){        
             try {
                 await followersService.addNewFollow(follower)    
-                //console.log(followersStore.getState().followers)
                 setIsFollow(true)
                 const number = await followersService.getFollowNumberByVacation(prop.vacation.vacationID)
                 setFollowNumber(number)                
