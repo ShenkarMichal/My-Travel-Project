@@ -7,6 +7,7 @@ class Config {
 
     //Vacations links
     public vacationURL = "http://localhost:3001/api/vacations/"
+    public oneVacationURL = "http://localhost:3001/api/vacation/"
     public vacationImageURL = "http://localhost:3001/api/vacations-images/"
     public vacationsByContinent = "http://localhost:3001/api/vacations/by-continent/"
     public continentsURL = "http://localhost:3001/api/vacations/continents/"

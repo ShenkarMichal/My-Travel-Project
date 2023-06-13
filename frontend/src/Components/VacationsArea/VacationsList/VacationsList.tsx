@@ -20,19 +20,25 @@ function VacationsList(): JSX.Element {
     const cardRef = useRef(null);
 
     const [user, setUser] = useState<UserModel>()
-    
+    console.log("rendering...")
     useEffect(() => {
         setTimeout(() => {
             setUser(authStore.getState().user)               
-        }, 200); //Set the user after redux will update
+        }, 50); //Set the user after redux will update
         
         //Set the vacations only when the user is exists:
         if(user){              
             vacationService.getAllVacation(user)
             .then((v) => setVacations(v))
             .catch((err) => console.log(err));  
-        }  
-    }, [user]);
+        } 
+        
+        const unsubscribe = vacationsStore.subscribe(()=>{
+            setVacations([]) //Empty the vacation local state to re-render the component.
+        })
+
+        return ()=> unsubscribe()
+    }, [user, vacations]);
 
     useEffect(() => {
         const cardWidth = '200';

@@ -15,7 +15,7 @@ class VacationsService {
         let vacations = vacationsStore.getState().vacations
         //If the store is empty:
         if(vacations.length === 0){
-            const response = await axios.post<VacationModel[]>(appConfig.vacationURL, user)
+            const response = await axios.get<VacationModel[]>(appConfig.vacationURL + user.userID)
             vacations = response.data
             vacationsStore.dispatch({type: VacationsActionType.GetAllVacations, payload: vacations})
         }
@@ -73,7 +73,7 @@ class VacationsService {
         let vacation = vacations.find(v => v.vacationID === vacationID)
         //If the vacation is not exists in the store:
         if(!vacation){
-            const response = await axios.get<VacationModel>(appConfig.vacationURL + vacationID)
+            const response = await axios.get<VacationModel>(appConfig.oneVacationURL + vacationID)
             vacation = response.data  
         }
 

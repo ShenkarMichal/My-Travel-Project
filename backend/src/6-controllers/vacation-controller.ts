@@ -9,10 +9,10 @@ import UserModel from '../4-models/user-model'
 const router = express.Router()
 
 //Get all vacations
-router.post("/vacations", isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacations/:userID([0-9]+)", isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
     try {
-        const user = new UserModel(request.body)
-        const vacations = await vacationLogic.getAllVacation(user)
+        const userID = +request.params.userID
+        const vacations = await vacationLogic.getAllVacation(userID)
         response.json(vacations)    
     }
     catch (err: any) {
@@ -21,7 +21,7 @@ router.post("/vacations", isLoggedIn, async (request: Request, response: Respons
 })
 
 //Get one specific vacation
-router.get("/vacations/:vacationID([0-9]+)", isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
+router.get("/vacation/:vacationID([0-9]+)", isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const vacationID = +request.params.vacationID
         const vacation = await vacationLogic.getOneVacation(vacationID)

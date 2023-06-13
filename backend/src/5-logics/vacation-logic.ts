@@ -9,15 +9,14 @@ import dataUtils from "../2-utils/data-utils";
 import UserModel from "../4-models/user-model";
 
 //Get all vacations:
-async function getAllVacation(user: UserModel): Promise<VacationModel[]> {
+async function getAllVacation(userID: number): Promise<VacationModel[]> {
     const sql = `SELECT V.vacationID, V.destination, V.continentID, V.description, DATE_FORMAT(V.startDate, '%d/%m/%Y') AS startDate,
                         DATE_FORMAT(V.endDate, '%d/%m/%Y') AS endDate, DATEDIFF(V.endDate, V.startDate) AS duration, V.price,
                         V.imageName, C.continentName, IF(F.userID IS NOT NULL, 1, 0) AS isFollow
                         FROM vacations AS V JOIN continents AS C ON V.continentID = C.continentID
                             LEFT JOIN followers AS F ON V.vacationID = F.vacationID AND F.userID = ?
                         ORDER BY V.startDate, V.endDate`
-    const vacations = await dal.execute(sql, [user.userID])
-    console.log(user.userID)
+    const vacations = await dal.execute(sql, [userID])
     return vacations    
 }
 
@@ -28,7 +27,7 @@ async function addNewVacation(vacation:VacationModel): Promise<VacationModel> {
     if(err) throw new ValidationErrorModel(err)
     
     //Generate imagName:
-    await generateImageName(vacation)
+    generateImageName(vacation)
 
     //Add the vacation into database:
     const sql = `INSERT INTO vacations VALUES(DEFAULT, ?,?,?,?,?,?,?,?)`

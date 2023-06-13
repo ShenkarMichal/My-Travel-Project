@@ -15,6 +15,7 @@ import followersService from "../../../5-Service/FollowersService";
 import { followersStore } from "../../../3-Redux/FollowersState";
 import { useEffect, useState } from "react";
 import { authStore } from "../../../3-Redux/AuthState";
+import vacationService from "../../../5-Service/VacationsService";
 
 
 interface CardButtonsProp{
@@ -36,7 +37,6 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
     //Set the current-follow:
     const [isFollow, setIsFollow] = useState<boolean>(false)
     const [followNumber, setFollowNumber] = useState<number>(0)
-    const [userFollow, setUserFollow] = useState<any[]>([])
 
 
 
@@ -68,7 +68,7 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                 await followersService.addNewFollow(follower)    
                 setIsFollow(true)
                 const number = await followersService.getFollowNumberByVacation(prop.vacation.vacationID)
-                setFollowNumber(number)                
+                setFollowNumber(number)                                
             }
             catch (err: any) {
                 console.log(err)            
@@ -86,6 +86,18 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                 console.log(err)                
             }
         }       
+    }
+
+    async function deleteProduct(vacationID: number): Promise<void> {
+        try {
+            if(window.confirm("Are you sure?")){
+                await vacationService.deleteVacation(vacationID)
+                alert("The vacation has been successfully deleted")                
+            }
+        } 
+        catch (err: any) {
+            console.log(err)            
+        }
     }
 
     return (
@@ -112,12 +124,14 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                 <>
                     {/* Edit-button */}
                     <NavLink to={`/vacations/update/${prop.vacation?.vacationID}`} title="Edit">
-                        <EditLocationAltIcon color="warning" sx={{fontSize: 35}} />
+                        <IconButton className="IconButton">
+                            <EditLocationAltIcon color="warning" sx={{fontSize: 35}} />
+                        </IconButton>
                     </NavLink>
                     {/* Delete-button */}
-                    <NavLink to= {`/vacations/delete/${prop.vacation?.vacationID}`} title="Delete" >
+                    <IconButton title="Delete" className="IconButton" onClick={()=> deleteProduct(prop.vacation?.vacationID)}>
                         <LocationOffIcon color="error" sx={{fontSize: 35}}/>
-                    </NavLink>
+                    </IconButton>
 
                 </>
             }
