@@ -121,7 +121,7 @@ async function getVacationsByContinent(continentID:number, userID: number): Prom
                 WHERE V.continentID = ?
                 ORDER BY V.startDate, V.endDate`
     const vacations = await dal.execute(sql, [userID,continentID])
-    if(vacations.length === 0) throw new ValidationErrorModel("We dont have a vacation in that continent")
+    // if(vacations.length === 0) throw new ValidationErrorModel("We dont have a vacation in that continent")
     return vacations    
 }
 

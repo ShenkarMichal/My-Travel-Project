@@ -20,7 +20,7 @@ function VacationsList(): JSX.Element {
     const cardRef = useRef(null);
 
     const [user, setUser] = useState<UserModel>()
-    console.log("rendering...")
+
     useEffect(() => {
         setTimeout(() => {
             setUser(authStore.getState().user)               

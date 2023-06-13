@@ -6,17 +6,40 @@ import Earth from "../../../1-Assets/Images/BackGrounds/Earth.jpg"
 import VacationCard from "../VacationCard/VacationCard";
 import Pagination from '@mui/material/Pagination';
 import ContinentsSentences, { ContinentsSentencesModel } from "../../../2-Utils/ContinentsSentences";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import SelectContinent from "../../UtilsComponents/SelectContinent/SelectContinent";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
 import { authStore } from "../../../3-Redux/AuthState";
+import { vacationsStore } from "../../../3-Redux/VacationsState";
 
 
 function ContinentArea(): JSX.Element {
+    
+    const user = authStore.getState().user
+
+    const [vacations, setVacations] = useState<VacationModel[]>([])
+    console.log("rendering...")
+
+
+    useEffect(()=>{        
+
+        const unSubscribe = vacationsStore.subscribe(()=>{
+                vacationService.getVacationsByContinent(vacations[0]?.continentID, user?.userID)
+                    .then(v => {
+                        setVacations(v)
+                        //Set pagination:
+                        setPageNumber(Math.ceil(v.length/vacationPerPage))
+
+                    })
+                    .catch(err => console.log(err))
+
+        })
+
+        return ()=> unSubscribe()
+    },[vacations])
 
     const isLogged = verifyLogged.isLogged()
 
-    const [vacations, setVacations] = useState<VacationModel[]>([])
 
     //Set Pagination:
     const [pageNumber, setPageNumber] = useState<number>(0)
@@ -29,9 +52,7 @@ function ContinentArea(): JSX.Element {
     const [continentName, setContinentName] = useState<string>("")
     const [continentSentence, setContinentSentence] = useState<ContinentsSentencesModel>()
 
-    const user = authStore.getState().user
-
-    async function getVacations(continentID:number) {
+    async function getVacations(continentID:number) {        
         try{
             //If none continent selected
             if(continentID === 0){
@@ -44,20 +65,24 @@ function ContinentArea(): JSX.Element {
             else {
                 //Get vacations by continent:
                 const vacationsByContinent = await vacationService.getVacationsByContinent( continentID, user.userID)
+                if(vacationsByContinent.length === 0){
+                    alert("We dont have any vacation in that continent")
+                    return
+                }
                 setVacations(vacationsByContinent)
                 //Get continent-name:
-                setContinentName(vacationsByContinent[0].continentName)
+                setContinentName(vacationsByContinent[0]?.continentName)
                 //Get continent sentences:
-                setContinentSentence(ContinentsSentences.getSentence(vacationsByContinent[0].continentName))
+                setContinentSentence(ContinentsSentences.getSentence(vacationsByContinent[0]?.continentName))
                 //Get continent image-url:
-                const continentImageURL = await vacationService.getContinentImageUrl(vacationsByContinent[0].continentName)
+                const continentImageURL = await vacationService.getContinentImageUrl(vacationsByContinent[0]?.continentName)
                 setContinentImageURL(continentImageURL)
                 //Set pagination:
                 setPageNumber(Math.ceil(vacationsByContinent.length/vacationPerPage))
             }
         }
         catch(err:any) {
-            alert(err.response.data)
+            alert(err)
         }        
     }
 
