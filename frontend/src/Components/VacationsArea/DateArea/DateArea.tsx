@@ -11,6 +11,7 @@ import VacationCard from "../VacationCard/VacationCard";
 import UserModel from "../../../4-Models/UserModel";
 import { authStore } from "../../../3-Redux/AuthState";
 import { Pagination } from "@mui/material";
+import { vacationsStore } from "../../../3-Redux/VacationsState";
 
 function DateArea(): JSX.Element {
 
@@ -26,6 +27,33 @@ function DateArea(): JSX.Element {
     const [pageNumber, setPageNumber] = useState<number>(0)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const vacationPerPage = 3
+
+    useEffect(()=>{
+        const unSubscribe = vacationsStore.subscribe(()=>{
+            console.log(filter)
+            if(filter === "Future Vacations"){
+                vacationService.getFutureVacations(user?.userID)
+                    .then(v => {
+                        setVacations(v)
+                        //Set pagination:
+                        setPageNumber(Math.ceil(v.length/vacationPerPage))
+                })
+                .catch(err => console.log(err))
+            }
+            else if(filter === "Current Vacations"){                            
+                vacationService.getCurrentVacations(user?.userID)
+                    .then(v => {
+                        setVacations(v)
+                        //Set pagination:
+                        setPageNumber(Math.ceil(v.length/vacationPerPage))
+                    })
+                    .catch(err => console.log(err))
+            }
+        })
+
+    return ()=> unSubscribe()
+
+    },[vacations])
     
     function HandleChangePage(event:ChangeEvent<unknown>, newPage: number) {
 
