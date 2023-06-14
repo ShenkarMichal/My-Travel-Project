@@ -44,7 +44,12 @@ async function addNewVacation(vacation:VacationModel): Promise<VacationModel> {
 async function updateVacation(vacation:VacationModel): Promise<VacationModel> {
     //Validation:
     const err = vacation.validate()
-    if(err) throw new ValidationErrorModel(err)
+    if(err) {
+        //On update the user can insert a past-date:
+        if(err !== '"startDate" must be greater than or equal to "now"'){
+            throw new ValidationErrorModel(err)
+        }
+    }
 
     const imageName = await getVacationImageName(vacation.vacationID)
 
@@ -106,6 +111,7 @@ async function getVacationImageName(vacationID:number): Promise<string> {
     const sql = `SELECT imageName FROM vacations WHERE vacationID = ?`
     const resoult = await dal.execute(sql, [vacationID])
     const imageName = resoult[0].imageName
+    
     //If id not exists:
     if(!imageName) throw new ResourceNotFoundErrorModel(vacationID)
     return imageName    
@@ -121,7 +127,6 @@ async function getVacationsByContinent(continentID:number, userID: number): Prom
                 WHERE V.continentID = ?
                 ORDER BY V.startDate, V.endDate`
     const vacations = await dal.execute(sql, [userID,continentID])
-    // if(vacations.length === 0) throw new ValidationErrorModel("We dont have a vacation in that continent")
     return vacations    
 }
 

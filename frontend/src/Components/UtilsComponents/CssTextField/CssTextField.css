@@ -1,3 +1,5 @@
-.CssTextField {
-	
+input[type="date"]::-webkit-calendar-picker-indicator {
+    margin-left: 40px;
+    font-size:x-large;
 }
+

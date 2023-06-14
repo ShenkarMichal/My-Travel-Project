@@ -1,16 +1,10 @@
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import CssTextField from "../CssTextField/CssTextField";
 import SelectContinent from "../SelectContinent/SelectContinent";
 import "./StepperContent.css";
 import VacationModel from "../../../4-Models/VacationModel";
-import { Button, TextareaAutosize } from "@mui/material";
+import { Button } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
-import appConfig from "../../../2-Utils/Config";
-import CssTextArea from "../CssTextArea/CssTextArea";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from "dayjs";
 import vacationService from "../../../5-Service/VacationsService";
 
 interface StepperContentProp {
@@ -42,14 +36,7 @@ function StepperContent(prop: StepperContentProp): JSX.Element {
         console.log(uploadFile)
         setValue("image", uploadFile)
         setFileName(uploadFile[0].name)
-    }
-
-    // const [startDate, setStartDate] = useState<Dayjs | null>(dayjs(prop.vacation?.startDate))
-
-    // function handleChangeStart(newValue: Dayjs) {
-    //     setStartDate(newValue)
-    //     setValue("startDate", newValue.toISOString() )
-    // }
+   }
 
     const [imageURl, setImageURL] = useState("")
 
@@ -77,13 +64,19 @@ function StepperContent(prop: StepperContentProp): JSX.Element {
                         <CssTextField label={"Description"} type={"text"} fieldName="description" id="outlined-multiline-static" Multiline= {4}
                             register={register("description", VacationModel.descriptionValidate)} defaultValue={prop.vacation?.description}/>
                         <span className="ErrorMsg">{formState.errors.description?.message}</span>
-                        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker defaultValue={dayjs(prop.vacation?.startDate)} label="From"  /><br/><br/>
-                            <DatePicker defaultValue={dayjs(prop.vacation?.endDate)} label="To" /><br/> <br/>
-                        </LocalizationProvider> */}
+
+                    {/* Change the date validatoin in add/update component: */}
+                        {prop.vacation && <>
                         <CssTextField label={"From"} type={"date"} fieldName="startDate" 
-                            register={register("startDate", VacationModel.startDateValidate)} defaultValue={prop.vacation?.startDate} /> <br />
+                            register={register("startDate", {required:{value: true, message: "Date is missing"}})} defaultValue={prop.vacation?.startDate} /> <br />
                         <span className="ErrorMsg">{formState.errors.startDate?.message}</span>
+                        </>}
+
+                        {!prop.vacation && <>
+                            <CssTextField label={"From"} type={"date"} fieldName="startDate" 
+                            register={register("startDate", VacationModel.startDateValidate)} /> <br />
+                        <span className="ErrorMsg">{formState.errors.startDate?.message}</span>
+                        </>}
 
                         <CssTextField label={"To"} type={"date"} fieldName="endDate" 
                             register={register("endDate", VacationModel.endDateValidate)} defaultValue={prop.vacation?.endDate} /> <br />
