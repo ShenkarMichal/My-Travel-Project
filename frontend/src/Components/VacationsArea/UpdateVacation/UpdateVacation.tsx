@@ -12,6 +12,7 @@ import vacationService from "../../../5-Service/VacationsService";
 import { format, isValid, parse } from 'date-fns'
 import StepperContent from "../../UtilsComponents/StepperContent/StepperContent";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
+import notifyService from "../../../5-Service/NotifyService";
 
 
 function UpdateVacation(): JSX.Element {
@@ -64,11 +65,13 @@ function UpdateVacation(): JSX.Element {
         }
         try {
             await vacationService.updateVacation(newVacation)
-            alert("The vacation has been succssefuly update")
+            notifyService.success("The vacation has been succssefuly update") 
+            //alert("The vacation has been succssefuly update")
             navigate("/vacations")
         }
         catch (err: any) {
-            alert(err)            
+            //alert(err)            
+            notifyService.error(err)
         }
     };
 

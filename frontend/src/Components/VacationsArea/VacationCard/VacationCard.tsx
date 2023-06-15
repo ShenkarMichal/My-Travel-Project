@@ -4,6 +4,7 @@ import "./VacationCard.css";
 import vacationService from "../../../5-Service/VacationsService";
 import CardButtons from "../../UtilsComponents/CardButtons/CardButtons";
 import { NavLink, useNavigate } from "react-router-dom";
+import notifyService from "../../../5-Service/NotifyService";
 
 interface VacationCardProps {
     vacation: VacationModel
@@ -14,7 +15,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
     useEffect(()=>{
         vacationService.getVacationImageUrl(props.vacation.vacationID)
             .then(url => setImageURL(url))
-            .catch(err => console.log(err))
+            .catch(err => notifyService.error(err))
     },[props])
 
 

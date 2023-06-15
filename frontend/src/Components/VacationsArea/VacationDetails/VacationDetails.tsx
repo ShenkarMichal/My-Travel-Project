@@ -4,6 +4,7 @@ import "./VacationDetails.css";
 import vacationService from "../../../5-Service/VacationsService";
 import { Navigate, useParams } from "react-router-dom";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
+import notifyService from "../../../5-Service/NotifyService";
 
 function VacationDetails(): JSX.Element {
 
@@ -15,7 +16,7 @@ function VacationDetails(): JSX.Element {
     useEffect(()=>{
         vacationService.getOneVacation(vacationID)
             .then(v => setVacation(v))
-            .catch(err => console.log(err))
+            .catch(err => notifyService.error(err))
     },[])
 
     const [imageURl, setImageURL] = useState("")
@@ -23,7 +24,7 @@ function VacationDetails(): JSX.Element {
     useEffect(()=>{
         vacationService.getVacationImageUrl(vacation?.vacationID)
             .then(url => setImageURL(url))
-            .catch(err => console.log(err))
+            .catch(err => notifyService.error(err))
     },[vacation])
 
     return (

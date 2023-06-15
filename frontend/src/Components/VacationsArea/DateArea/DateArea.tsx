@@ -12,6 +12,7 @@ import UserModel from "../../../4-Models/UserModel";
 import { authStore } from "../../../3-Redux/AuthState";
 import { Pagination } from "@mui/material";
 import { vacationsStore } from "../../../3-Redux/VacationsState";
+import notifyService from "../../../5-Service/NotifyService";
 
 function DateArea(): JSX.Element {
 
@@ -30,7 +31,6 @@ function DateArea(): JSX.Element {
 
     useEffect(()=>{
         const unSubscribe = vacationsStore.subscribe(()=>{
-            console.log(filter)
             if(filter === "Future Vacations"){
                 vacationService.getFutureVacations(user?.userID)
                     .then(v => {
@@ -38,7 +38,7 @@ function DateArea(): JSX.Element {
                         //Set pagination:
                         setPageNumber(Math.ceil(v.length/vacationPerPage))
                 })
-                .catch(err => console.log(err))
+                .catch(err => notifyService.error(err))
             }
             else if(filter === "Current Vacations"){                            
                 vacationService.getCurrentVacations(user?.userID)
@@ -47,7 +47,7 @@ function DateArea(): JSX.Element {
                         //Set pagination:
                         setPageNumber(Math.ceil(v.length/vacationPerPage))
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => notifyService.error(err))
             }
         })
 
@@ -107,7 +107,7 @@ function DateArea(): JSX.Element {
             setPageNumber(Math.ceil(filterVacations.length/vacationPerPage))                    
         }
         catch (err: any) {
-            console.log(err)            
+            notifyService.error(err)
         }
     }
     

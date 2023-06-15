@@ -6,6 +6,7 @@ import ViewColumnRoundedIcon from '@mui/icons-material/ViewColumnRounded';
 import ViewWeekOutlinedIcon from '@mui/icons-material/ViewWeekOutlined';
 import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutlined';
 import PieChartRoundedIcon from '@mui/icons-material/PieChartRounded';
+import notifyService from "../../../5-Service/NotifyService";
 
 const Canvas = require("canvasjs-react-charts") 
 var CanvasJSChart = Canvas.CanvasJSChart;
@@ -17,7 +18,7 @@ function VacationsReport(): JSX.Element {
     useEffect(()=>{
         followersService.getDataToReport()
             .then(d => setData(d))
-            .catch(err => console.log(err))        
+            .catch(err => notifyService.error(err))        
     },[])
     const dataGragh: any[] = data.map(d => { return {y: d.followers_count, label: d.destination }})
 

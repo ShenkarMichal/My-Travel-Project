@@ -7,6 +7,7 @@ import {  styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import notifyService from "../../../5-Service/NotifyService";
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -37,10 +38,10 @@ function Login(): JSX.Element {
         try {
             await authService.login(credential)    
             navigate("/vacations")
-            alert("Welcome back! We're leaving on a journey right away!!")            
+            notifyService.success("Welcome back! We're leaving on a journey right away!!")
         }
         catch (err:any) {
-            alert(err.response.data)            
+            notifyService.error(err)            
         }
     }
     

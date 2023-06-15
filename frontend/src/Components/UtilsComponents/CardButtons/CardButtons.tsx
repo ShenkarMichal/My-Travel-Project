@@ -16,6 +16,7 @@ import { followersStore } from "../../../3-Redux/FollowersState";
 import { useEffect, useState } from "react";
 import { authStore } from "../../../3-Redux/AuthState";
 import vacationService from "../../../5-Service/VacationsService";
+import notifyService from "../../../5-Service/NotifyService";
 
 
 interface CardButtonsProp{
@@ -47,7 +48,7 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                 //Set the numer of followers per vacation:
                 followersService.getFollowNumberByVacation(prop.vacation?.vacationID)
                     .then(f => setFollowNumber(f))
-                    .catch(err => console.log(err))
+                    .catch(err => notifyService.error(err))
 
                 //Set the button on follow/un-follow on component first rendering:
                 if(prop.vacation?.isFollow > 0){
@@ -71,7 +72,7 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                 setFollowNumber(number)                                
             }
             catch (err: any) {
-                console.log(err)            
+                notifyService.error(err)
             } 
         }
         //If yes - we need to un-follow it:
@@ -83,7 +84,7 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                 setFollowNumber(number)
             } 
             catch (err: any) {
-                console.log(err)                
+                notifyService.error(err)               
             }
         }       
     }
@@ -92,11 +93,11 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
         try {
             if(window.confirm("Are you sure?")){
                 await vacationService.deleteVacation(vacationID)
-                alert("The vacation has been successfully deleted")                
+                notifyService.success("The vacation has been successfully deleted")
             }
         } 
         catch (err: any) {
-            console.log(err)            
+            notifyService.error(err)
         }
     }
 

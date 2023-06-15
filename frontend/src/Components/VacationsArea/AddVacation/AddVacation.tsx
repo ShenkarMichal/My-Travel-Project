@@ -11,6 +11,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import StepperComponent, { StepModel } from "../../UtilsComponents/StepperComponent/StepperComponent";
 import StepperContent from "../../UtilsComponents/StepperContent/StepperContent";
 import verifyLogged from "../../../2-Utils/VerifyLogged";
+import notifyService from "../../../5-Service/NotifyService";
 
 function AddVacation(): JSX.Element {
 
@@ -42,12 +43,12 @@ function AddVacation(): JSX.Element {
             }
             setError("")
             await vacationService.addNewVacation(newVacation)
-            alert("The vacation has been succssefuly added")
+            notifyService.success("The vacation has been succssefuly added")
             newVacationStore.dispatch({type: NewVacationActionType.ClearVacationState})
             navigate("/vacations")
         }
         catch (err: any) {
-            alert(err)            
+            notifyService.error(err)
         }
     };
 

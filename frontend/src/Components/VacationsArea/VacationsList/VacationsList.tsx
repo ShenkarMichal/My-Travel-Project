@@ -10,6 +10,7 @@ import verifyLogged from "../../../2-Utils/VerifyLogged";
 import { vacationsStore } from "../../../3-Redux/VacationsState";
 import UserModel from "../../../4-Models/UserModel";
 import { authStore } from "../../../3-Redux/AuthState";
+import notifyService from "../../../5-Service/NotifyService";
 
 function VacationsList(): JSX.Element {
 
@@ -30,7 +31,7 @@ function VacationsList(): JSX.Element {
         if(user){              
             vacationService.getAllVacation(user)
             .then((v) => setVacations(v))
-            .catch((err) => console.log(err));  
+            .catch((err) => notifyService.error(err));  
         } 
         
         const unsubscribe = vacationsStore.subscribe(()=>{

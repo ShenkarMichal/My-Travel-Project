@@ -3,6 +3,7 @@ import "./SelectContinent.css";
 import ContinentModel from "../../../4-Models/ContinentModel";
 import { useEffect, useState } from "react";
 import vacationService from "../../../5-Service/VacationsService";
+import notifyService from "../../../5-Service/NotifyService";
 
 interface SelectContinentProp {
     onSelect: (data: any) => void
@@ -19,7 +20,7 @@ function SelectContinent(prop: SelectContinentProp): JSX.Element {
     useEffect(()=>{
         vacationService.getAllContinents()
             .then(c => setContinents(c))
-            .catch(err => console.log(err))
+            .catch(err => notifyService.error(err))
     },[])
 
     function getSelectValue(event: SelectChangeEvent<unknown>) {

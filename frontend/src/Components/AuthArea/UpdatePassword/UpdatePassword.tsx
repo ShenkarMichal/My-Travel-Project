@@ -6,6 +6,7 @@ import authService from "../../../5-Service/AuthService";
 import { useParams } from "react-router-dom";
 import UserModel from "../../../4-Models/UserModel";
 import { useForm } from "react-hook-form";
+import notifyService from "../../../5-Service/NotifyService";
 
 type FormValues = {
     password: string;
@@ -24,10 +25,10 @@ function UpdatePassword(): JSX.Element {
     async function sendNewPassword(password: FormValues) {
         try {
             const msg = await authService.updatePassword(email,password.password)
-            alert(msg)  
+            notifyService.success(msg)
         } 
         catch (err: any) {
-            alert(err.response.data)            
+            notifyService.error(err)
         }
     }
 

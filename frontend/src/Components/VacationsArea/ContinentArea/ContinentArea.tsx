@@ -11,6 +11,7 @@ import SelectContinent from "../../UtilsComponents/SelectContinent/SelectContine
 import verifyLogged from "../../../2-Utils/VerifyLogged";
 import { authStore } from "../../../3-Redux/AuthState";
 import { vacationsStore } from "../../../3-Redux/VacationsState";
+import notifyService from "../../../5-Service/NotifyService";
 
 
 function ContinentArea(): JSX.Element {
@@ -18,8 +19,6 @@ function ContinentArea(): JSX.Element {
     const user = authStore.getState().user
 
     const [vacations, setVacations] = useState<VacationModel[]>([])
-    console.log("rendering...")
-
 
     useEffect(()=>{        
 
@@ -31,7 +30,7 @@ function ContinentArea(): JSX.Element {
                         setPageNumber(Math.ceil(v.length/vacationPerPage))
 
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => notifyService.error(err))
 
         })
 
@@ -66,7 +65,7 @@ function ContinentArea(): JSX.Element {
                 //Get vacations by continent:
                 const vacationsByContinent = await vacationService.getVacationsByContinent( continentID, user.userID)
                 if(vacationsByContinent.length === 0){
-                    alert("We dont have any vacation in that continent")
+                    notifyService.error("We dont have any vacation in that continent")
                     return
                 }
                 setVacations(vacationsByContinent)
@@ -82,7 +81,7 @@ function ContinentArea(): JSX.Element {
             }
         }
         catch(err:any) {
-            alert(err)
+            notifyService.error(err)
         }        
     }
 

@@ -6,6 +6,7 @@ import VacationModel from "../../../4-Models/VacationModel";
 import { Button } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
 import vacationService from "../../../5-Service/VacationsService";
+import notifyService from "../../../5-Service/NotifyService";
 
 interface StepperContentProp {
     stepIndex: number
@@ -43,7 +44,7 @@ function StepperContent(prop: StepperContentProp): JSX.Element {
     useEffect(()=>{
         vacationService.getVacationImageUrl(prop.vacation?.vacationID)
             .then(url => setImageURL(url))
-            .catch(err => console.log(err))
+            .catch(err => notifyService.error(err))
     },[prop.vacation])
 
     return (

@@ -11,7 +11,6 @@ class VacationsService {
 
     //Get all vacations:
     public async getAllVacation(user: UserModel): Promise<VacationModel[]> {
-        console.log(user)
         let vacations = vacationsStore.getState().vacations
         //If the store is empty:
         if(vacations.length === 0){
@@ -63,7 +62,6 @@ class VacationsService {
 
         //Update the vacation in the store:
         vacationsStore.dispatch({type: VacationsActionType.UpdateVacation, payload:newVacation})
-        console.log(vacationsStore.getState().vacations)
     }
 
     //Get one specific vacation:

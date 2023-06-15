@@ -5,6 +5,7 @@ import VacationModel from "../../../4-Models/VacationModel";
 import vacationService from "../../../5-Service/VacationsService";
 import VacationCard from "../VacationCard/VacationCard";
 import { Pagination } from "@mui/material";
+import notifyService from "../../../5-Service/NotifyService";
 
 function UserVacations(): JSX.Element {
     const userID = +useParams().userID
@@ -18,13 +19,9 @@ function UserVacations(): JSX.Element {
 
     useEffect(()=>{
         vacationService.getVacationsByUser(userID)
-            .then(v => {
-                setVacations(v)
-                console.log(v)
-            } )
-            .catch(err => console.log(err))
+            .then(v => setVacations(v))
+            .catch(err => notifyService.error(err))
         //Set pagination:
-        console.log(vacations)
         setPageNumber(Math.ceil(vacations.length/vacationPerPage)) 
     },[vacations.length])
 

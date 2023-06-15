@@ -6,6 +6,7 @@ import "./PasswordRecovery.css";
 import { useState } from 'react';
 import authService from '../../../5-Service/AuthService';
 import { useNavigate } from 'react-router-dom';
+import notifyService from '../../../5-Service/NotifyService';
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
@@ -36,11 +37,11 @@ const CssTextField = styled(TextField)({
         try {
             event.preventDefault()
             const msg = await authService.PasswordRecovery(email)
-            alert(msg)            
+            notifyService.success(msg)
             navigate("/auth/login")
         } 
         catch (err: any) {
-            console.log(err)            
+          notifyService.error(err)
         }
     }
   

@@ -7,6 +7,7 @@ import {  styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import notifyService from "../../../5-Service/NotifyService";
 
 
 const CssTextField = styled(TextField)({
@@ -38,11 +39,11 @@ function Register(): JSX.Element {
     async function sendForm(user: UserModel) {
         try {
             await authService.register(user) 
-            alert("Welcome! We're leaving on a journey right away!!")   
+            notifyService.success("Welcome! We're leaving on a journey right away!!")
             navigate("/vacations")
         }
         catch (err: any) {
-            alert(err.response.data)            
+            notifyService.error(err)
         }
     }
     
