@@ -5,6 +5,7 @@ import isLoggedIn from '../3-middlewares/is-logged-in'
 import path from 'path'
 import isAdmin from '../3-middlewares/is-admin'
 import UserModel from '../4-models/user-model'
+import dataUtils from '../2-utils/data-utils'
 
 const router = express.Router()
 
@@ -151,6 +152,18 @@ router.get("/vacations/by-user/:userID([0-9]+)", isLoggedIn, async (requset:Requ
         const userID = +requset.params.userID
         const vacations = await vacationLogic.getVacationsByUser(userID)
         response.status(200).json(vacations)            
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
+//Get weather by loacation:
+router.get("/weather/:location", isLoggedIn, async (requset:Request, response: Response, next: NextFunction) => {
+    try {
+        const location = requset.params.location
+        const weather = await dataUtils.getWeather(location)
+        response.status(200).json(weather)            
     }
     catch (err: any) {
         next(err)        

@@ -33,37 +33,37 @@ function Register(): JSX.Element {
                 type="text"
                 label="First Name"
                 fieldName="First Name"
-                {...register("firstName", UserModel.firstNameValidatoin)}/> <br />
+                register={register("firstName", UserModel.firstNameValidatoin)}/> <br />
                 <span className="ErrorMsg">{formState.errors.username?.message}</span><br/>
                 <CssTextField 
                     label="Last Name" 
                     type="text"
                     fieldName="Last Name"
-                    {...register("lastName", UserModel.lastNameValidatoin)}/> <br />
+                    register={register("lastName", UserModel.lastNameValidatoin)}/> <br />
                 <span className="ErrorMsg">{formState.errors.lastName?.message}</span><br/>
                 <CssTextField 
                     fieldName="Email"
                     label="Email" 
                     type="email" 
-                    {...register("email", UserModel.emailValidation)}/> <br />
+                    register={register("email", UserModel.emailValidation)}/> <br />
                 <span className="ErrorMsg">{formState.errors.email?.message}</span><br/>
                 <CssTextField 
                     type="text"
                     fieldName="username"
                     label="username" 
-                    {...register("username", UserModel.usernameValidatoin)}/> <br />
+                    register={register("username", UserModel.usernameValidatoin)}/> <br />
                 <span className="ErrorMsg">{formState.errors.username?.message}</span><br/>
                 <CssTextField 
                     fieldName="Password"
                     label="Password" 
                     type="password" 
-                    {...register("password", UserModel.passwordValidatoin)}/> <br />
+                    register={register("password", UserModel.passwordValidatoin)}/> <br />
                 <span className="ErrorMsg">{formState.errors.password?.message}</span><br/> 
                 <CssTextField 
                     fieldName="Confirm Password"
                     label="Confirm Password" 
                     type="password" 
-                    {...register("confirmPassword", UserModel.confirmPasswordValidation)}/> <br />
+                    register={register("confirmPassword", UserModel.confirmPasswordValidation)}/> <br />
                 <span className="ErrorMsg">{formState.errors.confirmPassword?.message}</span><br/> 
                 <br />
                 <Button 

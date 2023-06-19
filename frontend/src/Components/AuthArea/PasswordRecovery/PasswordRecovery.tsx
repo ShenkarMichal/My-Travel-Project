@@ -7,27 +7,7 @@ import { useState } from 'react';
 import authService from '../../../5-Service/AuthService';
 import { useNavigate } from 'react-router-dom';
 import notifyService from '../../../5-Service/NotifyService';
-
-const CssTextField = styled(TextField)({
-    '& label.Mui-focused': {
-      color: '#A0AAB4',
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: '#B2BAC2',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#E0E3E7',
-      },
-      '&:hover fieldset': {
-        borderColor: '#B2BAC2',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#6F7E8C',
-      },
-    },
-  });
-
+import CssTextField from '../../UtilsComponents/CssTextField/CssTextField';
 
   function PasswordRecovery(): JSX.Element {
     const [email, setEmail] = useState("")
@@ -53,12 +33,11 @@ const CssTextField = styled(TextField)({
   
             <span>Please enter your email address:</span> <br />
             <CssTextField
-                id="standard-basic"
-                label="Email"
-                variant="standard"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}/>
+            id="standard-basic"
+            label="Email"
+            type="email"
+            onChange={(e) => setEmail(e.target.value)} 
+            fieldName={"email"}/>
             <br /> <br />
             <Button 
                 color="inherit" 

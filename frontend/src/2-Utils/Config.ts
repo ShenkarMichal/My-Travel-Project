@@ -16,6 +16,9 @@ class Config {
     public currentVacationsURL = "http://localhost:3001/api/vacations/by-date/current/"
     public userVacationsURL = "http://localhost:3001/api/vacations/by-user/"
 
+    //Utils links
+    public weatherURL = "http://localhost:3001/api/weather/"
+
     //Followers links
     public followURL = "http://localhost:3001/api/follow/"
     public vacationOfFollower = "http://localhost:3001/api/vacation-of-follow/"

@@ -31,10 +31,11 @@ function Login(): JSX.Element {
 			    <form  onSubmit={handleSubmit(sendForm)}>
                 <h4>Join Our Travel</h4><hr />
 
-                <CssTextField type="text" fieldName="username" label="username" {...register("username", CredentialModel.usernameValidatoin)}/> <br />
+                <CssTextField type="text" fieldName="username" 
+                            label="username" register={register("username", CredentialModel.usernameValidatoin)}/> <br />
                 <span className="ErrorMsg">{formState.errors.username?.message}</span><br/>
 
-                <CssTextField fieldName="Password" label="password" type="password" {...register("password", CredentialModel.passwordValidatoin)} /> <br />
+                <CssTextField fieldName="Password" label="password" type="password" register={register("password", CredentialModel.passwordValidatoin)} /> <br />
                 <span className="ErrorMsg">{formState.errors.password?.message}</span><br/>
 
                 <NavLink to="/auth/recovery">Forgot Password?</NavLink><br /> <br />

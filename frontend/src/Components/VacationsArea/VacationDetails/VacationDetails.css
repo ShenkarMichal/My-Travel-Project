@@ -1,20 +1,22 @@
 .VacationDetails  {
-    height: 100%;
+    height: 100vh;
     width: 100%;
     overflow: hidden;
     background-size: cover;
     background-repeat: no-repeat;
-    font-family: 'Lobster', cursive;
+    vertical-align: middle;
+    filter: blur(3px);
 }
-
 
 .DetailsContainer {
     padding: 2vh;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    height: 100vh;
-    width: 70%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    font-family: 'Lobster', cursive;
 }
     
 .Details {
@@ -29,12 +31,14 @@
     background-color: rgba(255, 255, 255, 0.345);
     text-align: left;
 }
+
 .Details {
     position: relative;
     display: flex;
     align-items: center;
     overflow: hidden;
     animation: slide-in 1s ease-in-out;
+    padding: 15px;
 }
     
 @keyframes slide-in {
@@ -92,8 +96,42 @@
 .Details span, h2, h4 {
     position: relative;
     z-index: 999;
-    font-size: 2vw;
+    font-size: 1.5vw;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.Details > .moreSpan {
+    /* background-color:  #a4a2a2; */
+    border-radius: 25%;
+    align-items: center;
+    margin: 20px;
+    padding: 10px;
+}
+
+.Details > .wether {
+    display: flex;
+    flex-direction: row;
+}
+
+.Details .moreSpan div {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    text-align: right;
+    align-items: center;
+}
+
+.Details > .moreSpan span {
+    font-size: 1.25vw;
+    line-height: 0;
+}
+
+.Details .moreSpan img {
+    width: 5vw;
+    margin: -1vw;
 }
 
 .Details h2{
