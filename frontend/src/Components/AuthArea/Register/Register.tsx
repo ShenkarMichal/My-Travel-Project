@@ -3,32 +3,10 @@ import "./Register.css";
 import { useForm } from "react-hook-form";
 import UserModel from "../../../4-Models/UserModel";
 import authService from "../../../5-Service/AuthService";
-import {  styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import notifyService from "../../../5-Service/NotifyService";
-
-
-const CssTextField = styled(TextField)({
-    '& label.Mui-focused': {
-      color: '#A0AAB4',
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: '#B2BAC2',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#E0E3E7',
-      },
-      '&:hover fieldset': {
-        borderColor: '#B2BAC2',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#6F7E8C',
-      },
-    },
-  });
+import CssTextField from "../../UtilsComponents/CssTextField/CssTextField";
 
 function Register(): JSX.Element {
 
@@ -52,41 +30,38 @@ function Register(): JSX.Element {
 			<form onSubmit={handleSubmit(sendForm)}>
                 <h4>Join Our Travel</h4><hr />
                 <CssTextField 
-                    id="standard-basic" 
-                    label="First Name" 
-                    variant="standard"
-                    {...register("firstName", UserModel.firstNameValidatoin)}/> <br />
+                type="text"
+                label="First Name"
+                fieldName="First Name"
+                {...register("firstName", UserModel.firstNameValidatoin)}/> <br />
                 <span className="ErrorMsg">{formState.errors.username?.message}</span><br/>
                 <CssTextField 
-                    id="standard-basic" 
                     label="Last Name" 
-                    variant="standard" 
+                    type="text"
+                    fieldName="Last Name"
                     {...register("lastName", UserModel.lastNameValidatoin)}/> <br />
                 <span className="ErrorMsg">{formState.errors.lastName?.message}</span><br/>
                 <CssTextField 
-                    id="standard-basic" 
+                    fieldName="Email"
                     label="Email" 
-                    variant="standard" 
                     type="email" 
                     {...register("email", UserModel.emailValidation)}/> <br />
                 <span className="ErrorMsg">{formState.errors.email?.message}</span><br/>
                 <CssTextField 
-                    id="standard-basic" 
+                    type="text"
+                    fieldName="username"
                     label="username" 
-                    variant="standard" 
                     {...register("username", UserModel.usernameValidatoin)}/> <br />
                 <span className="ErrorMsg">{formState.errors.username?.message}</span><br/>
                 <CssTextField 
-                    id="standard-basic" 
+                    fieldName="Password"
                     label="Password" 
-                    variant="standard" 
                     type="password" 
                     {...register("password", UserModel.passwordValidatoin)}/> <br />
                 <span className="ErrorMsg">{formState.errors.password?.message}</span><br/> 
                 <CssTextField 
-                    id="standard-basic" 
+                    fieldName="Confirm Password"
                     label="Confirm Password" 
-                    variant="standard" 
                     type="password" 
                     {...register("confirmPassword", UserModel.confirmPasswordValidation)}/> <br />
                 <span className="ErrorMsg">{formState.errors.confirmPassword?.message}</span><br/> 

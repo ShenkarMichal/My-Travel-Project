@@ -12,16 +12,28 @@ body, html, #root {
 .Auth {
   height: 100vh;
   background-image: url("./1-Assets/Images/BackGrounds/AuthBackground.jpg");
-  background-size: cover;
+  background-size:cover;
   background-repeat: no-repeat;
   overflow: hidden;
   align-items: center;
 }
 
+/* Responsive auth design: */
+@media (max-width: 600px) {
+  .Auth {
+    background-size:200vh ;
+  }
+
+  .Auth > form {
+    width: 50%;
+    min-width: 50%;    
+  }
+}
+
 .Auth > form {
   box-shadow: 2px 2px 2px 2px rgba(194, 191, 191, 0.49);
   border-radius: 10px;
-  width: fit-content;
+  width: 20%;
   padding: 40px;
   padding-top: 20px;
   background-color: rgba(255, 255, 255, 0.648);
@@ -70,7 +82,7 @@ body, html, #root {
   height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
-  filter: blur(3px);
+  filter: blur(3px);  
 }
 
 .Content {

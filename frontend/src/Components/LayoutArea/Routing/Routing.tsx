@@ -13,7 +13,6 @@ import AddVacation from "../../VacationsArea/AddVacation/AddVacation";
 import UpdateVacation from "../../VacationsArea/UpdateVacation/UpdateVacation";
 import Profile from "../../AuthArea/Profile/Profile";
 import UserVacations from "../../VacationsArea/UserVacations/UserVacations";
-import DeleteVacation from "../../VacationsArea/DeleteVacation/DeleteVacation";
 import Logout from "../../AuthArea/Logout/Logout";
 import VacationsReport from "../../VacationsArea/VacationsReport/VacationsReport";
 import VacationsCSV from "../../VacationsArea/VacationsCSV/VacationsCSV";
@@ -40,7 +39,6 @@ function Routing(): JSX.Element {
                 <Route path="/vacations/filter/by-date" element={<DateArea />} />
                 <Route path="/vacations/new" element={<AddVacation />} />
                 <Route path="/vacations/update/:vacationID" element={<UpdateVacation />} />
-                <Route path="/vacations/delete/:vacationID" element={<DeleteVacation />} />
                 <Route path="/vacations/by-user/:userID" element={<UserVacations />} />
                 <Route path="/vacations/report" element={<VacationsReport />} />
                 <Route path="/vacations/csv-download" element={<VacationsCSV />} />

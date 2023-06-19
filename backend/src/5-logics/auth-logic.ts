@@ -68,7 +68,7 @@ async function passwordRecovery(email:string): Promise<void> {
 
     //Set the subject and the content of the mail:
     const subject = "Password-Recovery From My-Travel, Please not Replay!"
-    let content = await fsPromise.readFile("./src/2-utils/password-recovery-mail.txt", "utf-8")   
+    let content = await fsPromise.readFile("./src/2-utils/password-recovery-mail.html", "utf-8")   
     //Change the link in the mail:
     content = content.replace('email', email+"/")
     

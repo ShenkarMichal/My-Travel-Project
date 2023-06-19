@@ -8,26 +8,7 @@ import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import notifyService from "../../../5-Service/NotifyService";
-
-const CssTextField = styled(TextField)({
-  '& label.Mui-focused': {
-    color: '#A0AAB4',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: '#B2BAC2',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#E0E3E7',
-    },
-    '&:hover fieldset': {
-      borderColor: '#B2BAC2',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: '#6F7E8C',
-    },
-  },
-});
+import CssTextField from "../../UtilsComponents/CssTextField/CssTextField";
 
 function Login(): JSX.Element {
 
@@ -50,10 +31,10 @@ function Login(): JSX.Element {
 			    <form  onSubmit={handleSubmit(sendForm)}>
                 <h4>Join Our Travel</h4><hr />
 
-                <CssTextField id="standard-basic" label="username" variant="standard" {...register("username", CredentialModel.usernameValidatoin)}/> <br />
+                <CssTextField type="text" fieldName="username" label="username" {...register("username", CredentialModel.usernameValidatoin)}/> <br />
                 <span className="ErrorMsg">{formState.errors.username?.message}</span><br/>
 
-                <CssTextField id="standard-basic" label="password" variant="standard" type="password" {...register("password", CredentialModel.passwordValidatoin)} /> <br />
+                <CssTextField fieldName="Password" label="password" type="password" {...register("password", CredentialModel.passwordValidatoin)} /> <br />
                 <span className="ErrorMsg">{formState.errors.password?.message}</span><br/>
 
                 <NavLink to="/auth/recovery">Forgot Password?</NavLink><br /> <br />
