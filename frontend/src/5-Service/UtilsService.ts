@@ -35,15 +35,12 @@ class UtilsService {
     }
 
     private async getCoordinatesFromAddress(address: string): Promise<Coordinates> {
-        try {
         const response = await axios.get(
             `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
         );
         const { lat, lon } = response.data[0];
         return { latitude: Number(lat), longitude: Number(lon) };
-        } catch (error) {
-        throw new Error('Failed to geocode address.');
-        }
+
     }
 
     private calculateDistance(location1: Coordinates, location2: Coordinates): number {
@@ -76,7 +73,6 @@ class UtilsService {
 
     //Get weather:
     public async getWeather(location: string): Promise<[number, string, string]> {
-        console.log(location)
         const [cityName, countryName] = location.split(", ");
         const geonameString = `${cityName.replace(" ", "-")},-${countryName.replace(" ", "-")}`;
 

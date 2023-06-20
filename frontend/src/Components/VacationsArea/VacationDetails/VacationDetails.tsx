@@ -22,24 +22,35 @@ function VacationDetails(): JSX.Element {
     const [weather, setWeather] = useState<[number, string, string]>()
     const [time, setTime] = useState<string>("")
 
+
+    async function setVariables(){
+        try {
+            const oneVacation = await vacationService.getOneVacation(vacationID)
+            setVacation(oneVacation)
+            setDistance(await utilsService.calculateDistanceFromCurrentLocation(oneVacation.destination))
+            setImageURL(await vacationService.getVacationImageUrl(oneVacation.vacationID))
+            setWeather(await utilsService.getWeather(oneVacation.destination))
+            setTime(await utilsService.getLocalTime(oneVacation.destination))
+        }
+        catch (err: any) {
+            notifyService.error(err)    
+        }
+
+    }
     useEffect(()=>{
-        vacationService.getOneVacation(vacationID)
-            .then(v => {
-                setVacation(v)
-                utilsService.calculateDistanceFromCurrentLocation(v.destination)
-                    .then(d => setDistance(d))
-                    .catch(err => notifyService.error(err))
-                vacationService.getVacationImageUrl(v.vacationID)
-                    .then(url => setImageURL(url))
-                    .catch(err => notifyService.error(err))
-                utilsService.getWeather(v.destination)
-                    .then(w => setWeather(w))
-                    .catch(err => notifyService.error(err))
-                utilsService.getLocalTime(v.destination)
-                    .then(t => setTime(t))
-                    .catch(err => notifyService.error(err))
-            })
+        
+        setVariables()
+            .then()
             .catch(err => notifyService.error(err))
+
+        const timeInterval = setInterval(()=>{
+            console.log("render")        
+            setVariables()
+                .then()
+                .catch(err => notifyService.error(err))
+            },1000*60)
+
+        return ()=> clearInterval(timeInterval)
     },[])
 
     return (
@@ -53,11 +64,29 @@ function VacationDetails(): JSX.Element {
                             <div className="DetailsHeading">Where?</div>
                         </div>
                         <div className="Details">
+                            <span className="moreSpan">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/fhtaantg.json"
+                                trigger="loop"
+                                colors="primary:#121331,secondary:#848484"
+                                stroke="25"
+                                style={{width:"80px",height:"80px"}}>
+                            </lord-icon>
                             <h4>From: {vacation.startDate} <br/> To: {vacation.endDate}. <br/> Total: {vacation.duration} days.</h4>
+                            </span>
                             <div className="DetailsHeading">When?</div>
                         </div>
                         <div className="Details">
+                            <span className="moreSpan">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/qgjxvqgb.json"
+                                trigger="loop"
+                                colors="primary:#121331,secondary:#848484"
+                                stroke="25"
+                                style={{width:"80px",height:"80px"}}>
+                            </lord-icon>
                             <span>{vacation.description}</span>
+                            </span>
                             <div className="DetailsHeading">What?</div>
                         </div>
                         <div className="Details">
