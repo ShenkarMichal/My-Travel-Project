@@ -18,6 +18,7 @@ class Config {
 
     //Utils links
     public weatherURL = "http://localhost:3001/api/weather/"
+    public timeURL = "http://localhost:3001/api/time/"
 
     //Followers links
     public followURL = "http://localhost:3001/api/follow/"

@@ -170,5 +170,17 @@ router.get("/weather/:location", isLoggedIn, async (requset:Request, response: R
     }
 })
 
+//Get local time:
+router.get("/time/:location", isLoggedIn, async (requset:Request, response: Response, next: NextFunction) => {
+    try {
+        const location = requset.params.location
+        const time = await dataUtils.getLocalTime(location)
+        response.status(200).json(time)            
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
 
 export default router

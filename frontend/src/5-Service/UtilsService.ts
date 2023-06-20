@@ -87,6 +87,14 @@ class UtilsService {
         const weather = response.data
         return weather
     }
+
+    //Get time:        
+    public async getLocalTime(city: string): Promise<string> {
+        const response = await axios.get<string>(appConfig.timeURL + city)
+
+        const time = response.data
+        return time
+    }
 }
 
 const utilsService = new UtilsService();

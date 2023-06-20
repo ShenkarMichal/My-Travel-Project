@@ -7,7 +7,8 @@ import verifyLogged from "../../../2-Utils/VerifyLogged";
 import notifyService from "../../../5-Service/NotifyService";
 import utilsService from "../../../5-Service/UtilsService";
 import ShareLocationIcon from '@mui/icons-material/ShareLocation';
-import ThermostatIcon from '@mui/icons-material/Thermostat';
+import Brightness7OutlinedIcon from '@mui/icons-material/Brightness7Outlined';
+import MoreTimeOutlinedIcon from '@mui/icons-material/MoreTimeOutlined';
 
 function VacationDetails(): JSX.Element {
 
@@ -19,6 +20,7 @@ function VacationDetails(): JSX.Element {
 
     const [distance, setDistance] = useState<string>("")
     const [weather, setWeather] = useState<[number, string, string]>()
+    const [time, setTime] = useState<string>("")
 
     useEffect(()=>{
         vacationService.getOneVacation(vacationID)
@@ -32,6 +34,9 @@ function VacationDetails(): JSX.Element {
                     .catch(err => notifyService.error(err))
                 utilsService.getWeather(v.destination)
                     .then(w => setWeather(w))
+                    .catch(err => notifyService.error(err))
+                utilsService.getLocalTime(v.destination)
+                    .then(t => setTime(t))
                     .catch(err => notifyService.error(err))
             })
             .catch(err => notifyService.error(err))
@@ -56,24 +61,54 @@ function VacationDetails(): JSX.Element {
                             <div className="DetailsHeading">What?</div>
                         </div>
                         <div className="Details">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/qhviklyi.json"
+                                trigger="loop"
+                                colors="primary:#121331,secondary:#848484"
+                                stroke="35"
+                                style={{width:"80px", height:"80px"}}>
+                            </lord-icon>
                             <span>{vacation.price}$</span>
                             <div className="DetailsHeading">How much?</div>
                         </div>
                         <div className="Details">
                             <span className="moreSpan">                                
-                                <ShareLocationIcon sx={{fontSize: 50}} color="action" titleAccess="Distance" />
-                                <span>{distance} km</span>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/gqzfzudq.json"
+                                trigger="loop"
+                                colors="primary:#848484,secondary:#121331"
+                                stroke="25"
+                                state="loop"
+                                style={{width:'80px', height:'80px'}}>
+                            </lord-icon>
+                            <span>{distance} km</span>
                             </span>
-                            <span className="moreSpan wether">                                
+                            <span className="moreSpan">                                
                             {weather &&
                                 <>
-                                <ThermostatIcon sx={{fontSize: 50}} color="action" titleAccess="Weather" />
+                                <lord-icon
+                                    src="https://cdn.lordicon.com/wcjauznf.json"
+                                    trigger="loop"
+                                    colors="primary:#121331,secondary:#08a88a"
+                                    stroke="25"
+                                    style={{width:"80px", height:"80px"}}>
+                                </lord-icon> 
                                 <div>
                                     <span>{weather[0].toFixed(2)}℃ </span>
                                     <span>{weather[1]} </span>
                                     <img src={`http://openweathermap.org/img/w/${weather[2]}.png`} alt="Weather Icon" />
                                 </div>
                                 </>}
+                            </span>
+                            <span className="moreSpan">
+                            <lord-icon
+                                    src="https://cdn.lordicon.com/kbtmbyzy.json"
+                                    trigger="loop"
+                                    colors="primary:#848484,secondary:#121331"
+                                    stroke="35"
+                                    style={{width:"80px", height:"80px"}}>
+                                </lord-icon>                                
+                                <span>{time}</span>
                             </span>
                             <div className="DetailsHeading">More...</div>
                         </div>                

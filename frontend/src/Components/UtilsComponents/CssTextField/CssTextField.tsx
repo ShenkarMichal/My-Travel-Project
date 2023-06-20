@@ -19,6 +19,7 @@ interface CssTextFieldProp {
     onChange?: (event: ChangeEvent<HTMLInputElement>)=> void
     id?: string
     Multiline?: number
+    value?: string
 }
 
 function CssTextField(prop: CssTextFieldProp): JSX.Element {
@@ -57,8 +58,7 @@ function CssTextField(prop: CssTextFieldProp): JSX.Element {
                                     id = {prop.id}
                                     multiline={prop.Multiline && true || false}
                                     rows={prop.Multiline || 0}
-
-                                    
+                                    value={prop.value}                                   
                                     
                        />			
         </>

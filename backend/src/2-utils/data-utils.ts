@@ -41,7 +41,7 @@ async function sendEmailToUser(userEmail:string, subject: string, message: strin
 }
 
     async function getCountryCode(cityName: string): Promise<string> {
-        const username = 'michalSehnaker'; // הכנס את שם המשתמש שלך ב-Geonames
+        const username = 'michalSehnaker'; 
         const url = `http://api.geonames.org/searchJSON?q=${encodeURIComponent(cityName)}&maxRows=1&username=${username}`;
       
 
@@ -57,6 +57,7 @@ async function getWeather(location: string): Promise<[number, string, string]> {
 
     const countryCode = await getCountryCode(location);
     const apiKey = '1534bf1641c97d72dc7ac0820cbca55e';
+    console.log(location)
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}%20${countryCode}&appid=${apiKey}`;
     
     const response = await axios.get(url);
@@ -67,9 +68,30 @@ async function getWeather(location: string): Promise<[number, string, string]> {
     return [parseFloat(temperatureInCelsius), description, icon];
 }
 
+//Get time:
+async function getLocalTime(location: string): Promise<string> {
+    const countryCode = getCountryCode(location)
+      const response = await axios.get(`http://api.geonames.org/timezoneJSON`, {
+        params: {
+          username: 'michalSehnaker',
+          countryCode: countryCode,
+        },
+      });
+      const { time } = response.data;
+      console.log(response.data)
+      const localTime = new Date(time).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      });
+      return localTime;
+
+  }
+
 
 export default {
     isDataExists,
     sendEmailToUser,
-    getWeather
+    getWeather,
+    getLocalTime
 }

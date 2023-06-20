@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import notifyService from '../../../5-Service/NotifyService';
 import CssTextField from '../../UtilsComponents/CssTextField/CssTextField';
 
+
   function PasswordRecovery(): JSX.Element {
     const [email, setEmail] = useState("")
     const navigate = useNavigate()
@@ -36,8 +37,9 @@ import CssTextField from '../../UtilsComponents/CssTextField/CssTextField';
             id="standard-basic"
             label="Email"
             type="email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)} 
-            fieldName={"email"}/>
+            fieldName={'email'}/>
             <br /> <br />
             <Button 
                 color="inherit" 

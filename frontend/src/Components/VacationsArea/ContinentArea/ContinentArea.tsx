@@ -93,7 +93,6 @@ function ContinentArea(): JSX.Element {
     return (
         <>
         {isLogged &&
-
             <div className="ContinentArea">
                 <div className="background" 
                     style={{backgroundImage:`url(${continentImageURL}), url(${Earth})`}}></div>
