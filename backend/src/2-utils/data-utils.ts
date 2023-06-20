@@ -70,23 +70,26 @@ async function getWeather(location: string): Promise<[number, string, string]> {
 
 //Get time:
 async function getLocalTime(location: string): Promise<string> {
-    const countryCode = getCountryCode(location)
-      const response = await axios.get(`http://api.geonames.org/timezoneJSON`, {
-        params: {
-          username: 'michalSehnaker',
-          countryCode: countryCode,
-        },
-      });
-      const { time } = response.data;
-      console.log(response.data)
-      const localTime = new Date(time).toLocaleTimeString('en-US', {
+    const username = "michalSehnaker" 
+    
+    //Get the coordiante of the location:
+    const url = `http://api.geonames.org/searchJSON?q=${encodeURIComponent(location)}&maxRows=1&username=${username}`;
+    const responseCoordinate = await axios.get(url);
+    const { geonames } = responseCoordinate.data;
+    const { lat, lng } = geonames[0];
+
+    //Get the time by coordinates:
+    const responseTime = await axios.get(`http://api.geonames.org/timezoneJSON?lat=${lat}&lng=${lng}&username=michalSehnaker`);
+
+    const { time } = responseTime.data;
+    const localTime = new Date(time).toLocaleTimeString('en-US', {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
-      });
-      return localTime;
+    });
+    return localTime;
+}
 
-  }
 
 
 export default {

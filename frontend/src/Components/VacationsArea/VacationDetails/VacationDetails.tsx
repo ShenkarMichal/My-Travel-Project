@@ -61,6 +61,7 @@ function VacationDetails(): JSX.Element {
                             <div className="DetailsHeading">What?</div>
                         </div>
                         <div className="Details">
+                            <span className="moreSpan">
                             <lord-icon
                                 src="https://cdn.lordicon.com/qhviklyi.json"
                                 trigger="loop"
@@ -68,7 +69,8 @@ function VacationDetails(): JSX.Element {
                                 stroke="35"
                                 style={{width:"80px", height:"80px"}}>
                             </lord-icon>
-                            <span>{vacation.price}$</span>
+                            <span>{vacation.price.toLocaleString()}$</span>
+                            </span>
                             <div className="DetailsHeading">How much?</div>
                         </div>
                         <div className="Details">

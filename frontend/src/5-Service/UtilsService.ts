@@ -66,15 +66,12 @@ class UtilsService {
 
     //Get distance:
     public async calculateDistanceFromCurrentLocation(destination: string): Promise<string> {
-        try {
         const currentLocation = await this.getCurrentLocation();
         const destinationCoordinates = await this.getCoordinatesFromAddress(destination);
         const distance = this.calculateDistance(currentLocation, destinationCoordinates);
         const formattedDistance = distance.toLocaleString(undefined, { maximumFractionDigits: 2 });
         return formattedDistance;
-        } catch (error) {
-        throw error;
-        }
+
     }
 
     //Get weather:
