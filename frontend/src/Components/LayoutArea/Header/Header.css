@@ -4,14 +4,30 @@
     width: 100vw;
     font-family: 'Oswald', sans-serif;
     text-decoration: none;
+    color: white;
 }
 
 .Header a{
     text-decoration: none;
-    font-size: larger;
+    font-size: 2vw;
     color: white;
-    margin: 1vw;
+    margin: 1.5vw;
     font-weight: bolder;
 }
+
+.Header .name{
+    
+
+}
+
+/* Responsive design:
+/* @media (max-width: 600px) {
+
+    .Toolbar{
+        position: fixed;
+        left:  5vw;
+        font-size: 6vw;
+    }
+} */ 
 
 

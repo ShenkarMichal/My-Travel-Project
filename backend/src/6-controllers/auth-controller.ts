@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import UserModel from '../4-models/user-model'
 import authLogic from '../5-logics/auth-logic'
 import CredentialModel from '../4-models/credential-model'
+import path from 'path'
 
 const router = express.Router()
 
@@ -57,6 +58,37 @@ router.post("/recovery/:email/:password", async (request: Request, response: Res
     
         response.status(200).send("The password has been succssefully update")
     }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
+//Update user details:
+router.put("/user-update/:userID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const userID = +request.params.userID
+        request.body.userID = userID 
+        request.body.image = request.files?.image
+        const user = new UserModel(request.body)
+        const token = await authLogic.updateUserDetails(user)
+    
+        response.status(200).json(token)
+    }
+    catch (err: any) {
+        next(err)        
+    }
+})
+
+//Get user image:
+router.get("/user-image/:userID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
+    try {
+        const userID = +request.params.userID
+        const imageName = await authLogic.getUserImage(userID)
+        if(!imageName) response.send(null)
+
+        const image = path.join(__dirname, "..", "1-assets", "images","users", imageName)
+        response.sendFile(image)
+        }
     catch (err: any) {
         next(err)        
     }

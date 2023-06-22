@@ -74,7 +74,7 @@ function Register(): JSX.Element {
                     Let's Go!
                 </Button> 
                 <br />
-                <span>Ready for the journey? </span>
+                <span>Ready for the journey? </span><br/>
                 <NavLink to="/auth/login">Click here!</NavLink>
 
             </form>

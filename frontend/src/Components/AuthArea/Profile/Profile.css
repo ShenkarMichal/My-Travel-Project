@@ -1,3 +1,18 @@
-.Profile {
-	
+
+
+.Profile input[type="file"] {
+    color: transparent;    
 }
+
+.Profile input[type="file"]::-webkit-file-upload-button {
+    display: none;
+}
+
+.Profile img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+
+

@@ -44,7 +44,7 @@ class VacationModel {
     public validate(): string {
         const resoult = VacationModel.validationSchema.validate(this)
         
-        return resoult.error.message
+        return resoult.error?.message
     }
 }
 

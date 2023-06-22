@@ -90,6 +90,7 @@ class VacationsService {
     public async getVacationsByContinent(continentID: number, userID: number): Promise<VacationModel[]> {
 
         let vacations = vacationsStore.getState().vacations.filter(v => v.continentID === continentID)
+        console.log(vacations)
         //If the vacations are not exist in the store:
         if(vacations.length === 0){
             const response = await axios.get<VacationModel[]>(appConfig.vacationsByContinent + continentID + "/" + userID)

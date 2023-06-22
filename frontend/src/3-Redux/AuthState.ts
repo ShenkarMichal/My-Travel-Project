@@ -20,13 +20,14 @@ export class AuthState {
 export enum AuthActionType {
     Login,
     Register,
-    Logout
+    Logout,
+    Update
 }
 
 //3 - Action:
 export interface AuthAction {
     type: AuthActionType,
-    payload?: string
+    payload?: string;
 }
 
 //4 - Reducer:
@@ -36,6 +37,7 @@ export function authReduser(currentState = new AuthState(), action: AuthAction):
     switch (action.type) {
         case AuthActionType.Register:
         case AuthActionType.Login:
+        case AuthActionType.Update:
             newState.token = action.payload
             //Rscue the user from the token string:
             const container: {user: UserModel} = jwtDecode(newState.token)

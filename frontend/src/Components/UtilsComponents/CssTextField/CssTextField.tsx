@@ -7,6 +7,7 @@ class InputProp {
     accept?: string
     startAdornment?: string
     endAdornment?: string
+    readOnly?: boolean
 }
 
 interface CssTextFieldProp {
@@ -20,6 +21,7 @@ interface CssTextFieldProp {
     id?: string
     Multiline?: number
     value?: string
+    variant?: string
 }
 
 function CssTextField(prop: CssTextFieldProp): JSX.Element {
@@ -47,12 +49,14 @@ function CssTextField(prop: CssTextFieldProp): JSX.Element {
     
     return (
         <>
-            <CssTextField label={prop.label} variant="standard" type={prop.type} 
-                          name={prop.fieldName} fullWidth defaultValue={prop?.defaultValue}
-                          inputProps={{accept: prop.inputProp?.accept, 
+            <CssTextField label={prop.label} variant={prop.variant || "standard"} type={prop.type} 
+                          name={prop.fieldName} fullWidth 
+                          defaultValue={prop.defaultValue}
+                          InputProps={{accept: prop.inputProp?.accept, 
                                     endadornment: <InputAdornment position="end">{prop.inputProp?.endAdornment}</InputAdornment>,
-                                    startadornment: <InputAdornment position="start">{prop.inputProp?.startAdornment}</InputAdornment>,
-                                    shrink: true}}
+                                    startadornment: <InputAdornment position="start">{prop.inputProp?.startAdornment}</InputAdornment>,                                    
+                                    // shrink: true,
+                                    readOnly: prop.inputProp?.readOnly}}
                                     {...prop.register}
                                     onChange={prop.onChange}
                                     id = {prop.id}

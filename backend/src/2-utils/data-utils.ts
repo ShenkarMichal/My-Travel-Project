@@ -45,10 +45,9 @@ async function sendEmailToUser(userEmail:string, subject: string, message: strin
         const url = `http://api.geonames.org/searchJSON?q=${encodeURIComponent(cityName)}&maxRows=1&username=${username}`;
       
 
-          const response = await axios.get(url);
-          console.log(response.data)
-          const { countryCode } = response.data?.geonames[0];
-          return countryCode;
+        const response = await axios.get(url);
+        const { countryCode } = response.data?.geonames[0];
+        return countryCode;
 
   }
 
@@ -57,7 +56,6 @@ async function getWeather(location: string): Promise<[number, string, string]> {
 
     const countryCode = await getCountryCode(location);
     const apiKey = '1534bf1641c97d72dc7ac0820cbca55e';
-    console.log(location)
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}%20${countryCode}&appid=${apiKey}`;
     
     const response = await axios.get(url);

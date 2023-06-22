@@ -40,6 +40,24 @@ class AuthService {
         const msg = response.data
         return msg
     }
+
+    public async updateUserDetails(user: UserModel): Promise<void> {
+
+        const userFormData = new FormData()
+
+        userFormData.append("firstName", user.firstName)
+        userFormData.append("lastName", user.lastName)
+        userFormData.append("username", user.username)
+        userFormData.append("email", user.email)
+        userFormData.append("role", user.role)
+        if(user.image) userFormData.append("image", user.image[0])
+        
+        const response = await axios.put<string>(appConfig.updateUserURL + user.userID, userFormData)
+        const token = response.data
+
+        //Save the token in the redux:
+        authStore.dispatch({type:AuthActionType.Update, payload: token})
+    }
 }
 
 const authService = new AuthService()

@@ -35,7 +35,8 @@ function UpdateVacation(): JSX.Element {
               const updatedVacation = { ...v, startDate: formattedStartDate, endDate: formattedEndDate };
       
               setVacation(updatedVacation);
-            } else {
+            } 
+            else {
               console.log('Invalid date format');
             }
           })
@@ -95,7 +96,6 @@ function UpdateVacation(): JSX.Element {
                 <StepperComponent 
                     steps={steps} 
                     stepContent={<StepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={updateVacation} vacation={vacation} />} 
-                    endMsg={"All steps completed - The vacation has been successfully update"} 
                     heading={"Have a new place to travel?"}
                     handleBack={handleBack}
                     activeStep={activeStep}

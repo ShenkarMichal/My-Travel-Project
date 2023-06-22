@@ -6,7 +6,6 @@ import { v4 as uuid } from "uuid";
 import fs from "fs";
 import ContinentModel from "../4-models/continent-model";
 import dataUtils from "../2-utils/data-utils";
-import UserModel from "../4-models/user-model";
 
 //Get all vacations:
 async function getAllVacation(userID: number): Promise<VacationModel[]> {

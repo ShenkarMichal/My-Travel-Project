@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import UserModel from "../../../4-Models/UserModel";
 import RoleModel from "../../../4-Models/RoleModel";
+import appConfig from "../../../2-Utils/Config";
 
 interface HeaderProp {
     user: UserModel
@@ -37,17 +38,29 @@ function Header(prop: HeaderProp): JSX.Element {
         setAnchorElUser(null);
     };
 
+    let avatarImage = appConfig.getUserImageURL + prop.user?.userID
+    if(!avatarImage) avatarImage = prop.user?.username.substring(0,1).toUpperCase()
+
+    function getRandomColor():string {
+        const red = Math.floor(Math.random()*256)
+        const green = Math.floor(Math.random()*256)
+        const blue = Math.floor(Math.random()*256)
+
+        return `rgb(${red}, ${green}, ${blue})`
+    }
+
     return (
         <div className="Header">
             <AppBar position="static" color="transparent" style={{boxShadow: "none"}}>
                 <Container maxWidth="xl" >
-                    <Toolbar disableGutters>
+                    <Toolbar disableGutters className="Toolbar">
                         {prop.user && <>
                             <NavLink to={"/vacations"}>
-                                <Typography
+                                <Typography 
                                     variant="h6"
                                     noWrap
                                     sx={{
+                                    fontSize: '1vw',
                                     mr: 2,
                                     display: { xs: 'none', md: 'flex' },
                                     fontFamily: 'Oswald',
@@ -57,16 +70,16 @@ function Header(prop: HeaderProp): JSX.Element {
                                     textDecoration: 'none',
                                     }}
                                 >
-                                    My Travel | 
+                                    My Travel |
                                 </Typography>
                             </NavLink> 
-                            Helo {prop.user?.firstName} {prop.user?.lastName}
+                            <span className="name">Helo {prop.user?.firstName} {prop.user?.lastName}</span>
                         </>}
                         {prop.user?.role === RoleModel.user &&
-                            <Box sx={{ flexGrow: 0 }}>
+                            <Box sx={{ flexGrow: 0, position:"absolute", right: "20px"}}>
                                 <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt="Remy Sharp" src={avatarImage} sx={{bgcolor:getRandomColor()}}>{prop.user.username.substring(0,1).toUpperCase()}</Avatar>
                                 </IconButton>
                                 </Tooltip>
                                 <Menu

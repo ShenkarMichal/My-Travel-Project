@@ -12,7 +12,7 @@ export class RouteNotFoundErrorModel extends ErrorsModel {
 
 export class UnauthorizedErrorModel extends ErrorsModel {
     public constructor(msg: string){
-        super(400, msg)
+        super(401, msg)
     }
 }
 

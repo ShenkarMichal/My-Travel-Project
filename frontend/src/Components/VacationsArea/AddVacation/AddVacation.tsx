@@ -70,7 +70,6 @@ function AddVacation(): JSX.Element {
                 <StepperComponent 
                     steps={steps} 
                     stepContent={<StepperContent stepIndex={activeStep} onSubmit={saveCurrentForm} onClick={saveNewVacation} imageErrorMsg={error || ""} />} 
-                    endMsg={"All steps completed - The vacation has been successfully added"} 
                     heading={"Have a new place to travel?"}
                     handleBack={handleBack}
                     activeStep={activeStep}

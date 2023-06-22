@@ -17,7 +17,6 @@ export class StepModel {
 interface StepperProps {
     steps: StepModel[]
     stepContent: any
-    endMsg: string
     heading: string
     activeStep: number
     handleBack: () => void
@@ -58,11 +57,7 @@ function StepperComponent(props: StepperProps): JSX.Element {
                         </Step>
                         ))}
                     </Stepper>
-                    {props.activeStep === props.steps.length && (
-                        <Paper className='Paper' square elevation={0} sx={{ p: 3 }}>
-                            <Typography>{props.endMsg}</Typography>
-                        </Paper>
-                    )}
+
                 </Box>
         </div>
     );

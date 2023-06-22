@@ -11,6 +11,9 @@ class UserModel {
 
     public confirmPassword: string
 
+    public image: FileList
+    public imageName: string
+
     public static firstNameValidatoin = {
         required: {value: true, message: "First-Name is missing"},
         min: {value: 3, message: "First-Name is too short"},

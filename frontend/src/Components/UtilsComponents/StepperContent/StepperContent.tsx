@@ -44,7 +44,7 @@ function StepperContent(prop: StepperContentProp): JSX.Element {
     useEffect(()=>{
         vacationService.getVacationImageUrl(prop.vacation?.vacationID)
             .then(url => setImageURL(url))
-            .catch(err => notifyService.error(err))
+            .catch(err => console.log(err))
     },[prop.vacation])
 
     return (

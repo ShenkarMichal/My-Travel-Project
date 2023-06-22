@@ -1,9 +1,28 @@
-.AddVacation {
-    background-image: url("../../../1-Assets/Images/BackGrounds/VacationForms.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    height: 100vh;
-    color: black;
+
+@media (min-width: 601px) {
+
+    .AddVacation {
+        background-image: url("../../../1-Assets/Images/BackGrounds/VacationForms.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        overflow: hidden;
+        height: 100vh;
+        color: black;
+    }
+}
+
+/* Responsive design: */
+@media (max-width: 600px) {
+
+    .AddVacation {
+        background-size:auto;
+        background-position: bottom;
+    }
+
+    .AddVacation .Stepper {
+        width: 70%;
+        height: 70%;
+        margin-top: 15%;
+    }
 }
 

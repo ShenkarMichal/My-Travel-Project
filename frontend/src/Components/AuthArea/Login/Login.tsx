@@ -42,7 +42,7 @@ function Login(): JSX.Element {
                 <Button color="inherit" variant="outlined" startIcon={<DirectionsRunIcon />} type="submit">
                     Let's Go!
                 </Button> <br />
-                <span>Is your backpack still unpacked? </span>
+                <span>Is your backpack still unpacked? </span><br/>
                 <NavLink to="/auth/register">Click here!</NavLink>
 
           </form>

@@ -68,7 +68,6 @@ function VacationsReport(): JSX.Element {
         animationEnabled: true,
         data: [
         {
-            // Change type to "doughnut", "line", "splineArea", etc.
             type: "column",
             dataPoints: dataGragh
         }

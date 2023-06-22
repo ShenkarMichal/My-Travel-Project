@@ -35,16 +35,16 @@ function VacationDetails(): JSX.Element {
         catch (err: any) {
             notifyService.error(err)    
         }
-
     }
+
     useEffect(()=>{
         
         setVariables()
             .then()
             .catch(err => notifyService.error(err))
 
+        //Update the time per minute:
         const timeInterval = setInterval(()=>{
-            console.log("render")        
             setVariables()
                 .then()
                 .catch(err => notifyService.error(err))

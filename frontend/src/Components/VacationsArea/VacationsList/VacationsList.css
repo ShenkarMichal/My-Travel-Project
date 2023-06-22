@@ -1,72 +1,74 @@
-.VacationsList {
-    background-image: url("../../../1-Assets/Images/BackGrounds/HomeBackground.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100vh;
-    overflow-y: hidden;
-    font-family: 'Oswald', sans-serif;
-    padding: 10vw;
-    font-size: 3vw;
-}
+@media (min-width: 601px) {
 
-.VacationsList > h1 {
-    text-align: left;
-    color: rgb(3, 32, 45);
-    line-height: 10vh;
-    letter-spacing: 0.5vw;
+  .VacationsList {
+      background-image: url("../../../1-Assets/Images/BackGrounds/HomeBackground.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      height: 100vh;
+      overflow-y: hidden;
+      font-family: 'Oswald', sans-serif;
+      padding: 10vw;
+  }
 
-}
+  .VacationsList > h1 {
+      text-align: left;
+      color: rgb(3, 32, 45);
+      line-height: 10vh;
+      letter-spacing: 0.5vw;
+      font-size: 12vh;
 
-.VacationsList > h1 > span {
-    font-size: 3.5vw;
-    letter-spacing: 0.1vw;
-}
+  }
 
-.VacationsList > h1 > span:first-child {
-    font-size: 5.5vw;
-}
+  .VacationsList > h1 > span {
+      font-size: 3.5vw;
+      letter-spacing: 0.1vw;
+  }
 
-.VacationsList p {
-  font-size:1.5vw;
-  line-height: 3vh;
-  letter-spacing: normal;
-  mix-blend-mode:color-burn;
-}
+  .VacationsList > h1 > span:first-child {
+      font-size: 5.5vw;
+  }
 
-.VacationsList p:last-child {
-  font-weight: bolder;
-}
+  .VacationsList p {
+    font-size:1.5vw;
+    line-height: 3vh;
+    letter-spacing: normal;
+    mix-blend-mode:color-burn;
+  }
 
-.VacationsList .marquee-container {
-  position: fixed;
-  bottom: 10%;
-  right: 0;
-  width: 50vw;
-  height: 60vh;
-}
-  
-.VacationsList .marquee {
-  width:100%;
-  height: 100%;
-  overflow: hidden;
-}
-  
-.VacationsList .marquee-content {
-  display: flex;
-  animation: marquee 5s linear infinite;
-  position: relative;
-  z-index: 999;
-  animation-play-state: running;
-}
-  
-.VacationsList .VacationCard {
-  width: 80%;
-  min-width: 150px;
-  margin-right: 2vw; 
-  display: flex;
+  .VacationsList p:last-child {
+    font-weight: bolder;
+  }
 
-}
+  .VacationsList .marquee-container {
+    position: fixed;
+    bottom: 10%;
+    right: 0;
+    width: 50vw;
+    height: 60vh;
+  }
+    
+  .VacationsList .marquee {
+    width:100%;
+    height: 100%;
+    overflow: hidden;
+  }
+    
+  .VacationsList .marquee-content {
+    display: flex;
+    animation: marquee 5s linear infinite;
+    position: relative;
+    z-index: 999;
+    animation-play-state: running;
+  }
+    
+  .VacationsList .VacationCard {
+    width: 80%;
+    min-width: 150px;
+    margin-right: 2vw; 
+    display: flex;
 
+  }
+}
   
 @keyframes marquee {
   0% {
@@ -98,12 +100,57 @@
   }
 
   .VacationsList .FilterButton {
+
     margin-left: 0.5vw;
   }
 
   .VacationsList a {
     text-decoration: none;
   }
+
+/* Responsive design: */
+@media (max-width: 600px) {
+  .VacationsList .FilterButton {
+    position: fixed;
+    bottom: 2vh;
+  }
+  .VacationsList img {
+    display: none;
+  }
+  .VacationsList .marquee {
+    overflow:visible;
+  }
+  .VacationsList {
+    background-size: 150vh;
+  }
+
+  .VacationsList h1{
+    font-size: 10vh;
+    line-height: 7vh;
+    letter-spacing: 2vw;
+  }
+
+  .VacationsList h1 > span {
+    font-size: 5vh;
+    margin-top: 0;
+    letter-spacing: 1.5vw;
+
+  }
+
+  .VacationsList h1 > span:first-child{
+    font-size: 8vh;
+    line-height: 2vh;
+  }
+
+  .VacationsList p {
+    display: none;
+  }
+
+  .VacationsList .marquee-container {
+    bottom: 5%;
+  }
+
+}
 
 
   
