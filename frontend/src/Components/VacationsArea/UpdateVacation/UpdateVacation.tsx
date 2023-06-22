@@ -18,11 +18,15 @@ import notifyService from "../../../5-Service/NotifyService";
 function UpdateVacation(): JSX.Element {
 
     const isAdmin = verifyLogged.isAdmin()
+    const isLogged = verifyLogged.isLogged()
+
 
     const [vacation, setVacation] = useState<VacationModel>()
     const vacationID = +useParams().vacationID
 
     useEffect(() => {
+        if(isLogged && !isAdmin) notifyService.error("You dont have an admin premmision")
+
         vacationService.getOneVacation(vacationID)
           .then(v => {
             const parsedStartDate = parse(v.startDate, 'dd/MM/yyyy', new Date());

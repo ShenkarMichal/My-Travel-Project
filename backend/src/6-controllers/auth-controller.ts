@@ -3,6 +3,7 @@ import UserModel from '../4-models/user-model'
 import authLogic from '../5-logics/auth-logic'
 import CredentialModel from '../4-models/credential-model'
 import path from 'path'
+import isLoggedIn from '../3-middlewares/is-logged-in'
 
 const router = express.Router()
 
@@ -64,7 +65,7 @@ router.post("/recovery/:email/:password", async (request: Request, response: Res
 })
 
 //Update user details:
-router.put("/user-update/:userID([0-9]+)", async (request: Request, response: Response, next: NextFunction)=>{
+router.put("/user-update/:userID([0-9]+)",isLoggedIn, async (request: Request, response: Response, next: NextFunction)=>{
     try {
         const userID = +request.params.userID
         request.body.userID = userID 

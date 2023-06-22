@@ -7,6 +7,8 @@ import ViewWeekOutlinedIcon from '@mui/icons-material/ViewWeekOutlined';
 import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutlined';
 import PieChartRoundedIcon from '@mui/icons-material/PieChartRounded';
 import notifyService from "../../../5-Service/NotifyService";
+import { Navigate } from "react-router-dom";
+import verifyLogged from "../../../2-Utils/VerifyLogged";
 
 const Canvas = require("canvasjs-react-charts") 
 var CanvasJSChart = Canvas.CanvasJSChart;
@@ -14,8 +16,13 @@ var CanvasJSChart = Canvas.CanvasJSChart;
 
 function VacationsReport(): JSX.Element {
 
+    const isAdmin = verifyLogged.isAdmin()
+    const isLogged = verifyLogged.isLogged()
+
     const [data, setData] = useState<any[]>([])
     useEffect(()=>{
+        if(isLogged && !isAdmin) notifyService.error("You dont have an admin premmision")
+
         followersService.getDataToReport()
             .then(d => setData(d))
             .catch(err => notifyService.error(err))        
@@ -75,6 +82,8 @@ function VacationsReport(): JSX.Element {
     }
 
     return (
+        <>
+        {isAdmin &&
         
         <div className="VacationsReport">
             <div className="Background"></div>
@@ -113,6 +122,11 @@ function VacationsReport(): JSX.Element {
                 </div>
             </div>
         </div>
+    }
+    {!isAdmin &&
+        <Navigate to={"/vacations"} />
+    }
+    </>
     );
 }
 

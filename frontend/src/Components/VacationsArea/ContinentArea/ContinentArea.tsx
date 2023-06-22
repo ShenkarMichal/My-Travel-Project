@@ -15,12 +15,15 @@ import notifyService from "../../../5-Service/NotifyService";
 
 
 function ContinentArea(): JSX.Element {
+
+    const isLogged = verifyLogged.isLogged()
     
     const user = authStore.getState().user
 
     const [vacations, setVacations] = useState<VacationModel[]>([])
 
-    useEffect(()=>{        
+    useEffect(()=>{    
+        if(!isLogged) notifyService.error("You are not logged in")    
 
         const unSubscribe = vacationsStore.subscribe(()=>{
                 vacationService.getVacationsByContinent(vacations[0]?.continentID, user?.userID)
@@ -37,7 +40,6 @@ function ContinentArea(): JSX.Element {
         return ()=> unSubscribe()
     },[vacations])
 
-    const isLogged = verifyLogged.isLogged()
 
 
     //Set Pagination:

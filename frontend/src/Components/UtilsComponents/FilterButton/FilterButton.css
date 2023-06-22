@@ -2,3 +2,7 @@
     color: rgb(56, 55, 55);
 	text-decoration: none;
 }
+
+.FilterButton button{
+    padding: 20px;
+}

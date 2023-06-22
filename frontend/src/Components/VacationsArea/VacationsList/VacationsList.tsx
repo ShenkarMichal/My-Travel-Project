@@ -23,6 +23,8 @@ function VacationsList(): JSX.Element {
     const [user, setUser] = useState<UserModel>()
 
     useEffect(() => {
+        if(!isLogged) notifyService.error("You are not logged in")
+
         setTimeout(() => {
             setUser(authStore.getState().user)               
         }, 50); //Set the user after redux will update
@@ -71,7 +73,7 @@ function VacationsList(): JSX.Element {
             if (cardRef.current) {
             animationTimeout = setTimeout(() => {
                 cardRef.current.style.animationPlayState = 'running'; // Continue the animation from the point where it paused
-            }, 1000); // The duration of the pause before continuing
+            }, 1500); // The duration of the pause before continuing
             }
         };
 

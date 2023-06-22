@@ -7,6 +7,7 @@ import isLoggedIn from '../3-middlewares/is-logged-in'
 import csvWriter from '../2-utils/csv-writer'
 
 const router = express.Router()
+
 //Get all followers:
 router.get("/follow",isLoggedIn,async (requset:Request, response: Response, next: NextFunction) => {
     try {

@@ -147,7 +147,7 @@ body, html, #root {
 .AllData .Vacations {
   position: absolute;
   bottom: 10vh;
-  left: 30vw;
+  right: -5vw;
 }
 .Content .Pagination {
   position: absolute;

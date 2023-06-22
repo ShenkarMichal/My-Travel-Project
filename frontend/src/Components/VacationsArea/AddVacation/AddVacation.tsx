@@ -4,7 +4,7 @@ import {ReactComponent as destinationIcon } from '../../../1-Assets/Icons/trendi
 import { ReactComponent as detailsIcon } from '../../../1-Assets/Icons/clipboard.svg'
 import { ReactComponent as cameraIcon }from '../../../1-Assets/Icons/camera.svg'
 import { ReactComponent as checkedIcon }from '../../../1-Assets/Icons/check-circle.svg'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NewVacationActionType, newVacationStore } from "../../../3-Redux/newVacationState";
 import vacationService from "../../../5-Service/VacationsService";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -16,8 +16,15 @@ import notifyService from "../../../5-Service/NotifyService";
 function AddVacation(): JSX.Element {
 
     const navigate = useNavigate()
-
+    
     const isAdmin = verifyLogged.isAdmin()
+    const isLogged = verifyLogged.isLogged()
+
+
+    useEffect(()=>{
+        if(isLogged && !isAdmin) notifyService.error("You dont have an admin premmision")
+
+    },[])
 
     //Set the active step
     const [activeStep, setActiveStep] = useState(0);

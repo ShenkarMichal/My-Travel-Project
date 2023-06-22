@@ -13,8 +13,12 @@ import { authStore } from "../../../3-Redux/AuthState";
 import { Pagination } from "@mui/material";
 import { vacationsStore } from "../../../3-Redux/VacationsState";
 import notifyService from "../../../5-Service/NotifyService";
+import { Navigate } from "react-router-dom";
+import verifyLogged from "../../../2-Utils/VerifyLogged";
 
 function DateArea(): JSX.Element {
+
+    const isLogged = verifyLogged.isLogged()
 
     const user = authStore.getState().user
     
@@ -30,6 +34,8 @@ function DateArea(): JSX.Element {
     const vacationPerPage = 3
 
     useEffect(()=>{
+        if(!isLogged) notifyService.error("You are not logged in")    
+
         const unSubscribe = vacationsStore.subscribe(()=>{
             if(filter === "Future Vacations"){
                 vacationService.getFutureVacations(user?.userID)
@@ -113,6 +119,7 @@ function DateArea(): JSX.Element {
     
     return (
         <>
+        {isLogged &&
         <div className="DateArea">
             <div className="Background"></div>
             <div className="Content">
@@ -154,7 +161,11 @@ function DateArea(): JSX.Element {
                 }  
             </div>
         </div>
-        </>
+    }
+    {!isLogged &&
+        <Navigate to={"/auth/login"} />
+    }
+    </>
     );
 }
 

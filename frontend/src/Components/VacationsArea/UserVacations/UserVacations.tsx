@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import "./UserVacations.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import VacationModel from "../../../4-Models/VacationModel";
@@ -6,8 +6,11 @@ import vacationService from "../../../5-Service/VacationsService";
 import VacationCard from "../VacationCard/VacationCard";
 import { Pagination } from "@mui/material";
 import notifyService from "../../../5-Service/NotifyService";
+import verifyLogged from "../../../2-Utils/VerifyLogged";
 
 function UserVacations(): JSX.Element {
+    const isLogged = verifyLogged.isLogged()
+
     const userID = +useParams().userID
     const [vacations, setVacations] = useState<VacationModel[]>([])
 
@@ -18,6 +21,8 @@ function UserVacations(): JSX.Element {
     const vacationPerPage = 3
 
     useEffect(()=>{
+        if(!isLogged) notifyService.error("You are not logged in")    
+
         vacationService.getVacationsByUser(userID)
             .then(v => setVacations(v))
             .catch(err => notifyService.error(err))
@@ -34,6 +39,7 @@ function UserVacations(): JSX.Element {
     
     return (
         <>
+        {isLogged &&
         <div className="UserVacations">
             <div className="Background"></div>
             <div className="Content">
@@ -56,7 +62,11 @@ function UserVacations(): JSX.Element {
                 } 
             </div>
         </div>
-        </>
+    }
+    {!isLogged &&
+        <Navigate to={"/auth/login"} />
+    }
+    </>
     );
 }
 

@@ -17,10 +17,7 @@ class FollowersService {
     }    
 
     public async addNewFollow(follower: FollowerModel): Promise<void>{
-        let followers = followersStore.getState().followers
-        if(followers.length === 0){
-            this.getAllFollowers()
-        }
+
         const response = await axios.post<FollowerModel>(`${appConfig.followURL}${follower.userID}/${follower.vacationID}`)
         const newFollower = response.data
         
@@ -28,21 +25,12 @@ class FollowersService {
     }
 
     public async deleteFollower(follower: FollowerModel): Promise<void> {
-        let followers = followersStore.getState().followers
-        if(followers.length === 0){
-            this.getAllFollowers()
-        }
 
         await axios.delete(`${appConfig.followURL}${follower.userID}/${follower.vacationID}`)
         followersStore.dispatch({type: FollowersActionType.DeleteFollow, payload:follower})
     }
 
     public async getFollowNumberByVacation(vacationID: number): Promise<number> {
-
-        let followers = followersStore.getState().followers
-        if(followers.length === 0) {
-            this.getAllFollowers()
-        }
 
         const response = await axios.get(appConfig.followerNumberOfVacation + vacationID)
         const number = response.data

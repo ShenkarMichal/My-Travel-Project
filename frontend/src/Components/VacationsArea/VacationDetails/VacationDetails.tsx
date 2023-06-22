@@ -38,6 +38,7 @@ function VacationDetails(): JSX.Element {
     }
 
     useEffect(()=>{
+        if(!isLogged) notifyService.error("You are not logged in")    
         
         setVariables()
             .then()

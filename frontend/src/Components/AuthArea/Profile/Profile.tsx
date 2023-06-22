@@ -1,5 +1,5 @@
 import "./Profile.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import UserModel from "../../../4-Models/UserModel";
 import authService from "../../../5-Service/AuthService";
@@ -10,14 +10,17 @@ import CssTextField from "../../UtilsComponents/CssTextField/CssTextField";
 import { ChangeEvent, useEffect, useState } from "react";
 import { authStore } from "../../../3-Redux/AuthState";
 import appConfig from "../../../2-Utils/Config";
+import verifyLogged from "../../../2-Utils/VerifyLogged";
 
 function Profile(): JSX.Element {
-    
-    const {register, handleSubmit, formState, setValue} = useForm<UserModel>()
+
+        
+    const isLogged = verifyLogged.isLogged()
+
     const navigate = useNavigate()
-
+    const {register, handleSubmit, formState, setValue} = useForm<UserModel>()
     const [user, setUser] = useState<UserModel>()
-
+ 
     async function sendForm(newUser: UserModel) {
         try {
             newUser.userID = user.userID
@@ -32,6 +35,8 @@ function Profile(): JSX.Element {
     }
 
     useEffect(()=>{
+        if(!isLogged) notifyService.error("You are not logged in")
+
         setUser(authStore.getState().user)
         setImageURL(appConfig.getUserImageURL + user?.userID)
 
@@ -59,8 +64,12 @@ function Profile(): JSX.Element {
    }
 
     const [imageURl, setImageURL] = useState("")
+
+
+
     
     return (
+    <>{isLogged && 
         <div className="Profile Auth">
 			{user &&
             <form onSubmit={handleSubmit(sendForm)}>
@@ -118,7 +127,13 @@ function Profile(): JSX.Element {
 
             </form>}
         </div>
-    );
+        
+    }
+    {!isLogged &&
+        <Navigate to={"/auth/login"}/>        
+    }
+    </>);
+    
 }
 
 export default Profile;
