@@ -18,6 +18,8 @@ class FollowersService {
 
     public async addNewFollow(follower: FollowerModel): Promise<void>{
 
+        this.getAllFollowers()
+
         const response = await axios.post<FollowerModel>(`${appConfig.followURL}${follower.userID}/${follower.vacationID}`)
         const newFollower = response.data
         

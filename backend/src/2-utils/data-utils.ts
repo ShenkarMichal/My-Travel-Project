@@ -52,11 +52,11 @@ async function sendEmailToUser(userEmail:string, subject: string, message: strin
   }
 
 //Get weather:
-async function getWeather(location: string): Promise<[number, string, string]> {
+async function getWeather(lat: number, lng: number): Promise<[number, string, string]> {
 
-    const countryCode = await getCountryCode(location);
+    // const countryCode = await getCountryCode(location);
     const apiKey = '1534bf1641c97d72dc7ac0820cbca55e';
-    const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}%20${countryCode}&appid=${apiKey}`;
+    const url = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${apiKey}`;
     
     const response = await axios.get(url);
     const { temp } = response.data.main;
@@ -67,17 +67,11 @@ async function getWeather(location: string): Promise<[number, string, string]> {
 }
 
 //Get time:
-async function getLocalTime(location: string): Promise<string> {
+async function getLocalTime(lat: number, lng: number): Promise<string> {
     const username = "michalSehnaker" 
-    
-    //Get the coordiante of the location:
-    const url = `http://api.geonames.org/searchJSON?q=${encodeURIComponent(location)}&maxRows=1&username=${username}`;
-    const responseCoordinate = await axios.get(url);
-    const { geonames } = responseCoordinate.data;
-    const { lat, lng } = geonames[0];
 
     //Get the time by coordinates:
-    const responseTime = await axios.get(`http://api.geonames.org/timezoneJSON?lat=${lat}&lng=${lng}&username=michalSehnaker`);
+    const responseTime = await axios.get(`http://api.geonames.org/timezoneJSON?lat=${lat}&lng=${lng}&username=${username}`);
 
     const { time } = responseTime.data;
     const localTime = new Date(time).toLocaleTimeString('en-US', {

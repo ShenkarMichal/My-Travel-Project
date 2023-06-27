@@ -159,10 +159,11 @@ router.get("/vacations/by-user/:userID([0-9]+)", isLoggedIn, async (requset:Requ
 })
 
 //Get weather by loacation:
-router.get("/weather/:location", isLoggedIn, async (requset:Request, response: Response, next: NextFunction) => {
+router.get("/weather/:lat/:lng", isLoggedIn, async (requset:Request, response: Response, next: NextFunction) => {
     try {
-        const location = requset.params.location
-        const weather = await dataUtils.getWeather(location)
+        const lat = +requset.params.lat
+        const lng = +requset.params.lng
+        const weather = await dataUtils.getWeather(lat, lng)
         response.status(200).json(weather)            
     }
     catch (err: any) {
@@ -171,10 +172,11 @@ router.get("/weather/:location", isLoggedIn, async (requset:Request, response: R
 })
 
 //Get local time:
-router.get("/time/:location", isLoggedIn, async (requset:Request, response: Response, next: NextFunction) => {
+router.get("/time/:lat/:lng", isLoggedIn, async (requset:Request, response: Response, next: NextFunction) => {
     try {
-        const location = requset.params.location
-        const time = await dataUtils.getLocalTime(location)
+        const lat = +requset.params.lat
+        const lng = +requset.params.lng
+        const time = await dataUtils.getLocalTime(lat, lng)
         response.status(200).json(time)            
     }
     catch (err: any) {

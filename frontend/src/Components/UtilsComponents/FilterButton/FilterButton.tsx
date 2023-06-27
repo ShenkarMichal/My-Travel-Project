@@ -60,7 +60,7 @@ function FilterButton(): JSX.Element {
                 onClick={handleToggle}
                 color = "inherit"
                 variant="contained">
-                    Filter Vacations 
+                    Easy to Search Vacation 
                           
             </Button>
             <Popper
@@ -89,7 +89,6 @@ function FilterButton(): JSX.Element {
                             >
                                 <NavLink to="/vacations/filter/by-continent"><MenuItem onClick={handleClose}>Filter By Continent</MenuItem></NavLink>
                                 <NavLink to="/vacations/filter/by-date"><MenuItem onClick={handleClose}>Filter By Date</MenuItem></NavLink>
-                                <NavLink to="/vacations/filter/by-distance"><MenuItem onClick={handleClose}>Filter By Distance</MenuItem></NavLink>
                             </MenuList>
                             </ClickAwayListener>
                         </Paper>

@@ -74,7 +74,7 @@
 }
     
 .Details:nth-child(1) {
-    width: 20%;
+    width: fit-content;
     height: 20%;
 }
     

@@ -6,15 +6,6 @@ type Coordinates = {
   longitude: number;
 };
 
-interface WeatherData {
-    main: {
-      temp: number;
-    };
-    weather: {
-      description: string;
-    }[];
-  }
-
 class UtilsService {
     private getCurrentLocation(): Promise<Coordinates> {
         return new Promise((resolve, reject) => {
@@ -71,19 +62,22 @@ class UtilsService {
 
     }
 
-    //Get weather:
+    // Get weather:
     public async getWeather(location: string): Promise<[number, string, string]> {
-        const [cityName, countryName] = location.split(", ");
-        const geonameString = `${cityName.replace(" ", "-")},-${countryName.replace(" ", "-")}`;
 
-        const response = await axios.get(appConfig.weatherURL + geonameString)
+        const destination = await this.getCoordinatesFromAddress(location)
+        const response = await axios.get(appConfig.weatherURL + destination.latitude + "/" + destination.longitude)
         const weather = response.data
         return weather
     }
 
     //Get time:        
-    public async getLocalTime(city: string): Promise<string> {
-        const response = await axios.get<string>(appConfig.timeURL + city)
+    public async getLocalTime(location: string): Promise<string> {
+
+        // const destination = location.split(" ")
+        const destination = await this.getCoordinatesFromAddress(location)
+
+        const response = await axios.get<string>(appConfig.timeURL + destination.latitude + "/" + destination.longitude)
 
         const time = response.data
         return time

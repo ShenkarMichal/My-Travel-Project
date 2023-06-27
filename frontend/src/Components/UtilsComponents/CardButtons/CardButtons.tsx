@@ -44,7 +44,6 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
     useEffect(()=>{
                 //Set the user from Redux:
                 setUser(authStore.getState().user)
-
                 //Set the numer of followers per vacation:
                 followersService.getFollowNumberByVacation(prop.vacation?.vacationID)
                     .then(f => setFollowNumber(f))
@@ -53,13 +52,16 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                 //Set the button on follow/un-follow on component first rendering:
                 if(prop.vacation?.isFollow > 0){
                     setIsFollow(true)
-                }                
+                }   
+
+
 
     },[prop.vacation])
     
 
 
     async function follow(userID:number, vacationID: number): Promise<void> {
+        console.log(followersStore.getState().followers)
         const follower = new FollowerModel(userID, vacationID)
         //Check if the follower already exists:
         const followers = followersStore.getState().followers.find(f=> f.userID === follower.userID && f.vacationID === follower.vacationID)
@@ -118,7 +120,6 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                             }
                         </StyledBadge>
                     </IconButton>
-                    {/* Followers-count */}
                 </>
             } 
             {user?.role === RoleModel.admin &&

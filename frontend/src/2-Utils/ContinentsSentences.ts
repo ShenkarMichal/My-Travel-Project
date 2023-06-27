@@ -16,7 +16,10 @@ enum Sentences {
     NorthAmericaSrc = "James Monroe",
 
     SouthAmerica = "I want to live like a cultured South American and not kill the Indians like the Europeans",
-    SouthAmericaSrc = "Simon Bolivar"
+    SouthAmericaSrc = "Simon Bolivar",
+
+    Africa = "Africa is a complex and diverse land that defies categorization.",
+    AfricaSrc = "Léonie Pordie"
 }
 
 enum Continents {
@@ -25,7 +28,8 @@ enum Continents {
     Antarctica = "Antarctica",
     Australia = "Australia",
     NorthAmerica = "North-America",
-    SouthAmerica ="South-America"
+    SouthAmerica ="South-America",
+    Africa = "Africa"
 }
 
 export class ContinentsSentencesModel {
@@ -62,6 +66,10 @@ function getSentence(continentName: string): ContinentsSentencesModel {
         case Continents.SouthAmerica:
             sentences.sentence = Sentences.SouthAmerica
             sentences.src = Sentences.SouthAmericaSrc
+            break
+        case Continents.Africa:
+            sentences.sentence = Sentences.Africa
+            sentences.src = Sentences.AfricaSrc
             break
     }
 

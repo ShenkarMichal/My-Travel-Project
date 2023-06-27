@@ -84,9 +84,9 @@ function VacationDetails(): JSX.Element {
                                 trigger="loop"
                                 colors="primary:#121331,secondary:#848484"
                                 stroke="25"
-                                style={{width:"80px",height:"80px"}}>
+                                style={{width:"100px",height:"100px"}}>
                             </lord-icon>
-                            <span>{vacation.description}</span>
+                            <p className="desc">{vacation.description}</p>
                             </span>
                             <div className="DetailsHeading">What?</div>
                         </div>
@@ -104,7 +104,9 @@ function VacationDetails(): JSX.Element {
                             <div className="DetailsHeading">How much?</div>
                         </div>
                         <div className="Details">
-                            <span className="moreSpan">                                
+                            <span className="moreSpan">  
+                            {distance &&
+                            <>                              
                             <lord-icon
                                 src="https://cdn.lordicon.com/gqzfzudq.json"
                                 trigger="loop"
@@ -114,6 +116,7 @@ function VacationDetails(): JSX.Element {
                                 style={{width:'80px', height:'80px'}}>
                             </lord-icon>
                             <span>{distance} km</span>
+                            </>}
                             </span>
                             <span className="moreSpan">                                
                             {weather &&

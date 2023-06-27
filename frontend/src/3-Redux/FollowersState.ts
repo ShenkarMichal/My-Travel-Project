@@ -1,10 +1,13 @@
 import { createStore } from "redux";
 import FollowerModel from "../4-Models/FollowerModel";
 import followersService from "../5-Service/FollowersService";
+import axios from "axios";
+import appConfig from "../2-Utils/Config";
 
 //1 - Global State:
 export class FollowersState {
     public followers: FollowerModel[] = []
+
 }
 
 //2 - Action Type
