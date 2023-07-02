@@ -11,13 +11,15 @@ export enum VacationsActionType {
     GetAllVacations,
     AddNewVacation,
     UpdateVacation,
-    deleteVacation
+    deleteVacation,
+    logput,
+    UpdateFollow
 }
 
 //3 - Action
 export interface VacationAction {
     type: VacationsActionType,
-    payload: any
+    payload?: any
 }
 
 //4 - Reducer
@@ -38,6 +40,13 @@ export function vacationReducer(currentState = new VacationsState(), action: Vac
         case VacationsActionType.deleteVacation:
             const indexToDelete = newState.vacations.findIndex(v => v.vacationID === action.payload)
             newState.vacations.splice(indexToDelete, 1)
+            break
+        case VacationsActionType.logput:
+            newState.vacations = []
+            break
+        case VacationsActionType.UpdateFollow:
+            const indexToFollow = newState.vacations.findIndex(v => v.vacationID === action.payload.vacationID)
+            newState.vacations[indexToFollow].isFollow = action.payload.isFollow
             break
     }
 

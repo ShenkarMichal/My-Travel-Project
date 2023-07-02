@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import RoleModel from "../../../4-Models/RoleModel";
 import UserModel from "../../../4-Models/UserModel";
 import "./CardButtons.css";
@@ -17,10 +17,13 @@ import { useEffect, useState } from "react";
 import { authStore } from "../../../3-Redux/AuthState";
 import vacationService from "../../../5-Service/VacationsService";
 import notifyService from "../../../5-Service/NotifyService";
+import { VacationsActionType, vacationsStore } from "../../../3-Redux/VacationsState";
 
 
 interface CardButtonsProp{
     vacation: VacationModel
+    favorite?: boolean
+    reloadVacations: ()=> void
 }
 function CardButtons(prop: CardButtonsProp): JSX.Element {
 
@@ -34,12 +37,11 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
     }));
 
     const [user, setUser] = useState<UserModel>()
+    const navigate = useNavigate()
 
     //Set the current-follow:
     const [isFollow, setIsFollow] = useState<boolean>(false)
     const [followNumber, setFollowNumber] = useState<number>(0)
-
-
 
     useEffect(()=>{
                 //Set the user from Redux:
@@ -52,11 +54,15 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                 //Set the button on follow/un-follow on component first rendering:
                 if(prop.vacation?.isFollow > 0){
                     setIsFollow(true)
-                }   
+                }                 
 
+                const unsubscribe = authStore.subscribe(()=>{
+                    setUser(authStore.getState().user)                    
+                })
 
+                return ()=> unsubscribe()
 
-    },[prop.vacation])
+    },[user, prop.vacation])
     
 
 
@@ -71,7 +77,8 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                 await followersService.addNewFollow(follower)    
                 setIsFollow(true)
                 const number = await followersService.getFollowNumberByVacation(prop.vacation.vacationID)
-                setFollowNumber(number)                                
+                setFollowNumber(number)  
+                vacationsStore.dispatch({type:VacationsActionType.UpdateFollow, payload:{vacationID:prop.vacation.vacationID, isFollow:1}})                              
             }
             catch (err: any) {
                 notifyService.error(err)
@@ -84,6 +91,11 @@ function CardButtons(prop: CardButtonsProp): JSX.Element {
                 setIsFollow(false)   
                 const number = await followersService.getFollowNumberByVacation(prop.vacation?.vacationID)
                 setFollowNumber(number)
+                vacationsStore.dispatch({type:VacationsActionType.UpdateFollow, payload:{vacationID:prop.vacation.vacationID, isFollow:0}}) 
+                if(prop.favorite){
+                    prop.reloadVacations()
+                }
+
             } 
             catch (err: any) {
                 notifyService.error(err)               

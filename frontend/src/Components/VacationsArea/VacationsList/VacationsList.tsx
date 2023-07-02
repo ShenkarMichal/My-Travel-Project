@@ -35,12 +35,7 @@ function VacationsList(): JSX.Element {
             .then((v) => setVacations(v))
             .catch((err) => notifyService.error(err));  
         } 
-        
-        const unsubscribe = vacationsStore.subscribe(()=>{
-            setVacations([]) //Empty the vacation local state to re-render the component.
-        })
 
-        return ()=> unsubscribe()
     }, [user, vacations]);
 
     useEffect(() => {
@@ -88,7 +83,6 @@ function VacationsList(): JSX.Element {
         };
 
     }, [vacations]);
-
 
     return (
         <>

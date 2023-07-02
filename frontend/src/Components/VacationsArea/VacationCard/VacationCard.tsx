@@ -8,6 +8,8 @@ import notifyService from "../../../5-Service/NotifyService";
 
 interface VacationCardProps {
     vacation: VacationModel
+    favorite?: boolean
+    reloadVacations?: ()=> void
 }
 
 function VacationCard(props: VacationCardProps): JSX.Element {
@@ -21,7 +23,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
 
     return (
         <div className="VacationCard" style={{backgroundImage: `url(${imageURl})`}} >
-            <CardButtons vacation={props.vacation}  />
+            <CardButtons vacation={props.vacation} favorite={props.favorite || false} reloadVacations={props.reloadVacations} />
             <NavLink to={`/vacations/${props.vacation?.vacationID}`}>
                     <h6>{props.vacation.destination}</h6>
                     <span>Start: {props.vacation.startDate}</span> <br/>

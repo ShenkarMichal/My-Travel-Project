@@ -36,6 +36,17 @@ function UserVacations(): JSX.Element {
 
         setCurrentPage(newPage)
     }
+
+    async function reloadUserVacations(): Promise<void> {
+        try {
+            const vacations = await vacationService.getVacationsByUser(userID)
+            setVacations(vacations)
+        }
+        catch (err: any) {
+            console.log(err)            
+        }
+        
+    }
     
     return (
         <>
@@ -52,7 +63,7 @@ function UserVacations(): JSX.Element {
                                 map(v => 
                                     <div className="card" key={v.vacationID}>
                                         <span>{v.duration} days in {v.destination}</span><br/>
-                                        <VacationCard key={v.vacationID} vacation={v}/>
+                                        <VacationCard key={v.vacationID} vacation={v} favorite = {true} reloadVacations={reloadUserVacations}/>
                                         <span>Just {v.price}$</span>
                                     </div>)}                               
                     </div>

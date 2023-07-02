@@ -14,14 +14,14 @@ export class FollowersState {
 export enum FollowersActionType {
     GetAllFollowers,
     SetNewFollow,
-    DeleteFollow
-    
+    DeleteFollow,
+    Logout    
 }
 
 //3 - Action
 export interface FollowersAction {
     type: FollowersActionType,
-    payload: any
+    payload?: any
 }
 
 //4 - Reducer
@@ -38,6 +38,9 @@ export function followersReducer(currentState = new FollowersState(), action: Fo
         case FollowersActionType.DeleteFollow:
             const indexToDelete = newState.followers.findIndex(f => f.userID === action.payload.userID && f.vacationID === action.payload.vacationID)
             newState.followers.splice(indexToDelete, 1)
+            break
+        case FollowersActionType.Logout:
+            newState.followers = []
             break
     }
 

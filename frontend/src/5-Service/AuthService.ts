@@ -3,6 +3,8 @@ import UserModel from "../4-Models/UserModel"
 import appConfig from "../2-Utils/Config"
 import { AuthActionType, authStore } from "../3-Redux/AuthState"
 import CredentialModel from "../4-Models/CredentialModel"
+import { VacationsActionType, vacationsStore } from "../3-Redux/VacationsState"
+import { FollowersActionType, followersStore } from "../3-Redux/FollowersState"
 
 class AuthService {
 
@@ -27,6 +29,10 @@ class AuthService {
     public logout(): void {
         //Delete the token from state:
         authStore.dispatch({type: AuthActionType.Logout})
+
+        //Empty all the redux-stores:
+        vacationsStore.dispatch({type: VacationsActionType.logput})
+        followersStore.dispatch({type: FollowersActionType.Logout})
     }
 
     public async PasswordRecovery(email: string): Promise<string> {
